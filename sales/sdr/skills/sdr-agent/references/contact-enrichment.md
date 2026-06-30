@@ -1,28 +1,32 @@
-# Contact Enrichment & CRM Sync
+# Contact Research & CRM Sync
 
-Find verified human contacts at a qualified company, dedupe against HubSpot, and
-log provenance.
+For a qualified company, work the right contacts in HubSpot, enrich them with
+researched context, dedupe, and log provenance. This template has no
+contact-database tool, so it does not source net-new emails or phone numbers — it
+works contacts already in HubSpot (or added by the user) and enriches them with
+research.
 
 ## Steps
 
-1. **Apollo people search**: `apollo_search_people` with:
-   - `organization_name`: target company
-   - `titles`: ICP title list from the instructions
-   - `contact_email_status`: "verified" (filter unverified to save credits)
+1. **Find the contacts in HubSpot**: `hubspot_search_contacts` by company or
+   domain. Tier them: Primary (exact ICP title match), Secondary (adjacent
+   titles). Limit to 3 per company for first-touch.
 
-2. **Tier contacts**: Primary (exact title match), Secondary (adjacent titles).
-   Limit to 3 contacts per company for first-touch.
+2. **Research each Primary contact with Exa**: role, recent posts or news, and
+   anything that sharpens personalization. Facts only, each with a source; never
+   invent a detail.
 
-3. **Enrich top contacts**: `apollo_enrich_person` for Primary contacts only.
+3. **Sync to HubSpot**:
+   - Contact exists → add the research as a note (do not overwrite the owner or
+     any human-entered field).
+   - Contact is genuinely new and the user supplied their details →
+     `hubspot_create_contact`, then attach the research note.
 
-4. **Dedup against HubSpot**: `hubspot_search_contacts` by email before creating.
-   - Contact exists → update with new Apollo data as a note (do not overwrite owner).
-   - Contact is new → `hubspot_create_contact` with full enriched data.
-
-5. **Log provenance**: HubSpot note: "Enriched via Apollo [date]. Email verified: Y/N"
+4. **Log provenance**: HubSpot note, e.g. "Researched via Exa [date]. Source: <link>".
 
 ## Hard stops
-- No verified email found → log the gap in a HubSpot note, do NOT proceed to sequencing.
+- No deliverable email on the HubSpot record → log the gap in a note, do NOT
+  proceed to sequencing. The agent never guesses or constructs an email address.
 - Contact has unsubscribed in HubSpot → stop, do not pass to sequencing.
 
 Next → `references/outbound-sequencing.md`

@@ -10,7 +10,7 @@ else in this folder is loaded by the parser.
 
 ```
 sdr/
-├── .mcp.json                       # MCP servers (HubSpot, Apollo, Exa): command + args only, no secrets
+├── .mcp.json                       # MCP servers (HubSpot, Exa): command + args only, no secrets
 ├── agent.json                      # OPTIONAL: provider override, e.g. {"provider": "..."}
 ├── context/
 │   └── instructions.md             # REQUIRED: the agent's standing brief
@@ -43,7 +43,7 @@ by task; it is not pre-loaded.
 **No API keys live in this template.** NanoClaw never passes secrets into agent
 containers as env vars. The OneCLI gateway holds your credentials in its vault
 and injects them into outbound HTTPS calls at the proxy boundary, so the
-HubSpot/Apollo/Exa MCP servers reach their APIs authenticated without the token
+HubSpot/Exa MCP servers reach their APIs authenticated without the token
 ever sitting in `.mcp.json`, the container env, or chat context.
 
 That is why `.mcp.json` here carries only `command` + `args`. Do not add an `env`
@@ -58,7 +58,6 @@ Create one secret per service, matched to that service's API host:
 | Service | API host to match  | Auth style*           | Where to get the key                          |
 |---------|--------------------|-----------------------|-----------------------------------------------|
 | HubSpot | `api.hubapi.com`   | `Authorization: Bearer` | **Service Key** (Beta), see below             |
-| Apollo  | `api.apollo.io`    | `X-Api-Key` header    | Admin Settings → Integrations → API keys      |
 | Exa     | `api.exa.ai`       | `x-api-key` header    | dashboard.exa.ai → API Keys                   |
 
 \* Confirm the exact header/param against each provider's current API docs when
@@ -95,22 +94,11 @@ A Service Key only carries scopes the creating user already has, so use an
 account with full CRM access. HubSpot suggests rotating the key about every six
 months.
 
-#### Apollo and Exa keys
-
-**Apollo** keys are scoped per endpoint. Under **Admin Settings > Integrations >
-API keys**, create a key and grant it the endpoints the agent uses (prospect
-search, contact match/enrichment, sequences), for example:
-
-```
-POST https://api.apollo.io/api/v1/people/match
-POST https://api.apollo.io/api/v1/people/bulk_match
-```
+#### Exa key
 
 **Exa**: open your dashboard > API key, then copy an existing key or create a
-new one.
-
-Give each key to OneCLI for its host (`api.apollo.io`, `api.exa.ai`), via the
-connect link below or the manual route above.
+new one. Give it to OneCLI for host `api.exa.ai`, via the connect link below or
+the manual route above.
 
 ### Easiest path: let the agent hand you a connect link
 

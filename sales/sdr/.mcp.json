@@ -2,15 +2,11 @@
   "mcpServers": {
     "hubspot": {
       "command": "npx",
-      "args": ["-y", "@hubspot/mcp-server"]
-    },
-    "apollo": {
-      "command": "npx",
-      "args": ["-y", "@apollo-io/mcp-server"]
+      "args": ["-y", "@hubspot/mcp-server@0.4.0"]
     },
     "exa": {
       "command": "npx",
-      "args": ["-y", "exa-mcp-server"]
+      "args": ["-y", "exa-mcp-server@3.2.1"]
     }
   }
 }
