@@ -1,6 +1,6 @@
 # Credentials & connection errors
 
-All three services (HubSpot, Apollo, Exa) are authenticated by the OneCLI proxy,
+Both services (HubSpot, Exa) are authenticated by the OneCLI proxy,
 which injects the right credential into each outbound call. You never see or
 handle keys. Read this only when a call fails to authenticate.
 
@@ -39,19 +39,8 @@ crm.lists.write
 A Service Key only carries scopes the creating user already has, so they need an
 account with full CRM access.
 
-## Apollo / Exa
+## Exa
 
-Both use an API key; the user pastes it into the OneCLI connect form for that
-host, then retries.
-
-**Apollo** (`api.apollo.io`): Admin Settings > Integrations > API keys. Apollo
-keys are scoped per endpoint, so the key must include every endpoint the agent
-uses (prospect search, contact match/enrichment, sequences), for example:
-
-```
-POST https://api.apollo.io/api/v1/people/match
-POST https://api.apollo.io/api/v1/people/bulk_match
-```
-
-**Exa** (`api.exa.ai`): open your dashboard > API key, then copy an existing key
-or create a new one.
+Exa uses an API key; the user pastes it into the OneCLI connect form for
+`api.exa.ai`, then retries. Open your Exa dashboard > API key, then copy an
+existing key or create a new one.

@@ -5,8 +5,9 @@ outreach.
 
 ## Steps
 
-1. **Qualify the ICP first**: confirm company size, industry, geography from
-   Apollo org search before spending Exa credits.
+1. **Qualify the ICP first**: confirm company size, industry, geography from the
+   HubSpot company record if it exists, else a quick Exa lookup, before spending
+   deeper Exa research.
 
 2. **Exa research sequence**:
    - `exa_search`: "[company name] funding OR hiring OR product launch" (last 90 days)
