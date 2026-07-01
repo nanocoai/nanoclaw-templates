@@ -11,7 +11,6 @@ else in this folder is loaded by the parser.
 ```
 sdr/
 ├── .mcp.json                       # MCP servers (HubSpot, Exa): command + args only, no secrets
-├── agent.json                      # OPTIONAL: provider override, e.g. {"provider": "..."}
 ├── context/
 │   └── instructions.md             # REQUIRED: the agent's standing brief
 ├── skills/
@@ -25,9 +24,8 @@ sdr/
 └── README.md                       # this file
 ```
 
-Optional, if you need them: `agent.json` (`{"provider": "..."}`) and extra
-`context/*.md` files (auto-referenced from `instructions.md`). If `agent.json`
-is absent or omits `provider`, the agent defaults to Claude.
+Optional, if you need them: extra `context/*.md` files, referenced from
+`instructions.md` by plain relative path (e.g. `context/<file>.md`).
 
 ## Stamp an agent from this template
 

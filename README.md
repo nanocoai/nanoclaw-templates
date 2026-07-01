@@ -5,8 +5,9 @@ an AI assistant that runs agents securely in their own containers.
 
 A **template** is a folder you can stamp into a working NanoClaw agent. It
 carries the agent's standing instructions, its MCP tool servers, and its skills,
-but **no secrets**. Point `ncl` at one and you get a configured agent group in
-seconds.
+but **no secrets and no provider**. Templates are provider-neutral; you pick the
+runtime separately, so one template works on any provider. Point `ncl` at one and
+you get a configured agent group in seconds.
 
 > New to NanoClaw? Start at the [main repo](https://github.com/nanocoai/nanoclaw)
 > or [docs.nanoclaw.dev](https://docs.nanoclaw.dev).
@@ -16,8 +17,10 @@ seconds.
 There are two ways to stamp an agent from a template.
 
 **1. During install.** Running the NanoClaw installer (`bash nanoclaw.sh`) opens
-a setup wizard. Choose **Template setup**, and it lists the templates in this
-repo so you can start your first agent from one.
+a setup wizard with two template choices: **NanoClaw template library** clones
+this repo and copies the template you pick into your local `templates/`, and
+**Local templates** lists what is already in `templates/`. It then stamps and
+wires your first agent.
 
 **2. Anytime, via the CLI:**
 
@@ -25,29 +28,18 @@ repo so you can start your first agent from one.
 ncl groups create --template sales/sdr --name "SDR Agent"
 ```
 
-`--template <ref>` accepts three forms, resolved by the *shape* of the value.
-They are checked **in this order**, and the first match wins:
+`--template <ref>` is a path relative to your local templates directory
+(`templates/` by default, or `NANOCLAW_TEMPLATES_DIR`, a local path only).
+Refs are multi-segment, e.g. `sales/sdr` resolves to `templates/sales/sdr`.
+For safety, absolute paths, a leading `~`, and `../` escapes are rejected.
 
-| Form | Example | What it does |
-|------|---------|--------------|
-| **Local path** (`./` `../` `/` `~`) | `./sales/sdr` | Stamp from a folder on disk |
-| **Git repo** (`git+…`, `git@…`, `*.git`) | `git+https://github.com/you/repo.git#path@v1` | Clone and stamp from any repo |
-| **Bare name** (fallback) | `sales/sdr` | Fetch `<category>/<template>` from this repo |
+To use a template from this repo, get it into your local `templates/` first.
+The install wizard's **NanoClaw template library** option clones this repo and
+copies the template you pick into `templates/` for you; or copy the folder by
+hand. Then stamp it with its bare ref.
 
-A bare name like `sales/sdr` is the common case for this repo. It's the
-fallback used when the value isn't a local path or a git URL.
-
-Extras:
-
-- `@<ref>` pins a branch or tag, not a commit SHA (e.g. `sales/sdr@v2`)
-- `#<subpath>` selects a folder inside a git repo
-- `--source <git-uri>` overrides the default repo (applies to **bare names** only)
-- `--name` is optional; without it the agent group is named after the template folder
-
-The default source for bare names is
-`git+https://github.com/nanocoai/nanoclaw-templates`. There is no local cache:
-each stamp re-fetches the template, copies it into your new agent group, then
-discards the clone.
+`--name` is optional; without it the agent group is named after the template
+folder.
 
 ## Repository layout
 
@@ -75,10 +67,9 @@ defaults sensibly.
 ```
 <template>/
 ├── context/
-│   ├── instructions.md   # REQUIRED: the agent's standing brief
-│   └── *.md              # optional: extra context, auto-appended to instructions as @context/<file>.md
+│   ├── instructions.md   # REQUIRED: the agent's persona (marks the folder as a template)
+│   └── *.md              # optional: extra context, referenced from instructions.md by relative path
 ├── .mcp.json             # optional: MCP servers (command/args/env), NO secrets
-├── agent.json            # optional: {"provider": "claude"}
 ├── skills/
 │   └── <name>/           # optional: one folder per skill (SKILL.md + any references/)
 └── README.md             # recommended: docs for this template
@@ -86,18 +77,22 @@ defaults sensibly.
 
 | Path | Loaded as | Required |
 |------|-----------|----------|
-| `context/instructions.md` | The agent's instructions | **Yes** |
-| `context/*.md` (others) | Extra context files | No |
+| `context/instructions.md` | The agent's persona, prepended to its `CLAUDE.md`/`AGENTS.md` every spawn (system-prompt tier, any provider) | **Yes** |
+| `context/*.md` (others) | Extra context, referenced from `instructions.md` by relative path (`context/<file>`) | No |
 | `.mcp.json` → `mcpServers` | MCP tool servers | No |
-| `agent.json` → `provider` | Provider (defaults to `claude`) | No |
 | `skills/<name>/` | A skill (folder copied whole) | No |
 
 Notes for template authors:
 
 - The presence of `context/instructions.md` is what marks a folder as a
   template, both for listing and for stamping.
-- `agent.json` only reads **`provider`**. There is no `model`/`effort` key here;
-  those are configured on the agent later, not from the template.
+- **Keep `instructions.md` focused (under ~200 lines).** It is always in the
+  agent's prompt, and some providers cap that doc (Codex ~32 KB), so an
+  over-long persona gets truncated. Put bulk material in `skills/` or
+  `context/*.md`.
+- **Reference extra `context/*.md` by plain relative path** from
+  `instructions.md` (e.g. `` `context/pricing.md` ``), not `@context/...`. A
+  plain path works under any provider.
 - Each immediate subfolder of `skills/` is **one skill**, named after the folder.
   The entire folder is copied, so place `SKILL.md` and any `references/*.md`
   inside it per the skills convention.
