@@ -12,7 +12,7 @@ directly to what the template parser reads:
 | Path | Purpose | Required |
 |------|---------|----------|
 | `context/instructions.md` | The agent's standing brief | **Yes** |
-| `context/*.md` (others) | Extra context, referenced from `instructions.md` by relative path (`context/<file>`) | No |
+| `context/additional_context/*.md` | Extra context, referenced from `instructions.md` by relative path (`additional_context/<file>`) | No |
 | `.mcp.json` → `mcpServers` | MCP tool servers (command + args only) | No |
 | `skills/<name>/` | A skill (the whole folder is copied) | No |
 | `README.md` | Human docs for the template | Recommended |

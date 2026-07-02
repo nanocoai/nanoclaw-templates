@@ -24,8 +24,9 @@ sdr/
 └── README.md                       # this file
 ```
 
-Optional, if you need them: extra `context/*.md` files, referenced from
-`instructions.md` by plain relative path (e.g. `context/<file>.md`).
+Optional, if you need them: extra `context/additional_context/*.md` files,
+referenced from `instructions.md` by plain relative path (e.g.
+`additional_context/<file>.md`).
 
 ## Stamp an agent from this template
 

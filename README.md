@@ -67,8 +67,9 @@ defaults sensibly.
 ```
 <template>/
 ├── context/
-│   ├── instructions.md   # REQUIRED: the agent's persona (marks the folder as a template)
-│   └── *.md              # optional: extra context, referenced from instructions.md by relative path
+│   ├── instructions.md          # REQUIRED: the agent's persona (marks the folder as a template)
+│   └── additional_context/      # optional: extra .md files, referenced from instructions.md by relative path
+│       └── *.md
 ├── .mcp.json             # optional: MCP servers (command/args/env), NO secrets
 ├── skills/
 │   └── <name>/           # optional: one folder per skill (SKILL.md + any references/)
@@ -78,7 +79,7 @@ defaults sensibly.
 | Path | Loaded as | Required |
 |------|-----------|----------|
 | `context/instructions.md` | The agent's persona, prepended to its `CLAUDE.md`/`AGENTS.md` every spawn (system-prompt tier, any provider) | **Yes** |
-| `context/*.md` (others) | Extra context, referenced from `instructions.md` by relative path (`context/<file>`) | No |
+| `context/additional_context/*.md` | Extra context, referenced from `instructions.md` by relative path (`additional_context/<file>`) | No |
 | `.mcp.json` → `mcpServers` | MCP tool servers | No |
 | `skills/<name>/` | A skill (folder copied whole) | No |
 
@@ -89,10 +90,13 @@ Notes for template authors:
 - **Keep `instructions.md` focused (under ~200 lines).** It is always in the
   agent's prompt, and some providers cap that doc (Codex ~32 KB), so an
   over-long persona gets truncated. Put bulk material in `skills/` or
-  `context/*.md`.
-- **Reference extra `context/*.md` by plain relative path** from
-  `instructions.md` (e.g. `` `context/pricing.md` ``), not `@context/...`. A
-  plain path works under any provider.
+  `context/additional_context/`.
+- **Put extra context under `context/additional_context/` and reference it by
+  plain relative path** from `instructions.md` (e.g.
+  `` `additional_context/pricing.md` ``), not `@...`. Extras are copied with the
+  `context/` prefix stripped, so `context/additional_context/pricing.md` becomes
+  `additional_context/pricing.md` in the agent's workspace — the same path you
+  reference. A plain path works under any provider.
 - Each immediate subfolder of `skills/` is **one skill**, named after the folder.
   The entire folder is copied, so place `SKILL.md` and any `references/*.md`
   inside it per the skills convention.
