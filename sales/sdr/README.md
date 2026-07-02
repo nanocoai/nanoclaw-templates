@@ -24,8 +24,9 @@ sdr/
 └── README.md                       # this file
 ```
 
-Optional, if you need them: extra `context/*.md` files, referenced from
-`instructions.md` by plain relative path (e.g. `context/<file>.md`).
+Optional, if you need them: extra `context/additional_context/*.md` files,
+referenced from `instructions.md` by plain relative path (e.g.
+`additional_context/<file>.md`).
 
 ## Stamp an agent from this template
 
@@ -44,8 +45,15 @@ and injects them into outbound HTTPS calls at the proxy boundary, so the
 HubSpot/Exa MCP servers reach their APIs authenticated without the token
 ever sitting in `.mcp.json`, the container env, or chat context.
 
-That is why `.mcp.json` here carries only `command` + `args`. Do not add an `env`
-block with real keys.
+That is why `.mcp.json` here carries `command` + `args` and never a real key.
+
+**Exception — HubSpot's placeholder env (leave it as-is).** `@hubspot/mcp-server`
+refuses to start unless `PRIVATE_APP_ACCESS_TOKEN` is *present*, so `.mcp.json`
+sets it to the dummy value `"placeholder"`. It is not the credential: once you
+connect HubSpot (either setup path below), the real key is injected
+automatically for `api.hubapi.com` at request time. Keep the placeholder, and
+**never** replace it with a real token. Exa needs no such placeholder and gets
+none.
 
 
 ### 1. Register each credential in the OneCLI vault (manual route)
