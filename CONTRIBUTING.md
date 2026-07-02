@@ -12,9 +12,8 @@ directly to what the template parser reads:
 | Path | Purpose | Required |
 |------|---------|----------|
 | `context/instructions.md` | The agent's standing brief | **Yes** |
-| `context/*.md` (others) | Extra context, auto-referenced from the instructions | No |
+| `context/*.md` (others) | Extra context, referenced from `instructions.md` by relative path (`context/<file>`) | No |
 | `.mcp.json` → `mcpServers` | MCP tool servers (command + args only) | No |
-| `agent.json` → `provider` | Provider override (defaults to `claude`) | No |
 | `skills/<name>/` | A skill (the whole folder is copied) | No |
 | `README.md` | Human docs for the template | Recommended |
 
@@ -47,13 +46,19 @@ Templates are public. Never commit API keys, tokens, or any credential.
 1. Fork this repo and create a branch.
 2. Create your template at `<category>/<template>/`.
 3. Write `context/instructions.md`, the only required file.
-4. Add what the agent needs: `.mcp.json` (no secrets), `agent.json` if you need a
-   non-default provider, any `skills/<name>/` folders, and a per-template
-   `README.md` covering what it does and which MCP servers and credentials it
-   expects.
-5. Test it end to end from your clone:
+4. Add what the agent needs: `.mcp.json` (no secrets), any `skills/<name>/`
+   folders, and a per-template `README.md` covering what it does and which MCP
+   servers and credentials it expects. The provider is not set in the template;
+   it is chosen on the agent later.
+5. Test it end to end. `--template` resolves relative to your NanoClaw install's
+   templates directory, not your clone, so do one of:
    ```bash
-   ncl groups create --template ./<category>/<template> --name "Test"
+   # Option A: point the templates dir at your clone, then stamp the bare ref
+   NANOCLAW_TEMPLATES_DIR="$(pwd)" ncl groups create --template <category>/<template> --name "Test"
+
+   # Option B: copy the template into your install's templates/ dir, then stamp
+   cp -R <category>/<template> <nanoclaw>/templates/<category>/<template>
+   ncl groups create --template <category>/<template> --name "Test"
    ```
 6. Re-check the diff for any secret before you commit.
 7. Open a PR describing what the template does and which MCP servers it expects.
@@ -64,5 +69,6 @@ Templates are public. Never commit API keys, tokens, or any credential.
 - [ ] `context/instructions.md` is present.
 - [ ] `.mcp.json` has no secrets (command and args only).
 - [ ] A per-template `README.md` explains the template and its credentials.
-- [ ] Stamped and tested locally with `ncl groups create --template ./...`.
+- [ ] Stamped and tested locally with a bare ref (via `NANOCLAW_TEMPLATES_DIR`
+      or a copy into `templates/`).
 - [ ] No API keys, tokens, or other secrets anywhere in the diff.
