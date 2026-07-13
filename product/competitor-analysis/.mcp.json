@@ -1,3 +1,8 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server@3.2.1"]
+    }
+  }
 }

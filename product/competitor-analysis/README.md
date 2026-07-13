@@ -11,7 +11,7 @@ else in this folder is loaded by the parser.
 
 ```
 competitor-analysis/
-├── .mcp.json                       # MCP servers — none (all tools are REST APIs via OneCLI)
+├── .mcp.json                       # MCP servers — Exa (pinned); the rest are REST APIs via OneCLI
 ├── context/
 │   └── instructions.md             # REQUIRED — the agent's standing brief + config placeholders
 ├── skills/                         # each subfolder is one skill (loaded on demand)
@@ -19,6 +19,7 @@ competitor-analysis/
 │       ├── SKILL.md                #   the entry point + operating logic
 │       ├── references/             #   the detailed procedures per phase
 │       │   ├── research.md         #     find + read pages (Exa, SerpAPI, browser, X)
+│       │   ├── connecting-google.md #    step-by-step Google Docs/Sheets connect walkthrough
 │       │   ├── doc-structure.md    #     the 14 sections + formatting + hyperlink rules
 │       │   ├── doc-writing.md      #     how to render sections with the formatter
 │       │   ├── recent-news.md      #     the news tab (third-party press)
@@ -58,12 +59,12 @@ by task — it is not pre-loaded.
 
 ## Tools & APIs
 
-Everything the agent uses is a **REST API called through the OneCLI proxy** (no MCP
-servers), plus one built-in browser skill:
+**Exa** runs as an **MCP server** (pinned in `.mcp.json`); everything else is a
+**REST API called through the OneCLI proxy**, plus one built-in browser skill:
 
 | Tool | What it's for |
 |------|---------------|
-| **Exa** | Semantic web/news search — discovery, funding, founders, signals |
+| **Exa** (MCP) | Semantic web/news search — discovery, funding, founders, signals. Tools: `web_search_exa`, `web_search_advanced_exa`, `web_fetch_exa` |
 | **SerpAPI** | Real Google results — known-item lookups Exa misses, exhaustive Google News, and `site:{domain}` page discovery |
 | **X (Twitter) API** | A competitor's recent posts (Exa can't read x.com) |
 | **Google Docs API** | Creates the research doc (formatted by `scripts/render-section.js`) |
@@ -74,15 +75,16 @@ Connect the first five in the OneCLI vault (next). `agent-browser` needs no setu
 
 ## Credentials — via OneCLI, not env vars
 
-**No API keys live in this template.** All tools (Exa, SerpAPI, X, Google Docs/Sheets)
-are plain **REST APIs** the agent calls directly — there are **no MCP servers**
-(`.mcp.json` is empty). NanoClaw never passes secrets into agent containers as env
-vars: the OneCLI gateway holds your credentials in its vault and injects them into
-outbound HTTPS calls at the proxy boundary, so a token never sits in the container
-env, `.mcp.json`, or chat context.
+**No API keys live in this template.** Exa runs as an **MCP server** (`.mcp.json`,
+`command` + `args` only — no `env` block), and SerpAPI, X, and Google Docs/Sheets are
+plain **REST APIs** the agent calls directly. Either way the credential is the same:
+NanoClaw never passes secrets into agent containers as env vars — the OneCLI gateway
+holds your keys in its vault and injects them into outbound HTTPS calls at the proxy
+boundary (including the Exa MCP server's calls to `api.exa.ai`), so a token never sits
+in the container env, `.mcp.json`, or chat context.
 
-(If you ever *do* add an MCP server, list only `command` + `args` — never an `env`
-block with real keys.)
+(The Exa MCP entry lists only `command` + `args` — never add an `env` block with a
+real key. Same rule for any MCP server you add later.)
 
 ### 1. Register each credential in the OneCLI vault
 
@@ -91,7 +93,7 @@ Use the OneCLI web UI at **http://127.0.0.1:10254** (or `onecli secrets --help`
 
 | Service | API host to match      | Auth style*             | How to connect                                  |
 |---------|------------------------|-------------------------|-------------------------------------------------|
-| Exa     | `api.exa.ai`           | `x-api-key` header      | `onecli secrets create` — key from dashboard.exa.ai → API Keys |
+| Exa     | `api.exa.ai`           | `x-api-key` header      | `onecli secrets create` — key from dashboard.exa.ai → API Keys. Authenticates the Exa **MCP server's** outbound calls; no key goes in `.mcp.json`. |
 | SerpAPI | `serpapi.com`          | `api_key` **query param** | `onecli secrets create … --param-name api_key` — key from serpapi.com. Real Google results for known-item lookups + exhaustive news + `site:` page discovery. |
 | X (Twitter) | `api.x.com`        | `Authorization: Bearer` | `onecli secrets create` — Bearer token from developer.x.com. See note below. |
 | Google Docs  | `docs.googleapis.com`  | OAuth (`Bearer`)   | Connect Google as an OAuth **app** (`onecli apps` / web UI)    |
@@ -121,7 +123,8 @@ does not fail.
 \* Confirm the exact header/param and OAuth scopes against each provider's current
 API docs when you configure the vault entry.
 
-Exa (static key) example:
+Exa (static key) example — the vault entry the Exa MCP server's calls are injected
+with (the server itself ships in `.mcp.json` with no key):
 
 ```bash
 onecli secrets create --name "Exa" --type generic \
@@ -165,19 +168,22 @@ NanoClaw can gate risky actions in two layers:
 ### If an MCP server won't start without its env var
 
 Some MCP servers read their API key from the environment *at startup*. The vault
-injection covers the outbound API call, not process startup. If a server fails to
-boot, give it a **non-secret placeholder** so it starts — the real credential is
-still injected by the proxy on the outbound call:
+injection covers the outbound API call, not process startup. This template ships the
+Exa server with **no `env` block** (per CONTRIBUTING — no secrets in the template). If
+the Exa server ever fails to boot because it wants `EXA_API_KEY` at startup, give it a
+**non-secret placeholder** so it starts — the real credential is still injected by the
+proxy on the outbound call to `api.exa.ai`:
 
 ```json
 "exa": {
   "command": "npx",
-  "args": ["-y", "exa-mcp-server"],
+  "args": ["-y", "exa-mcp-server@3.2.1"],
   "env": { "EXA_API_KEY": "onecli-managed" }
 }
 ```
 
-Most servers don't need this — try without an `env` block first.
+Try the shipped no-`env` form first — only add the placeholder if the server won't
+start without it.
 
 ## Troubleshooting: the agent never replies after you create it
 

@@ -4,7 +4,10 @@ Crawl the **entire** competitor website before writing anything. Visit every are
 below.
 
 **Use the right tool for each job:**
-- **Exa** — discover pages and search the web/news; pull highlights or page text.
+- **Exa** (MCP tools) — discover pages and search the web/news; pull page content.
+  `web_search_exa` for quick semantic search, `web_search_advanced_exa` when you need
+  filters (`includeDomains`, `category`, crawl-date range), and `web_fetch_exa` to
+  pull the full content of a known URL.
 - **`agent-browser`** — open and read a *full* page, especially JS-rendered ones
   (pricing with plan toggles, trust/security centers, help-center apps, dashboards).
   When a page looks incomplete via Exa, open it in the browser.
@@ -68,7 +71,8 @@ updated — cross-reference these against the Integrations and Recent News secti
   cannot read x.com. Auth is injected by OneCLI (`Authorization: Bearer`), so call
   the API directly with a placeholder token. If the X credential isn't configured
   yet, skip this and note "X coverage pending" rather than guessing.
-- **LinkedIn:** Exa handles LinkedIn well (`includeDomains: ["linkedin.com"]`).
+- **LinkedIn:** Exa handles LinkedIn well — `web_search_advanced_exa` with
+  `category: "people"`, or `includeDomains: ["linkedin.com"]`.
 
 **Verify the X account is really theirs.** Not every company has a verified or
 obvious official account, and handles get squatted or confused. When you find a
@@ -132,9 +136,9 @@ Prefer the LinkedIn company-page count or Crunchbase; if sources disagree, give 
 range or cite the most authoritative. If genuinely not findable, write "Unknown" —
 never invent a number.
 
-**Search recipe (Exa):**
-- Use `type: "deep"` and, where supported, `additionalQueries` to force several
-  angles in one pass.
+**Search recipe (Exa — `web_search_advanced_exa`):**
+- Run several angles as separate calls (one query each); `web_search_advanced_exa`
+  gives you `includeDomains`, `category`, and a crawl-date range for precision.
 - Run targeted queries with explicit funding keywords, e.g.:
   - `"{Company}" raises funding round led by`
   - `"{Company}" Series A OR Series B OR seed $ million`

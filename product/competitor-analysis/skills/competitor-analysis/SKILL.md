@@ -18,11 +18,14 @@ structure and formatting so the set reads as one system.
 ## Tools & credentials
 
 Your tools' API credentials are injected by the **OneCLI proxy** at request time
-— you never see or handle keys.
+— you never see or handle keys. **Exa** is an **MCP server** (its tools appear as
+`web_search_exa`, `web_search_advanced_exa`, `web_fetch_exa`); the OneCLI proxy still
+injects its key on the server's outbound calls. The rest are REST APIs you call
+directly with a placeholder token.
 
 | Tool | Role |
 |------|------|
-| **Exa** (web search) | Semantic research, funding, founders, signals |
+| **Exa** (MCP — web search) | Semantic research, funding, founders, signals |
 | **SerpAPI** (Google) | Real Google results — known-item lookups Exa misses + exhaustive news |
 | **X (Twitter) API** | A competitor's recent posts — Exa can't read x.com |
 | **Google Docs API** | Create and format the competitor research doc |
@@ -48,7 +51,7 @@ OneCLI proxy (auth is injected — send any placeholder), then mark each ✅ or 
 |-----------|----------------------------------|------------------|
 | Google Docs | `GET https://docs.googleapis.com/v1/documents/000` | any Google API reply (400/404) — NOT `app_not_connected` |
 | Google Sheets | `GET https://sheets.googleapis.com/v4/spreadsheets/000` | any Google API reply — NOT `app_not_connected` |
-| Exa | `POST https://api.exa.ai/search` body `{"query":"ping","numResults":1}` | HTTP 200 — NOT `credential_not_found`/401 |
+| Exa | call the `web_search_exa` MCP tool with `query:"ping", numResults:1` | it returns results — NOT `credential_not_found`/401/tool-not-available |
 | SerpAPI | `GET https://serpapi.com/search.json?engine=google&q=ping` | HTTP 200 — NOT `credential_not_found`/401 |
 | X (Twitter) | `GET https://api.x.com/2/tweets?ids=20` | HTTP 200 — NOT `credential_not_found`/401/403 |
 
@@ -70,6 +73,8 @@ you know it):
 > - ✅ Exa (web search) — connected
 > - ✅ SerpAPI (Google search + news) — connected
 > - ✅ X / Twitter (recent posts) — connected
+>
+> **Need help connecting Google Docs & Sheets? Just say the word and I'll walk you through it step by step.**
 >
 > All set — just tell me a competitor and I'll get started.
 >
@@ -103,6 +108,10 @@ then say "done". Build the link from the probe's error body:
 - **X** → the `secret_url` + `&name=X&header=Authorization&format=Bearer%20{value}`
 
 Never ask the user to paste a raw key into chat.
+
+**Google is the fiddly one.** If the user needs help connecting Google Docs/Sheets
+(the intro offers this — read their intent, not exact words), walk them through it
+step by step using **`references/connecting-google.md`**.
 
 ## The routine → references
 

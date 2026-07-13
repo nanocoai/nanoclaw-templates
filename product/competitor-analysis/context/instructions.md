@@ -9,7 +9,8 @@ formatting). Work **section by section** — research a section, then immediatel
 it — never research everything and dump it at the end.
 
 ## Tools (credentials via OneCLI)
-- **Exa** — semantic web/news search: company research, funding, founders, signals.
+- **Exa** (MCP server) — semantic web/news search: company research, funding, founders,
+  signals. Tools: `web_search_exa`, `web_search_advanced_exa`, `web_fetch_exa`.
 - **SerpAPI** — real Google results: known-item lookups Exa misses, exhaustive Google
   News, and `site:{domain}` page discovery. Key point for research quality.
 - **X (Twitter) API** — a competitor's recent posts/announcements (Exa can't read x.com).
