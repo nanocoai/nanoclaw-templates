@@ -22,24 +22,36 @@ The target is a **Web-application OAuth client** and its **Client ID + Secret**.
 to be true along the way:
 
 - A **project** exists (new or reused).
-- The **OAuth consent screen** is set up (External; app name + their email).
+- The **OAuth consent screen** is set up — fill in the app info, then choose **External**
+  (app name + their email).
 - **The user is added as a Test user** on that consent screen — *skip this and they hit
   "Access blocked" later.* This is the step most setups miss.
 - The **Google Docs API and Google Sheets API are enabled** (Drive API too, only if they
   want docs auto-filed into a folder).
+- **The Docs + Sheets scopes are added on the consent screen** — *enabling the APIs is not
+  the same as granting their scopes; miss this and they hit "Access blocked: this app's
+  request is invalid."* Usually **APIs & Services → Data access → Add or remove scopes**
+  (may vary).
 - An **OAuth client** of type **Web application** is created → this gives the **Client ID
   + Secret**. Keep them handy and keep the tab open — Part 2 produces a redirect URL to
   paste back here.
+
+Navigation hint (may vary): **APIs & Services** often isn't in the sidebar — the user may
+have to go **back** to reach it.
 
 ## Part 2 — OneCLI
 
 First, **where is OneCLI running?**
 
 - **Local (their own computer):** it's at **http://127.0.0.1:10254**.
-- **Remote machine / VM:** the local address won't work, and port-forwarding isn't enough
-  — Google's sign-in has to reach OneCLI back, so it needs a **public web address** (behind
-  a login). That's a one-time infrastructure change: tell the user this part needs a coding
-  agent (e.g. Claude Code) to expose OneCLI publicly, then finish here using that address.
+- **Remote machine / VM:** the local address won't work — Google's sign-in has to reach
+  OneCLI back, so it needs a **public web address** (behind a login). Exposing OneCLI
+  publicly is a one-time infrastructure change; this part may need a coding agent (e.g.
+  Claude Code). Then, two VM gotchas to expect: (1) any OneCLI link the user opens must use
+  their **public** address, not the internal `172.17.0.1:10254`; (2) **after they approve**,
+  Google may redirect the browser to OneCLI's *internal* host (`172.17.0.1:10254`) and
+  time out — have them **swap that host for their public address** in the browser bar
+  (keeping the `?code=...`) to finish the connection.
 
 Then, in OneCLI → **Connections**:
 
@@ -56,7 +68,13 @@ When both are done, re-check the connectors and let the user know they're set.
 
 - **`redirect_uri_mismatch`** — the redirect URL in Google doesn't exactly match OneCLI's.
   Re-copy OneCLI's value, character for character.
+- **"Access blocked: this app's request is invalid"** — usually the **scopes** aren't added
+  on the consent screen (enabling the APIs isn't enough). Add the Docs + Sheets scopes.
 - **"Access blocked / app not verified"** — the user isn't a **Test user** on the consent
   screen. Add them, then retry.
+- **Sign-in hangs / nothing happens after Approve** — it often completed silently; have them
+  refresh the callback and the OneCLI Connections page before retrying.
+- **On a VM, the callback times out** on `172.17.0.1:10254` — swap that host for their public
+  address in the browser bar (keep the `?code=...`). See Part 2.
 - **Only one of Docs/Sheets connected** — do the other connector too (same app).
 - **Wrong Google account** — disconnect and connect again with the right one.
