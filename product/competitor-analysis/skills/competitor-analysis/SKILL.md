@@ -106,14 +106,19 @@ order**. For EACH of the 14 sections, do this loop:
    must visibly grow, one formatted section at a time.
 3. **Then** move to the next section.
 
-### Progress check-ins — event-based, never time-based
+### Progress check-ins — event-based, never time-based (REQUIRED)
 
-Keep the user posted as the doc fills in, tied to **sections completed** rather than the clock. Kick off right after creating the doc so you're not silent, post
-as batches of sections land, and close with the finished doc link — but judge the cadence
-yourself: don't spam, don't repeat sections you've already reported, and don't post when nothing
-new has landed. Be honest about what they're seeing — sections arrive in batches with delays
-(never "real time" / "watch it live"), and each stays a draft until you add hyperlinks and
-formatting at the end. They can open the doc anytime.
+**You must keep the user posted as the doc fills in — never go silent for the whole run.**
+A multi-minute research stretch with no word is a failure, even if the doc turns out great.
+Tie updates to **sections completed**, not the clock: send a first message right after
+creating the doc, send updates as batches of sections land, and close with the finished doc
+link. **How** you pace and word it is your call — but the user must never be left wondering
+whether anything is happening. (This does **not** conflict with the brief, result-first
+chat style below — brief updates, not silence.) Guardrails: don't spam, don't repeat
+sections you've already reported, don't post when nothing new has landed. Be honest about
+what they're seeing — sections arrive in batches with delays (never "real time" / "watch it
+live"), and each stays a draft until you add hyperlinks and formatting at the end. They can
+open the doc anytime.
 
 ### If interrupted or you hit a limit
 
