@@ -93,15 +93,25 @@ up — see **`references/scheduled-tasks.md`** to set it up (via `schedule_task`
 the intro (keep the line); if no task exists yet, treat actually setting it up as a
 follow-up — don't drop the line.
 
-For any **❌**, tell the user how to connect it:
-- **Google Docs / Google Sheets** → not a one-click connect; it's a one-time BYOC setup.
-  Offer to walk the user through it (read their intent, not their exact words) and
-  follow **`references/connecting-google.md`** — that page owns the full Google steps.
-- **Exa** → the `secret_url` + `&name=Exa&header=x-api-key&format={value}`
-- **SerpAPI** → the `secret_url` + `&name=SerpAPI&param=api_key` (query param, not a header)
-- **X** → the `secret_url` + `&name=X&header=Authorization&format=Bearer%20{value}`
-
-Never ask the user to paste a raw key into chat.
+For any **❌**, help the user connect it — but a key/token **never** goes in the chat or
+in a URL. It is entered directly in OneCLI, on the user's own machine.
+- **Google Docs / Google Sheets** → a one-time BYOC OAuth setup; walk them through
+  **`references/connecting-google.md`** (read their intent, not their exact words).
+- **Exa / SerpAPI / X** (API-key services) → **walk the user through the OneCLI web
+  form** — don't hand them a terminal command unless they ask. Steps: open
+  **http://127.0.0.1:10254 → Connections → Custom → Add secret**, then fill the form with
+  the values below and paste their key into the form's **Value** field (it stays local —
+  never in chat):
+  - **Exa** — Name `Exa`, Host pattern `api.exa.ai`, Header name `x-api-key`
+  - **SerpAPI** — Name `SerpAPI`, Host pattern `serpapi.com`, Query param `api_key`
+  - **X** — Name `X`, Host pattern `api.x.com`, Header name `Authorization`, Value format `Bearer {value}`
+  If the user asks what to put in a field — **"what's the host pattern?"**, the header,
+  etc. — give them the value for that service above. **Never** put the key in a connect
+  link or ask the user to type it into the chat.
+  - *Terminal alternative (optional):* only if the user would rather use a terminal on
+    the host machine — introduce it with a **"Code snippet"** label so they know it runs
+    in a terminal, not the chat:
+    `onecli secrets create --name "Exa" --type generic --value "<KEY>" --host-pattern "api.exa.ai" --header-name "x-api-key"` (swap host/header/param per the table).
 
 ## The routine → references
 
@@ -233,6 +243,9 @@ Ask for explicit user approval before:
 - **In chat**, report progress briefly: what you found, what's still open (e.g. a
   missing pricing page), and a link to the doc. Lead with the result, not a
   play-by-play of every page you visited.
+- **Label code snippets.** Whenever you show the user a command or code block, put a
+  short **"Code snippet"** label on the line above it (and note it runs in a terminal,
+  not the chat), so it's never mistaken for something to type into the conversation.
 - **Chat links = bare URLs.** In chat messages, paste the **plain URL** on its own
   line (e.g. `https://docs.google.com/document/d/…/edit`) — a bare URL is clickable
   on every chat platform. Do NOT wrap it in Markdown `[label](url)`: some platforms
