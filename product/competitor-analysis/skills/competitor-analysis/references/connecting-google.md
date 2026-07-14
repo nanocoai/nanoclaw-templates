@@ -1,96 +1,94 @@
 # Reference: Connecting Google (Docs + Sheets)
 
-Use this when the user needs help connecting Google — offered by the bold line in the
-intro. Read their **intent**, not exact words: "yes", "idk how", "help me", "google's
-confusing" all mean *walk me through it*.
+Use this when the user needs help connecting Google — offered by the intro's bold line.
+Read their **intent**, not exact words ("yes", "idk how", "help me", "google's
+confusing" all mean *walk me through it*).
 
-**Set expectations first.** This is a **one-time setup**, and it's the genuinely fiddly
-part — it is **not** a single "click to connect" button. There are two parts:
+## Deliver this as a guided back-and-forth — NOT one wall of text
 
-1. **Google Cloud Console** — create a Google OAuth app (this is where the credentials
-   come from).
-2. **OneCLI** — paste that app's credentials in and authorize.
+Send it as **~4 short messages**, pausing after each for the user to act and reply.
+**Never dump all the steps in one message.** Walk straight through the stages in order —
+don't ask "which part are you starting from," and at the end don't ask what stage
+they're on. Be patient and encouraging; this is the fiddliest part of setup.
 
-Google **Docs** and **Sheets** are **two separate OneCLI connectors**, but they can
-share **one** Google OAuth app — so you do the Google Console part once, then plug it
-into both connectors. Go one step at a time, wait after each, and be patient and
-encouraging — this trips up non-technical users.
+Google **Docs** and **Sheets** are two OneCLI connectors that share **one** Google app,
+so the Google side is done once.
 
 ---
 
-## Part 1 — Google Cloud Console (create the OAuth app)
+### Message 1 — set expectations, then ask if they're ready
 
-Send them to **https://console.cloud.google.com** and walk these:
+> Connecting Google is a **one-time setup** — it's the fiddly part, so I'll go slowly and
+> stay with you. There are **two parts**: first we make a small Google "app" in the
+> Google Cloud Console, then we plug it into OneCLI.
+>
+> Good news: **Google Docs and Sheets share the same app**, so we only do the Google side
+> once. **Ready?**
 
-1. **Create or pick a project** — use the project selector in the **top-left** (next to
-   the "Google Cloud" logo; it may currently show a default like *"Gemini"* or another
-   project name) → *New Project*. Or reuse an existing one.
-2. **Configure the OAuth consent screen** — *APIs & Services → OAuth consent screen*
-   (may appear under *Google Auth Platform*). **Fill out the app information**: add an
-   **app name** + **their email**, and select **External**. (Do this before enabling
-   APIs — it's a prerequisite for creating the OAuth client in step 4.)
-3. **Go back to *APIs & Services → Library*** and search for and **Enable** each of:
-   - **Google Docs API**
-   - **Google Sheets API**
-   - **Google Drive API** *(only if they want new docs auto-filed into a Drive folder —
-     optional)*
-4. **Create the credential** — *APIs & Services → Credentials → Create Credentials →
-   OAuth client ID*:
-   - Application type: **Web application**.
-   - **Authorized redirect URIs → Add URI**, and paste the **Redirect URL that OneCLI
-     shows** (see Part 2, step 2). Redirect URIs are editable anytime, so it's fine to
-     create the client now and add/adjust this after you've read it off OneCLI.
-5. **Copy the `Client ID` and `Client secret`** Google gives you — these go into OneCLI
-   next.
-
-> If they later hit **"Access blocked / app not verified"** when signing in, it's the
-> test-user gap — see Common snags below to add their account under the consent
-> screen's Audience/Test-users section.
+Wait for a yes before sending Part 1.
 
 ---
 
-## Part 2 — OneCLI (plug it in and authorize)
+### Message 2 — Part 1: Google Cloud Console
 
-1. **Open the OneCLI connections page** at **http://127.0.0.1:10254/connections**.
-   - **On a VM with no browser?** Forward the port and use your own machine's browser:
-     `ssh -L 10254:127.0.0.1:10254 <your-vm>`, then open
-     http://127.0.0.1:10254/connections locally.
-2. Find the **Google Docs** connector and **press Connect** — it reveals a **Redirect
-   URL** plus fields for the **Client ID** and **Client Secret**.
-3. **Copy that Redirect URL**, then go back to the Google tab: *Credentials* → under
-   **OAuth 2.0 Client IDs** click **your client's name** → **Authorized redirect URIs →
-   Add URI** → paste it → **Save**. It must match *exactly* (including any trailing
-   slash).
-4. Back in OneCLI, paste the **Client ID** and **Client Secret** (Part 1, step 5),
-   finish connecting, and **sign in** with the Google account the docs should live in.
-   Docs is now connected.
-5. **Repeat for the Google Sheets connector** — reuse the **same** Client ID/Secret; add
-   its Redirect URL to the same Google OAuth client's authorized list too, then Connect.
+> **Part 1 — Google Cloud Console** (https://console.cloud.google.com)
+> 1. **Create a project** — top-left project selector (it may show a default like
+>    "Gemini") → **New Project**. Or reuse one.
+> 2. **APIs & Services → OAuth consent screen** — add an **app name** + **your email**,
+>    choose **External**. (Do this before the next step.)
+> 3. **APIs & Services → Library** → search and **Enable**: **Google Docs API** and
+>    **Google Sheets API**. *(Add **Google Drive API** too only if you want docs
+>    auto-filed into a folder.)*
+> 4. **APIs & Services → Credentials → Create Credentials → OAuth client ID** →
+>    Application type **Web application** → **Create**.
+> 5. **Copy the Client ID and Client Secret** and keep them handy — we'll plug them into
+>    OneCLI in Part 2, right after we grab the authorized redirect link.
+> 6. **Keep this Google tab open** — in Part 2 OneCLI gives us a redirect URL you'll paste
+>    back here, so don't close it.
+>
+> **Ready to move on to Part 2?**
 
-**CLI alternative** (same effect as pasting into the UI, then Connect in the browser):
-```bash
-onecli apps configure --provider google-docs   --client-id <ID> --client-secret <SECRET>
-onecli apps configure --provider google-sheets  --client-id <ID> --client-secret <SECRET>
-```
+Wait for a yes before sending Part 2. (If they later hit "Access blocked / app not
+verified," it's the test-user gap — see Common snags.)
 
 ---
 
-## Verify
+### Message 3 — Part 2: OneCLI
 
-```bash
-onecli apps get --provider google-docs    # status should be "connected"
-onecli apps get --provider google-sheets   # status should be "connected"
-```
-Then re-run the connectors check and report back: ✅ both connected, or name what's
-still missing.
+> **Part 2 — OneCLI**
+> 1. Open **http://127.0.0.1:10254 → Connections**, and press **Connect** on **Google
+>    Docs**. It shows a **Redirect URL** plus fields for your Client ID + Secret.
+> 2. **Copy that Redirect URL** and add it in your open Google tab (Credentials → your
+>    OAuth client → **Authorized redirect URIs → Save**).
+> 3. Back in OneCLI, **paste your Client ID + Client Secret** and connect (sign in with
+>    your Google account if it asks) — Google Docs is now linked.
+> 4. **Do the same for Google Sheets** — same Client ID/Secret, add its redirect URL to
+>    the same Google app.
+
+Wait for them to finish, then confirm. *(On a VM with no browser, forward the port first:
+`ssh -L 10254:127.0.0.1:10254 <vm>`, then open the URL locally.)*
+
+---
+
+### Message 4 — confirm
+
+Re-check the connectors, then:
+
+> ✅ Google Docs and Google Sheets are both connected — you're all set!
+
+If one is still ❌, name which and point them at the matching snag below.
 
 ## Common snags
 
-- **`redirect_uri_mismatch` (Error 400)** — the Redirect URL in Google doesn't exactly
-  match OneCLI's. Copy OneCLI's value again, character for character, into the Google
-  client's *Authorized redirect URIs*.
-- **"Access blocked / app isn't verified"** — they weren't added as a **Test user** on
-  the OAuth consent screen (Part 1, step 3). Add them, retry.
-- **Only Docs *or* Sheets connected** — they configured/authorized just one connector;
-  do the other (Part 2, step 4).
-- **Wrong Google account** — disconnect and Connect again, picking the right account.
+- **`redirect_uri_mismatch`** — the Redirect URL in Google doesn't exactly match
+  OneCLI's. Re-copy OneCLI's value, character for character.
+- **"Access blocked / app not verified"** — add their account as a **Test user** on the
+  OAuth consent screen (its Audience / Test-users section), then retry.
+- **Only one of Docs/Sheets connected** — do the other connector (Part 2, step 4).
+- **Wrong Google account** — disconnect and Connect again with the right account.
+
+## Verify (for you, the operator)
+
+Code snippet (runs in a terminal on the host, not the chat):
+`onecli apps get --provider google-docs` and `--provider google-sheets` — each status
+should read "connected".
