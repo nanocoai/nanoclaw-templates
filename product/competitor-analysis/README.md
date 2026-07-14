@@ -204,3 +204,18 @@ The next message then spawns the agent normally.
 stamp creates the config row for you) or if you complete the Discord "which agent?"
 approval card (that path initialises the agent properly too). It's specific to the
 manual create-then-wire path.
+
+## Troubleshooting: a Google Doc/Sheet link 404s ("doesn't exist") on Telegram
+
+Google Doc/Sheet IDs contain **underscores**, and **Telegram's Markdown parse mode can
+strip underscores out of URLs** in delivery — so a link like `…UEC_-9ipj…` arrives as
+`…UEC-9ipj…` and opens to "doesn't exist." The agent stored and *sent* the correct link;
+only the chat copy was mangled.
+
+- **Recover the real link:** the correct ID is in the agent's notes (`CLAUDE.local.md` /
+  `/workspace/agent/`) and on the actual doc/sheet in Drive — open it from there, or ask
+  the agent to resend it.
+- **Scope:** this is a **Telegram channel-adapter** limitation, not a template bug —
+  Discord, Slack, etc. are unaffected. The real fix belongs in the Telegram adapter's
+  outbound Markdown handling: its sanitizer strips all `_` when the count is odd, so it
+  should protect URLs the way it already protects code spans.
