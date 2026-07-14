@@ -1,0 +1,155 @@
+# Competitor Analysis Agent Template
+
+A NanoClaw agent template for competitive research: crawl a competitor's site and
+socials, produce an "About" Google Doc + "Recent News" tab,
+and append a row to a tracking spreadsheet.
+
+## Layout
+
+NanoClaw stamps an agent from the parts of this folder its template parser reads
+(`.mcp.json`, `context/`, `skills/`, and `tasks/`) — README.md is not one of them.
+
+```
+competitor-analysis/
+├── .mcp.json                       # MCP servers — Exa (pinned); the rest are REST APIs via OneCLI
+├── context/
+│   └── instructions.md             # REQUIRED — the agent's standing brief + config placeholders
+├── tasks/                          # scheduled tasks — one .md per task, ship paused
+│   └── weekly-competitor-review.md
+├── skills/                         # each subfolder is one skill (loaded on demand)
+│   └── competitor-analysis/
+│       ├── SKILL.md                #   the entry point + operating logic
+│       ├── references/             #   detailed procedures, one file per phase
+│       │   ├── research.md
+│       │   ├── connecting-google.md
+│       │   ├── doc-structure.md
+│       │   ├── doc-writing.md
+│       │   ├── recent-news.md
+│       │   ├── spreadsheet.md
+│       │   └── weekly-review.md
+│       └── scripts/                #   deterministic Google API formatting helpers
+│           ├── render-section.js
+│           └── style-tracker.js
+├── README.md                       # this file
+└── TROUBLESHOOTING.md              # runbook for install/runtime issues (not parser-read)
+```
+
+The two `scripts/` helpers run with **`bun`** inside the agent container and call
+the Google APIs through the OneCLI proxy. They exist because hand-crafting Google
+Docs/Sheets formatting from an LLM is unreliable — the agent writes plain Markdown /
+plain rows, and the scripts apply the formatting deterministically.
+
+The agent defaults to Claude. To override the provider/model, add an optional
+`agent.json` (e.g. `{"provider": "..."}`) — not included here since the default is
+what we want.
+
+## Configure before first use
+
+This is a clean template — a few things are placeholders in
+`context/instructions.md`. Fill them in (or let the agent ask on first run):
+
+- **Tracker spreadsheet** — the Google Sheet ID your competitor rows are appended to
+- **Docs folder** — the Drive folder new competitor docs should live in
+- **Doc format reference** (optional) — a canonical example doc to match
+
+## Stamp an agent from this template
+
+```bash
+ncl groups create --template product/competitor-analysis --name "Competitor Analysis"
+```
+
+Then wire it to a channel as usual (`/manage-channels`). The skill auto-triggers
+by task — it is not pre-loaded.
+
+## Credentials — via OneCLI, not env vars
+
+The agent uses five connectable services — **Exa** (MCP), **SerpAPI**, **X**, and
+**Google Docs + Sheets** — plus NanoClaw's built-in **`agent-browser`** (reads full /
+JS-rendered pages; not a credential, no setup). Connect the five below. What each tool
+is *for* is documented in the skill.
+
+**No API keys live in this template.** NanoClaw never passes secrets into agent
+containers as env vars — the OneCLI gateway holds your keys in its vault and injects
+them into outbound HTTPS calls at the proxy boundary (including the Exa MCP server's
+calls to `api.exa.ai`). A token never sits in the container env, `.mcp.json`, or chat
+context — so the Exa MCP entry is `command` + `args` only, never an `env` block with a
+real key (same rule for any MCP server you add later).
+
+### 1. Register each credential in the OneCLI vault
+
+Use the OneCLI web UI at **http://127.0.0.1:10254** (or `onecli secrets --help`).
+Create one secret per service, matched to that service's API host:
+
+| Service | API host to match      | Auth style*               | Where to get the key                          |
+|---------|------------------------|---------------------------|-----------------------------------------------|
+| Exa     | `api.exa.ai`           | `x-api-key` header        | dashboard.exa.ai → API Keys                   |
+| SerpAPI | `serpapi.com`          | `api_key` **query param** | serpapi.com                                   |
+| X (Twitter) | `api.x.com`        | `Authorization: Bearer`   | developer.x.com — needs a **paid** tier (see below) |
+| Google Docs  | `docs.googleapis.com`  | OAuth (BYOC)          | your own Google OAuth app — see below         |
+| Google Sheets | `sheets.googleapis.com` | OAuth (BYOC)        | reuses the **same** Google OAuth app as Docs  |
+
+\* Confirm the exact header/param and OAuth scopes against each provider's current API
+docs. Note SerpAPI's key is a **query param** (`api_key`), not a header.
+
+**X (Twitter) needs a paid tier.** This template *reads* a competitor's recent posts,
+which on X's API generally requires a paid plan (the free tier is mostly post-only).
+Until X is connected, the agent just skips it rather than failing.
+
+**Google (Docs + Sheets) — the fiddly one (BYOC OAuth).** Two separate connectors
+(`google-docs`, `google-sheets`); OneCLI ships no Google OAuth client, so it's a one-time
+setup — you create your own Google OAuth app, paste its Client ID/Secret into OneCLI, and
+authorize. **Full step-by-step and common errors:**
+`skills/competitor-analysis/references/connecting-google.md`.
+
+### 2. Let the agent see the secrets
+
+Auto-created agents default to `all` secret mode, so every vault secret whose host
+pattern matches is injected automatically — usually nothing more to do. If the
+agent is in `selective` mode (a `401` from an API whose key *is* in the vault is
+the tell), assign them:
+
+```bash
+onecli agents list                                       # check secretMode
+onecli agents set-secret-mode --id <agent-id> --mode all # inject all matching secrets
+```
+
+No container restart needed — the gateway looks up secrets per request.
+
+### Require human approval before sensitive actions
+
+NanoClaw can gate risky actions in two layers:
+
+- **Soft (behavioral).** The skill's **Approvals** section makes the agent ask before
+  risky writes (shared/foreign docs, bulk ops, overwrites) — guidance it follows, not
+  enforcement.
+- **Hard (OneCLI gateway).** OneCLI can *hold* an outbound credentialed request and
+  require a human to approve it before it leaves the proxy — enforcement the agent
+  can't talk its way around. Approval rules are matched on the **outbound HTTP
+  request** (host + method + path) and configured in the OneCLI web UI at
+  **http://127.0.0.1:10254**. The NanoClaw host answers pending approvals by DMing
+  an approver — already wired, nothing to configure in this template.
+
+### If an MCP server won't start without its env var
+
+Some MCP servers read their API key from the environment *at startup*. The vault
+injection covers the outbound API call, not process startup. This template ships the
+Exa server with **no `env` block** (per CONTRIBUTING — no secrets in the template). If
+the Exa server ever fails to boot because it wants `EXA_API_KEY` at startup, give it a
+**non-secret placeholder** so it starts — the real credential is still injected by the
+proxy on the outbound call to `api.exa.ai`:
+
+```json
+"exa": {
+  "command": "npx",
+  "args": ["-y", "exa-mcp-server@3.2.1"],
+  "env": { "EXA_API_KEY": "onecli-managed" }
+}
+```
+
+Try the shipped no-`env` form first — only add the placeholder if the server won't
+start without it.
+
+## Hit a snag?
+
+Install and runtime gotchas (agent never spawns after a manual create; Google links
+404ing on Telegram) are collected in **`TROUBLESHOOTING.md`**.
