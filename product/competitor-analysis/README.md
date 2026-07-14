@@ -21,6 +21,7 @@ competitor-analysis/
 │       ├── SKILL.md                #   the entry point + operating logic
 │       ├── references/             #   detailed procedures, one file per phase
 │       │   ├── research.md
+│       │   ├── connecting-api-keys.md
 │       │   ├── connecting-google.md
 │       │   ├── doc-structure.md
 │       │   ├── doc-writing.md
@@ -129,14 +130,12 @@ NanoClaw can gate risky actions in two layers:
   **http://127.0.0.1:10254**. The NanoClaw host answers pending approvals by DMing
   an approver — already wired, nothing to configure in this template.
 
-### If an MCP server won't start without its env var
+### MCP servers that need their key at startup
 
-Some MCP servers read their API key from the environment *at startup*. The vault
-injection covers the outbound API call, not process startup. This template ships the
-Exa server with **no `env` block** (per CONTRIBUTING — no secrets in the template). If
-the Exa server ever fails to boot because it wants `EXA_API_KEY` at startup, give it a
-**non-secret placeholder** so it starts — the real credential is still injected by the
-proxy on the outbound call to `api.exa.ai`:
+Some MCP servers read their API key from the environment *at startup* — separate from
+the vault injection that covers the outbound API call. The Exa server
+(`exa-mcp-server`) is one: it won't boot without `EXA_API_KEY`. So this template ships
+it with a **non-secret placeholder**:
 
 ```json
 "exa": {
@@ -146,8 +145,10 @@ proxy on the outbound call to `api.exa.ai`:
 }
 ```
 
-Try the shipped no-`env` form first — only add the placeholder if the server won't
-start without it.
+That satisfies startup; the **real** credential is still injected by the proxy on the
+outbound call to `api.exa.ai`. `onecli-managed` is a placeholder, not a secret, so this
+stays CONTRIBUTING-compliant. If you add another startup-key MCP server, give it the same
+placeholder — never a real key.
 
 ## Hit a snag?
 

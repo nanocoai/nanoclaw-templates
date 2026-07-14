@@ -48,11 +48,12 @@ reply *from the provider* — even an error like `400`/`404` on a bogus ID — m
 
 **If one isn't connected,** guide the user through connecting it in OneCLI — Google
 Docs/Sheets is the fiddly one (a one-time BYOC OAuth; walk them through
-`references/connecting-google.md`). Exa/SerpAPI/X are simpler — each is just an API key
-the user adds as a secret in OneCLI's Connections, which the proxy then injects on their
-behalf. Walk them to it in whatever their interface actually shows (it shifts, and their
-setup may be local or remote) rather than reading out fixed clicks — orient them, then
-follow the screen together.
+`references/connecting-google.md`). Exa/SerpAPI/X are simpler — each is one API key the
+user adds as a secret; hand them a **pre-filled deep link** so the form fills itself
+(exact format + per-service host/path/auth in `references/connecting-api-keys.md`) rather
+than making them enter fields by hand, which scrambles them. Use the **user's** OneCLI
+address (locally `127.0.0.1:10254`; their public URL if remote) — never the internal
+`172.17.0.1` you see. Orient them and follow the screen together; expect UI drift.
 
 ## The routine → references
 

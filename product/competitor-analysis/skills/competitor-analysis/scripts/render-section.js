@@ -10,7 +10,9 @@
  *
  * Usage:
  *   bun render-section.js <docId> <markdownFile> [tabTitle]
- *   (tabTitle defaults to "About"; falls back to the first tab)
+ *   (tabTitle defaults to "About"; matched trimmed + case-insensitively. In a single-tab
+ *    doc it writes to that tab; in a multi-tab doc a missing tab title is a hard error —
+ *    it never silently writes to the wrong tab.)
  *
  * Supported Markdown (one block per line):
  *   plain line            -> paragraph
@@ -58,8 +60,20 @@ function curl(method, url, body) {
 // --- 1. Locate the target tab + its current end index ---
 const doc = curl("GET", `https://docs.googleapis.com/v1/documents/${docId}?includeTabsContent=true`);
 const tabs = doc.tabs || [];
-let tab = tabs.find((t) => (t.tabProperties?.title || "") === tabTitle) || tabs[0];
-if (!tab) { console.error("No tabs found in doc."); process.exit(1); }
+const want = tabTitle.trim().toLowerCase();
+let tab = tabs.find((t) => (t.tabProperties?.title || "").trim().toLowerCase() === want);
+if (!tab) {
+  if (tabs.length === 1) {
+    tab = tabs[0]; // single-tab doc (e.g. the About tab before a Recent News tab is added)
+  } else {
+    const titles = tabs.map((t) => `"${t.tabProperties?.title || ""}"`).join(", ") || "(none)";
+    console.error(
+      `Tab "${tabTitle}" not found — refusing to write to the wrong tab. ` +
+      `Available tabs: ${titles}. Check the tab name (matched trimmed + case-insensitively).`
+    );
+    process.exit(1);
+  }
+}
 const tabId = tab.tabProperties.tabId;
 const content = tab.documentTab.body.content;
 let endIndex = 1;
