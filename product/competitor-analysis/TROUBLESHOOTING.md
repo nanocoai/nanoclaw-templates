@@ -3,6 +3,24 @@
 Runbook for issues you may hit installing or running this template. The README covers
 the normal install path; this file is for when something goes wrong.
 
+## Connecting credentials when NanoClaw runs on a remote VM
+
+The agent connects services through **OneCLI's web UI**, which runs on the machine hosting
+NanoClaw at an internal address (`127.0.0.1:10254`, and `172.17.0.1:10254` from inside the
+container). On your **own computer** you just open `http://127.0.0.1:10254`. On a **remote
+VM**, your laptop's browser can't reach that internal address, so:
+
+- **Expose OneCLI's port** from the VM to a URL you can open — via your host's port-proxy /
+  a public preview URL / an SSH tunnel — and **keep it behind a login** (it's the credential
+  UI; don't make it world-open). Then use *that* address wherever these docs say
+  `127.0.0.1:10254`.
+- **The agent may hand you links to `172.17.0.1:10254`** (its internal view). Swap that host
+  for your exposed address. This applies to connector links *and* to the Google OAuth
+  callback (see `references/connecting-google.md`).
+
+This is a NanoClaw/OneCLI hosting concern, not specific to this template — any template
+hits it on a remote VM.
+
 ## The agent never replies after you create it
 
 If you created the agent **by hand** — `ncl groups create` on a NanoClaw version
