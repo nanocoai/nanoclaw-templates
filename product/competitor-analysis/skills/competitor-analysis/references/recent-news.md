@@ -27,9 +27,8 @@ A single search misses coverage. Sweep in **multiple passes**:
   outlets, so search the event by name (e.g. `"{Company}" acquisition`) and pull
   the notable pieces, not just the top result.
 - Request a generous number of results from Exa and run more than one query angle.
-  Check the major tech/business outlets by name when a big story is under-covered
-  in your results — e.g. TechCrunch, SiliconAngle, VentureBeat, The Information,
-  Forbes, Fortune, Bloomberg, Reuters, PYMNTS, Axios.
+  When a big story is under-covered in your results, check the major tech/business
+  outlets by name (see the list under "What counts as news").
 
 **Completeness check before you finish the tab:** for each major event, ask "do I
 have the main outlets' coverage?" If a well-known outlet clearly covered it and
@@ -44,10 +43,13 @@ headline is exactly the kind of gap to catch here.
 
 ## What counts as news
 
-**News = third-party press coverage** — independent trade/tech/business publications
-reporting on the company. Examples: The New Stack, VentureBeat, TechCrunch,
-SiliconAngle, The Information, Fortune, Forbes, Bloomberg, Reuters, Washington Post,
-Axios, and similar. This is the core of the Recent News tab.
+**News = third-party press coverage** — **any** credible independent trade/tech/business
+publication reporting on the company. The names below are **just a starting point, not
+a whitelist**: include reputable coverage from *whatever* outlet you find — industry
+trade press, regional, niche, or international — not only these. Examples: The New Stack,
+VentureBeat, TechCrunch, SiliconAngle, The Information, Fortune, Forbes, Bloomberg,
+Reuters, Washington Post, PYMNTS, Axios, and many more. This is the core of the Recent
+News tab.
 
 **The company's own blog is NOT news by default** — it's marketing/self-published.
 Only include a company blog post if it's a genuinely **newsworthy announcement**: a

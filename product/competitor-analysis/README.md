@@ -23,7 +23,8 @@ competitor-analysis/
 │       │   ├── doc-structure.md    #     the 14 sections + formatting + hyperlink rules
 │       │   ├── doc-writing.md      #     how to render sections with the formatter
 │       │   ├── recent-news.md      #     the news tab (third-party press)
-│       │   └── spreadsheet.md      #     the tracker sheet
+│       │   ├── spreadsheet.md      #     the tracker sheet
+│       │   └── scheduled-tasks.md  #     weekly Thursday 9am review (schedule_task cron)
 │       └── scripts/                #   helpers that do the fiddly Google API formatting
 │           ├── render-section.js   #     Markdown → formatted Google Doc (bullets, links, bold titles)
 │           └── style-tracker.js    #     one-time polished styling for the tracker sheet
@@ -57,34 +58,19 @@ ncl groups create --template product/competitor-analysis --name "Competitor Anal
 Then wire it to a channel as usual (`/manage-channels`). The skill auto-triggers
 by task — it is not pre-loaded.
 
-## Tools & APIs
-
-**Exa** runs as an **MCP server** (pinned in `.mcp.json`); everything else is a
-**REST API called through the OneCLI proxy**, plus one built-in browser skill:
-
-| Tool | What it's for |
-|------|---------------|
-| **Exa** (MCP) | Semantic web/news search — discovery, funding, founders, signals. Tools: `web_search_exa`, `web_search_advanced_exa`, `web_fetch_exa` |
-| **SerpAPI** | Real Google results — known-item lookups Exa misses, exhaustive Google News, and `site:{domain}` page discovery |
-| **X (Twitter) API** | A competitor's recent posts (Exa can't read x.com) |
-| **Google Docs API** | Creates the research doc (formatted by `scripts/render-section.js`) |
-| **Google Sheets API** | The tracker sheet (styled by `scripts/style-tracker.js`) |
-| **agent-browser** | Built into NanoClaw — opens and reads full / JS-rendered pages (a `/security` page, pricing toggles). Not a credential; always available. |
-
-Connect the first five in the OneCLI vault (next). `agent-browser` needs no setup.
-
 ## Credentials — via OneCLI, not env vars
 
-**No API keys live in this template.** Exa runs as an **MCP server** (`.mcp.json`,
-`command` + `args` only — no `env` block), and SerpAPI, X, and Google Docs/Sheets are
-plain **REST APIs** the agent calls directly. Either way the credential is the same:
-NanoClaw never passes secrets into agent containers as env vars — the OneCLI gateway
-holds your keys in its vault and injects them into outbound HTTPS calls at the proxy
-boundary (including the Exa MCP server's calls to `api.exa.ai`), so a token never sits
-in the container env, `.mcp.json`, or chat context.
+The agent uses five connectable services — **Exa** (MCP), **SerpAPI**, **X**, and
+**Google Docs + Sheets** — plus NanoClaw's built-in **`agent-browser`** (reads full /
+JS-rendered pages; not a credential, no setup). Connect the five below. What each tool
+is *for* is documented in the skill.
 
-(The Exa MCP entry lists only `command` + `args` — never add an `env` block with a
-real key. Same rule for any MCP server you add later.)
+**No API keys live in this template.** NanoClaw never passes secrets into agent
+containers as env vars — the OneCLI gateway holds your keys in its vault and injects
+them into outbound HTTPS calls at the proxy boundary (including the Exa MCP server's
+calls to `api.exa.ai`). A token never sits in the container env, `.mcp.json`, or chat
+context — so the Exa MCP entry is `command` + `args` only, never an `env` block with a
+real key (same rule for any MCP server you add later).
 
 ### 1. Register each credential in the OneCLI vault
 
@@ -93,11 +79,11 @@ Use the OneCLI web UI at **http://127.0.0.1:10254** (or `onecli secrets --help`
 
 | Service | API host to match      | Auth style*             | How to connect                                  |
 |---------|------------------------|-------------------------|-------------------------------------------------|
-| Exa     | `api.exa.ai`           | `x-api-key` header      | `onecli secrets create` — key from dashboard.exa.ai → API Keys. Authenticates the Exa **MCP server's** outbound calls; no key goes in `.mcp.json`. |
-| SerpAPI | `serpapi.com`          | `api_key` **query param** | `onecli secrets create … --param-name api_key` — key from serpapi.com. Real Google results for known-item lookups + exhaustive news + `site:` page discovery. |
+| Exa     | `api.exa.ai`           | `x-api-key` header      | `onecli secrets create` — key from dashboard.exa.ai → API Keys |
+| SerpAPI | `serpapi.com`          | `api_key` **query param** | `onecli secrets create … --param-name api_key` — key from serpapi.com |
 | X (Twitter) | `api.x.com`        | `Authorization: Bearer` | `onecli secrets create` — Bearer token from developer.x.com. See note below. |
-| Google Docs  | `docs.googleapis.com`  | OAuth (`Bearer`)   | Connect Google as an OAuth **app** (`onecli apps` / web UI)    |
-| Google Sheets | `sheets.googleapis.com` | OAuth (`Bearer`) | Same Google OAuth connection covers Docs + Sheets             |
+| Google Docs  | `docs.googleapis.com`  | OAuth (BYOC)   | Separate OneCLI connector `google-docs`. Needs **your own Google OAuth app** — see the Google setup below. |
+| Google Sheets | `sheets.googleapis.com` | OAuth (BYOC) | Separate connector `google-sheets`. Can reuse the **same** Google OAuth app as Docs.  |
 
 SerpAPI uses a **query-param** key (not a header), so its command differs:
 
@@ -117,25 +103,23 @@ onecli secrets create --name "X" --type generic \
   --header-name "Authorization" --value-format "Bearer {value}"
 ```
 
-Until that's done, the agent skips the X step and notes "X coverage pending" — it
-does not fail.
+Until it's connected, the agent just skips X rather than failing.
 
 \* Confirm the exact header/param and OAuth scopes against each provider's current
 API docs when you configure the vault entry.
 
-Exa (static key) example — the vault entry the Exa MCP server's calls are injected
-with (the server itself ships in `.mcp.json` with no key):
+Exa (static key) example:
 
 ```bash
 onecli secrets create --name "Exa" --type generic \
   --value "<your-exa-key>" --host-pattern "api.exa.ai" --header-name "x-api-key"
 ```
 
-Google (Docs + Sheets) is an **OAuth** connection, not a static key — connect it
-as an app in the OneCLI web UI so the agent gets a `Bearer` token injected. Make
-sure the Docs and Sheets scopes are granted. (Google Drive is a separate scope; if
-you want the agent to place docs in a specific Drive folder automatically, grant
-Drive too — otherwise create the doc shells yourself and point the agent at them.)
+**Google (Docs + Sheets) — the fiddly one (BYOC OAuth).** Two separate connectors
+(`google-docs`, `google-sheets`); OneCLI ships no Google OAuth client, so it's a
+one-time setup — you create your own Google OAuth app, paste its Client ID/Secret into
+OneCLI, and authorize (not a one-click connect). **Full step-by-step, commands, and
+common errors:** **`skills/competitor-analysis/references/connecting-google.md`**.
 
 ### 2. Let the agent see the secrets
 
@@ -155,9 +139,9 @@ No container restart needed — the gateway looks up secrets per request.
 
 NanoClaw can gate risky actions in two layers:
 
-- **Soft (behavioral).** `context/instructions.md` tells the agent to get explicit
-  approval before writing to a shared sheet/doc it didn't create, bulk updates, or
-  overwrites. This is guidance the agent follows, not enforcement.
+- **Soft (behavioral).** The skill's **Approvals** section makes the agent ask before
+  risky writes (shared/foreign docs, bulk ops, overwrites) — guidance it follows, not
+  enforcement.
 - **Hard (OneCLI gateway).** OneCLI can *hold* an outbound credentialed request and
   require a human to approve it before it leaves the proxy — enforcement the agent
   can't talk its way around. Approval rules are matched on the **outbound HTTP

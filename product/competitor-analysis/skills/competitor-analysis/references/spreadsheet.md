@@ -4,18 +4,13 @@ After every competitor doc is complete, add a **new row** to the competitor
 tracking Google Sheet for that company. This is a **required** final step — do
 not skip it.
 
-## Which sheet — ALWAYS reuse the one in your memory
+## Which sheet — always reuse the one canonical tracker
 
-There is **ONE** tracker sheet for all competitors, so it stays a single at-a-glance
-overview. Its ID is recorded in your standing brief / memory (under "Tracker
-spreadsheet"). **Always append to that same sheet — do not create a new tracker.**
-
-- **If a tracker ID is already set: use it.** Every competitor goes into that one
-  sheet. Never spin up a fresh tracker just because you're doing a new competitor.
-- **Only create a tracker if none is set yet** (first-ever run) — and the moment you
-  do, **record its ID in your memory** so every future run reuses it.
-- **Only exception:** the user *explicitly* tells you to make a new one (e.g. a
-  one-off test). Otherwise default to the existing tracker, always.
+There is **ONE** tracker for all competitors (ID in your standing brief —
+`context/instructions.md`, under "Tracker spreadsheet"). **Always append to it** so it
+stays a single at-a-glance overview. Only create a new tracker if none is set yet (first
+run — then record its ID in memory) or the user explicitly asks for a one-off; otherwise
+never spin up a fresh one.
 
 ```
 Spreadsheet ID: [YOUR_TRACKER_SHEET_ID]        # set in context/instructions.md
@@ -60,28 +55,9 @@ body: { "values": [[ <the 13 column values, in order> ]] }
   formulas — `USER_ENTERED` interprets them.
 - Auth: `Authorization: Bearer onecli-managed` (the proxy injects the token).
 
-## Aesthetics — what style-tracker.js applies (reference)
+## Aesthetics
 
-The tracker is a customer-facing overview, so it must look clean and designed:
-
-**Header row (row 1):**
-- The 13 column titles, **bold white text on a dark accent background** (slate blue,
-  ~`rgb(0.20, 0.29, 0.44)`), centered and wrapped.
-- **Freeze the header row** (`frozenRowCount: 1`) so it stays visible on scroll.
-- Header row height ~40px.
-
-**Column widths** (`updateDimensionProperties`) — nothing so narrow text is cut off:
-- Company Name ~170 · Founded ~80 · Funding ~140 · Employee Count ~90
-- The bulleted columns (Core Use Case, Target Users, Named Customers, Products /
-  Features, Model Providers, Security, Pricing, Integrations) ~210 each
-- Detailed Analysis ~170
-
-**Data rows:**
-- `wrapStrategy: 'WRAP'`, `verticalAlignment: 'TOP'`, font size 10, generous padding.
-- Row height tall enough that every wrapped bullet is visible (~180px or auto-resize).
-- **Alternating row backgrounds** — white / pale blue-gray `rgb(0.96, 0.97, 0.99)`.
-- Thin light-gray borders between rows and columns.
-- **Freeze the first column** (Company Name) so it stays visible when scrolling right.
-
-**General:** consistent font, no cramped cells, everything readable at a glance — it
-should look like a designed dashboard, not a spreadsheet dump.
+The tracker should read like a designed dashboard, not a spreadsheet dump. The exact
+styling — frozen colored header, column widths, wrap + top-align, alternating rows,
+frozen first column — is defined in and applied by `scripts/style-tracker.js`, which is
+the source of truth. To change the look, edit that script.

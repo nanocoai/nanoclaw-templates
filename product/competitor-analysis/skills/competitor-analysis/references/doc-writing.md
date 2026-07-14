@@ -35,12 +35,11 @@ formatter is how you write, every time.
 
 - **Bullets must be consecutive** — no blank line between bullet items, or the list
   breaks.
-- **All the hyperlinks go inline as `[label](url)`** — company name, funding rounds,
-  founders' LinkedIn, socials, feature launches, and section-source links (see
-  `doc-structure.md`). The formatter turns every one into a real link.
+- **Every hyperlink goes inline as `[label](url)`** and the formatter turns each into a
+  real link. Which elements must be linked — and the no-fabricated-URLs rule — live in
+  `doc-structure.md` ("Hyperlinking rules").
 - Put a blank line between distinct blocks (e.g. a title line and the bullets under
   it) for spacing.
-- Only link real sources you actually found — never invent a URL.
 
 ## Example section (what you pass the formatter)
 

@@ -114,7 +114,7 @@ Manual feature engineering blocks ML adoption at scale
   - **Flagship launches** (a headline product like KumoRFM): prefer the **launch
     announcement** (X/social thread → blog → press) over the docs page — it's more
     newsworthy.
-- Only link a real page you actually found — never invent or guess a URL. A genuinely
+- Only link a real page you actually found. A genuinely
   undocumented minor feature can stay unlinked, but that should be the exception, not
   the norm. If Products/Features has almost no links, you didn't look hard enough —
   run SerpAPI per feature.
@@ -125,26 +125,26 @@ Manual feature engineering blocks ML adoption at scale
 
 **9. Model Providers**
 - From website + dedicated `/ai-model-providers` page
-- Source-link it — see "Section sourcing links" (dedicated page → link the title; else → link each point)
+- Source-link it — see "Hyperlinking rules"
 
 **10. Security**
 - From website + `/subprocessors` / `/trust` pages
-- Source-link it — see "Section sourcing links"
+- Source-link it — see "Hyperlinking rules"
 
 **11. Pricing**
 - Individual plans + Team plans as category sub-bullets; each tier as a sub-sub-bullet
 - Never cram multiple tiers onto one line with arrows or semicolons
-- Source-link it — see "Section sourcing links" (dedicated `/pricing` page → link the title; else → link each tier/point)
+- Source-link it — see "Hyperlinking rules"
 
 **12. Key Differentiators**
 - What they emphasize that competitors don't
-- Link a point to its source **only when it's a bold/strong claim** — see "Section sourcing links"
+- Source-link **strong claims only** — see "Hyperlinking rules"
 
 **13. Integrations**
 - From website + cross-check X/LinkedIn for anything announced but not yet on the site
 - **Cap at 10.** If there are more than 10, list the 10 most notable and add a line
   saying you capped it — e.g. "Showing 10 of many; full list on their integrations page."
-- Source-link it — see "Section sourcing links"
+- Source-link it — see "Hyperlinking rules"
 
 **14. Socials / Extra Links**
 - Title this section **"Socials / Extra Links"** (not just "Socials").
@@ -153,43 +153,35 @@ Manual feature engineering blocks ML adoption at scale
   of the doc. This section is for social profiles + extra links only.
 - **Keep GitHub** and other genuinely useful links (docs, community, changelog).
 
-## Hyperlinks (required in every doc)
+## Hyperlinking rules
 
-Apply via the Google Docs API (`updateTextStyle` with `fields: 'link'`):
-- Competitor name in the first line → company website URL
-- Each funding round descriptor → the press article announcing that round
-- Each founder name → their LinkedIn profile URL
-- Social URLs → themselves (self-hyperlink)
+Links are applied via the Google Docs API (`updateTextStyle` with `fields: 'link'`), and
+every link must point to a **real source you actually found** — never fabricate or guess
+a URL; if a point has no findable source, leave it unlinked rather than invent one.
 
-### Section sourcing links — Model Providers, Security, Pricing, Integrations
+**Structural links (always required).** The competitor name, each funding round, each
+founder, and each social are specified inline in their own sections above — every one is
+mandatory.
 
-For each of these four sections, link the source using this rule:
-- **If the company has a dedicated page for that topic** (e.g. `/ai-model-providers`,
-  `/security` or `/trust`, `/pricing`, `/integrations`) → hyperlink the **section
-  title** to that page.
-- **If there is no dedicated page** → hyperlink **each point/bullet** to wherever you
-  actually sourced it — the specific website page, an X/social post, or the SERP
-  (Google) result — the same way product/feature launches are linked. Do this at the
-  end of the section once you know which facts came from where.
+**Section source links — Model Providers, Security, Pricing, Integrations.**
+- **Dedicated page for that topic exists** (e.g. `/ai-model-providers`, `/security` or
+  `/trust`, `/pricing`, `/integrations`) → hyperlink the **section title** to that page.
+- **No dedicated page** → hyperlink **each point/bullet** to wherever you sourced it —
+  the specific website page, an X/social post, or the SERP (Google) result, the same way
+  product/feature launches are linked. Do this at the end of the section, once you know
+  which facts came from where.
+- **Key Differentiators** is lighter — link a point **only when it's a bold/strong
+  claim** (a "first/only/fastest/most" claim, a named benchmark, a pointed comparison).
+  Skip soft or generic statements.
 
-**Key Differentiators:** link a point **only when it's a bold/strong claim** that
-warrants a source (a "first/only/fastest/most" type claim, a named benchmark, a
-pointed comparison). Skip links on soft or generic statements.
-
-**A link must actually SUBSTANTIATE what it's next to.** Don't link a section title
-to a page and call it done if the specific items you named aren't on that page — e.g.
-if you list "Snowflake" as an integration, the linked page must actually list
-Snowflake. If a named item isn't on the section's dedicated page, link that item to
-where it *is* documented, or don't assert it. A link that doesn't back the claim is
-worse than no link.
-
-**Every section must have at least ONE source hyperlink.** No section (Model
-Providers, Security, Pricing, Integrations, etc.) should end up with zero links back
-to a real source. If you can't find a single source for a whole section, that's a
-signal you under-researched it — go read the dedicated page (below).
-
-Every link must be a real source you found — never fabricate or guess a URL. If a
-point has no findable source, leave it unlinked rather than inventing one.
+**Quality bars.**
+- **Substantiate.** A link must back the exact claim it's next to. If you list
+  "Snowflake" as an integration, the linked page must actually list Snowflake —
+  otherwise link that item to where it *is* documented, or don't assert it. A link that
+  doesn't back the claim is worse than no link.
+- **At least one per section.** No section (Model Providers, Security, Pricing,
+  Integrations, etc.) should have zero links back to a real source — if you can't find
+  one for a whole section, you under-researched it.
 
 ## Key-terms scrub (Phase 4 — always, before done)
 

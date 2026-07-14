@@ -20,10 +20,6 @@ below.
   it and fall back to Exa.
 - **X API** — the competitor's own recent posts (see the Social section).
 
-**When a fact or page seems missing, don't conclude it doesn't exist — try a plain
-SerpAPI Google search first.** Exa missing something ≠ it isn't there (e.g. a
-"Fine-Tuning Platform" page that Google finds immediately).
-
 ## Website — pages to cover
 
 - **Homepage** — headline, tagline, positioning
@@ -44,10 +40,14 @@ SerpAPI Google search first.** Exa missing something ≠ it isn't there (e.g. a
   ```
   https://serpapi.com/search.json?engine=google&q=site:{domain}+{topic}
   ```
-  e.g. `site:town.com security` surfaces `town.com/features/security`. Also skim the
-  site's **nav bar and footer**, and try **`{domain}/sitemap.xml`** for a full page
-  list. Even if the info is also on the homepage, **prefer and link the most specific
-  dedicated page** (e.g. `/features/security`) — that's the real source.
+  Do this for **every** topic/section — pricing, integrations, model providers, use
+  cases, and so on — not just security. Security is only an example here:
+  `site:town.com security` surfaces `town.com/features/security`; likewise
+  `site:town.com pricing`, `site:town.com integrations`, etc. Also skim the site's
+  **nav bar and footer**, and try **`{domain}/sitemap.xml`** for a full page list. Even
+  if the info is also on the homepage, **prefer and link the most specific dedicated
+  page** for that topic (e.g. `/pricing`, `/integrations`, `/features/security`) —
+  that's the real source.
 - **READ dedicated pages in FULL — don't skim a snippet.** Once you've found the
   dedicated page (security, integrations, model providers, pricing, a feature),
   **open it in `agent-browser` and read the entire page**, not just an Exa/SerpAPI
@@ -68,9 +68,8 @@ integrations and announcements often appear on social before the website is
 updated — cross-reference these against the Integrations and Recent News sections.
 
 - **X (Twitter):** use the **X API** for the competitor's recent posts — Exa
-  cannot read x.com. Auth is injected by OneCLI (`Authorization: Bearer`), so call
-  the API directly with a placeholder token. If the X credential isn't configured
-  yet, skip this and note "X coverage pending" rather than guessing.
+  cannot read x.com. See "How to pull a competitor's X posts" below for the calls,
+  auth, and the "X coverage pending" fallback.
 - **LinkedIn:** Exa handles LinkedIn well — `web_search_advanced_exa` with
   `category: "people"`, or `includeDomains: ["linkedin.com"]`.
 
@@ -109,8 +108,7 @@ Then:
   announcements, notable partnerships.
 - Cite each relevant post by its URL: `https://x.com/{handle}/status/{tweet_id}`.
 - On a `401` the credential is missing/invalid; on a `403`/`453` the account lacks
-  the required API access tier — in either case note "X coverage pending" and move
-  on, don't fabricate.
+  the required API access tier — in either case note "X coverage pending" and move on.
 
 These posts feed the **Integrations** cross-check and the general "what's new"
 read. Per `recent-news.md`, social posts are **not** news items — they do not go in
@@ -126,15 +124,13 @@ targeted search** — don't rely on the site crawl to surface these.
 funding · each round (type, amount, announced date, lead investor, other
 investors, valuation if disclosed) · any acquisitions.
 
-**Employee count — ask SerpAPI directly.** Don't guess or use a placeholder (a
-wrong "3 employees" is worse than "Unknown"). Run a plain-language Google query and
+**Employee count — ask SerpAPI directly.** Run a plain-language Google query and
 read the answer box / LinkedIn / Crunchbase result:
 ```
 GET https://serpapi.com/search.json?engine=google&q=how+many+employees+at+{Company}
 ```
 Prefer the LinkedIn company-page count or Crunchbase; if sources disagree, give a
-range or cite the most authoritative. If genuinely not findable, write "Unknown" —
-never invent a number.
+range or cite the most authoritative.
 
 **Search recipe (Exa — `web_search_advanced_exa`):**
 - Run several angles as separate calls (one query each); `web_search_advanced_exa`
@@ -166,15 +162,16 @@ query like `"{Company}" raises funding` — and check dates. Don't report a stal
   coverage. These citations become the metadata hyperlinks.
 - Cross-check amount + date across **at least two** sources; if they conflict, note
   the discrepancy rather than silently picking one.
-- If a fact can't be sourced, write "Undisclosed" / "Unknown" — never estimate.
-- Public Crunchbase/Dealroom pages may hide some rounds behind login; treat missing
-  data as "not publicly listed," not as zero.
 
 ## Research notes
 
+- **Never fabricate — mark the gap.** Every fact comes from a real source. If
+  something isn't findable, write "Unknown" / "Undisclosed" / "None publicly listed" —
+  never guess, estimate, or use a placeholder (a wrong "3 employees" is worse than a
+  clean "Unknown"). A missing standard page (e.g. no public pricing) is itself a
+  finding ("No public pricing page"); data hidden behind a Crunchbase/Dealroom login is
+  "not publicly listed," not zero.
 - Prefer primary sources (the company's own pages, official press releases) over
   aggregators.
 - Capture the **source URL** for every fact as you go — you'll need them for the
   required hyperlinks (funding rounds → press articles, founders → LinkedIn, etc.).
-- If a standard page is missing (e.g. no public pricing), note it explicitly —
-  that absence is itself a finding ("No public pricing page").
