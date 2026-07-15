@@ -18,9 +18,8 @@ required hyperlinks.
   or feature you'd expect to exist often turns up instantly on a plain Google query.
   Follow the result to the company's own site — e.g. `q=Fine-Tuning+Platform+Kumo`
   (full URL form in the Website section below).
-  Use `engine=google_news` for exhaustive news (see `recent-news.md`). Auth (`api_key`)
-  is injected by OneCLI — send none; if SerpAPI isn't configured, note it and fall back
-  to Exa.
+  Use `engine=google_news` for exhaustive news (see `recent-news.md`).
+  If SerpAPI isn't configured, note it and fall back to Exa.
 - **X API** — the competitor's own recent posts (see Social, below).
 
 ## Website — pages to cover
