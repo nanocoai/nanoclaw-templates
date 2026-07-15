@@ -22,14 +22,10 @@ to be true along the way:
   (app name + their email).
 - **The user is added as a Test user** on that consent screen.
 - The **Google Docs API and Google Sheets API are enabled** (Drive API too, only if they
-  want docs auto-filed into a folder). **Do this first** — the scope picker in the next step
-  only lists scopes for APIs that are already enabled.
-- **Then** add the **Docs + Sheets scopes** on the consent screen — *enabling an API is not
-  the same as granting its scope; miss this and they hit "Access blocked: this app's request
-  is invalid."* Usually **APIs & Services → Data access → Add or remove scopes** (may vary).
-- An **OAuth client** of type **Web application** is created → this gives the **Client ID
-  + Secret**. Keep them handy and keep the tab open — Part 2 produces a redirect URL to
-  paste back here.
+  want docs auto-filed into a folder).
+- Add the Docs + Sheets scopes on the consent screen. Usually APIs & Services → Data access → Add or remove scopes (may vary).
+- After the OAuth client of type Web application is created it provides **Client ID + Client Secret**.
+- Part 2 produces a redirect URL to paste back here.
 
 Navigation hint (may vary): **APIs & Services** often isn't in the sidebar — the user may
 have to go **back** to reach it.
