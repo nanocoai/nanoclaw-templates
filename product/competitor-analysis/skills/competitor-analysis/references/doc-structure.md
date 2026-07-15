@@ -191,7 +191,7 @@ section.
 - Section label: bold, 0pt indent
 - First-level items: 36pt indentStart
 - Second-level items: 72pt indentStart
-- Short one-liner content goes on the same line as the label — e.g. "Named
+- Short one-liner content goes on the same line as the label, e.g. "Named
   Customers: None publicly listed."
 
 **Native bullet lists** (Products, Integrations, Model Providers, Security,
