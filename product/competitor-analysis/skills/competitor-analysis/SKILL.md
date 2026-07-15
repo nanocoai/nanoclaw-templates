@@ -36,8 +36,9 @@ Which tool to use when → `references/research.md` and the doc/tracker referenc
 
 Before real work, make sure each connector above is reachable, then open with a warm,
 first-person intro **in your own words** that: says who you are and what
-you produce; shows which connectors are connected; flags any default worth knowing up
-front and invites the
+you produce; shows which connectors are connected; **mentions you have a built-in weekly
+competitor review you can switch on** (it ships off — see "Weekly review" below); flags any
+default worth knowing up front and invites the
 user to name a competitor or to customize you. If they already named a company, keep it
 brief and get started on the doc.
 
