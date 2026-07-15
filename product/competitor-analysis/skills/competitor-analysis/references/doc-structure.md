@@ -197,7 +197,7 @@ section.
 **Native bullet lists** (Products, Integrations, Model Providers, Security,
 Pricing, What problem do they solve?, Core Use Case)
 - Google Docs native bullets (disc/circle/square preset)
-- No blank lines between bullet items — consecutive paragraphs only
+- No blank lines between bullet items, consecutive paragraphs only
 - Sub-bullets: indentFirstLine 54pt, indentStart 72pt
 
 **General**
