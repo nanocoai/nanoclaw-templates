@@ -1,9 +1,6 @@
 # Reference: Writing to the doc (ALWAYS use the formatter)
 
-**Do NOT hand-craft Google Docs `batchUpdate` calls for formatting.** It's
-unreliable — you end up dumping plain text with no bullets, indentation, or links
-(and this doc has tabs, which makes the index math worse). Instead, write each
-section as **plain Markdown** and let the helper render it with real formatting.
+Don’t hand-craft Google Docs batchUpdate formatting calls. They’re unreliable, especially with tabs. Write each section in plain Markdown and let the helper render apply the formatting.
 
 ## The loop (per section)
 
