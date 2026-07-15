@@ -38,7 +38,7 @@ the first colon (e.g. `**Competitor Name:**`). The value after the colon is plai
   it readable instead of one flat wall of bullets. In markdown, indent sub-bullets by
   2 spaces:
   ```
-  - [Gavriel Cohen](https://linkedin.com/in/...) — Co-founder & CEO
+  - [Bob Jones](https://linkedin.com/in/...) — Co-founder & CEO
     - Previously co-founded Acme (acquired by BigCo, 2022)
     - Ex-Google, led the ranking team
     - MSc Computer Science, Technion
