@@ -1,16 +1,12 @@
 # Reference: About Doc Structure (Phase 2) + formatting
 
-> **How you actually write this:** compose each section as **Markdown** and render
-> it with the formatter (`references/doc-writing.md`) — bullets (`- `), sub-bullets
-> (2-space indent), bold (`**`), and links (`[label](url)`) all become real Google
-> Docs formatting. This file defines *what* goes in each section and the intended
-> structure; the formatter handles *how* it's applied. Do NOT hand-write Docs API
-> calls.
->
-> The **13 section titles are always bold** (Founders, About / Mission, What problem
-> do they solve?, Core Use Case, Target Users, Named Customers, Products / Features,
-> Model Providers, Security, Pricing, Key Differentiators, Integrations, Socials /
-> Extra Links). Put each on its own line — the formatter bolds them automatically.
+Compose each section as Markdown and render it with the formatter (`references/doc-writing.md`), bullets (`- `), sub-bullets
+(2-space indent), bold (`**`), and links (`[label](url)`) all become real Google Docs formatting. 
+This file defines *what* goes in each section and the intended structure; 
+The formatter handles *how* it's applied. Do NOT hand-write Docs API calls.
+
+The **13 section titles are always bold** (Founders, About / Mission, What problem do they solve?
+Core Use Case, Target Users, Named Customers, Products / Features, Model Providers, Security, Pricing, Key Differentiators, Integrations, Socials / Extra Links). Put each on its own line, the formatter bolds them automatically.
 
 Build the **About tab** in this exact order. The consistency of this structure
 across every competitor doc is the whole point — match it precisely.
