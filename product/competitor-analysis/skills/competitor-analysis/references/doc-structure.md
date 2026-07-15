@@ -9,7 +9,7 @@ The **13 section titles are always bold** (Founders, About / Mission, What probl
 Core Use Case, Target Users, Named Customers, Products / Features, Model Providers, Security, Pricing, Key Differentiators, Integrations, Socials / Extra Links). Put each on its own line, the formatter bolds them automatically.
 
 Build the **About tab** in this exact order. The consistency of this structure
-across every competitor doc is the whole point — match it precisely.
+across every competitor doc is the whole point. match it precisely.
 
 ## Metadata block (top of doc — one-liners, each separated by a blank line)
 
