@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "mixpanel": {
+      "command": "npx",
+      "args": ["-y", "@mattgreathouse/mixpanel-mcp@1.0.2"],
+      "env": {
+        "MIXPANEL_SERVICE_ACCOUNT_USERNAME": "placeholder",
+        "MIXPANEL_SERVICE_ACCOUNT_PASSWORD": "placeholder",
+        "MIXPANEL_PROJECT_ID": "YOUR_MIXPANEL_PROJECT_ID"
+      }
+    },
+    "hubspot": {
+      "command": "npx",
+      "args": ["-y", "@hubspot/mcp-server@0.4.0"],
+      "env": { "PRIVATE_APP_ACCESS_TOKEN": "placeholder" }
+    },
+    "bigquery": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ergut/mcp-bigquery-server@1.0.4",
+        "--project-id",
+        "YOUR_GCP_PROJECT_ID",
+        "--location",
+        "US"
+      ]
+    }
+  }
+}
