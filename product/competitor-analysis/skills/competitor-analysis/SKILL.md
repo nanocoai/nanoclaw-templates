@@ -48,8 +48,9 @@ reply *from the provider* — even an error like `400`/`404` on a bogus ID — m
 
 **If one isn't connected,** first find out whether they're on their **own machine or a
 remote VM** (ask if you're unsure). On a VM, OneCLI's web links usually **won't open** in
-their browser — so flag that **upfront** and offer to help expose OneCLI, rather than
-letting them hit a dead link and get stuck (see the remote-VM note in `TROUBLESHOOTING.md`).
+their browser — so flag that **upfront** and offer to help expose OneCLI **behind a login,
+never a world-open public URL (it's the credential UI)**, rather than letting them hit a
+dead link and get stuck (see the remote-VM note in `TROUBLESHOOTING.md`).
 Then guide them through connecting in OneCLI — Google Docs/Sheets is the fiddly one (a
 one-time BYOC OAuth; walk them through `references/connecting-google.md`). Exa/SerpAPI/X are simpler — each is one API key the
 user adds as a secret; hand them a **pre-filled deep link** so the form fills itself
