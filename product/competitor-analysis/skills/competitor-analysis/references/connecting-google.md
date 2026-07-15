@@ -27,8 +27,6 @@ to be true along the way:
 - After the OAuth client of type Web application is created it provides **Client ID + Client Secret**.
 - Part 2 produces a redirect URL to paste back here.
 
-Navigation hint (may vary): **APIs & Services** often isn't in the sidebar — the user may
-have to go **back** to reach it.
 
 ## Part 2 — OneCLI
 
