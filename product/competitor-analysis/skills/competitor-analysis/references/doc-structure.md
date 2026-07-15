@@ -173,13 +173,9 @@ pointed comparison). Skip links on soft or generic statements.
 
 Every link must directly support the specific claim beside it; otherwise link to the correct documentation or omit the claim.
 
-**Every section must have at least ONE source hyperlink.** No section (Model
-Providers, Security, Pricing, Integrations, etc.) should end up with zero links back
-to a real source. If you can't find a single source for a whole section, that's a
-signal you under-researched it — go read the dedicated page (below).
-
-Every link must be a real source you found — never fabricate or guess a URL. If a
-point has no findable source, leave it unlinked rather than inventing one.
+Every section must have at least one source hyperlink. 
+If you can't find a single source for a whole section, that's a signal you under-researched it.
+In a case you still can't find a link. mention it.
 
 ## Key-terms scrub (Phase 4 — always, before done)
 
