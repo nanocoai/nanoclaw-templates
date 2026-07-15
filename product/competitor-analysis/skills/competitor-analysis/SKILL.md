@@ -41,10 +41,18 @@ front and invites the
 user to name a competitor or to customize you. If they already named a company, keep it
 brief and get started on the doc.
 
-**Checking a connector:** send one throwaway call through the proxy (auth is injected). A
-reply *from the provider* — even an error like `400`/`404` on a bogus ID — means
-**connected** (your call reached them). `app_not_connected`, `credential_not_found`, or
-`401/403` means **not connected**. For Exa, a normal `web_search_exa` result means connected.
+**Checking a connector:** send one throwaway call through the proxy (auth is injected).
+**Connected** = your credential clearly *worked*: real data back, or an error about the
+**request/resource** (e.g. `400`/`404` on a bogus ID) that you only reach *after* auth
+passes. **Not connected** = anything about the **credential itself**: `app_not_connected`,
+`credential_not_found`, `401`/`403`, **or a "missing/invalid API key" message even on an
+otherwise-`200` reply**. Reaching a public host is *not* the same as having a working key —
+e.g. SerpAPI answers `"Your API key should be here"` when no key is configured; that means
+**not connected**. For Exa, a normal `web_search_exa` result means connected.
+
+**Trust the user over your probe.** If the user says a connector isn't in OneCLI — and
+especially if they repeat it after checking every tab (presets, custom, …) — believe them;
+your check can false-positive. Stop insisting it's connected and help them add it.
 
 **If one isn't connected,** first find out whether they're on their **own machine or a
 remote VM** (ask if you're unsure). On a VM, OneCLI's web links usually **won't open** in
