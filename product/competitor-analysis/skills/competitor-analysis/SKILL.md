@@ -78,13 +78,6 @@ their official site/header and reuse that exact string
 everywhere — never retype it from memory. Before you finish, do a **name scrub**: search the whole doc for any misspelled
 variant of the name and fix it so it's spelled identically throughout.
 
-## Before you start research (important)
-
-Create the Google Doc **first**, then immediately ask the user to add a
-"**Recent News**" tab via the sidebar (they click the **+** tab button). The
-Google Docs API cannot create tabs programmatically — the user must do it
-manually. Don't block all research on it, but confirm the tab exists before you
-finish, so it's ready when you get to Phase 3.
 
 ## How you work — one section at a time (NON-NEGOTIABLE)
 
