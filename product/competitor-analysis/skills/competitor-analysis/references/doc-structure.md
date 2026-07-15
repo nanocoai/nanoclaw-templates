@@ -21,7 +21,7 @@ across every competitor doc is the whole point. match it precisely.
   each round's descriptor (e.g. "Seed ($12M, raised May 2026)") to the relevant
   press article
 
-**Metadata bold rule:** bold **only** the label — everything up to and including
+**Metadata bold rule:** bold **only** the label, everything up to and including
 the first colon (e.g. `**Competitor Name:**`). The value after the colon is plain
 (unbold) text.
 
