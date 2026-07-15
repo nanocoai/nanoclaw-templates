@@ -49,9 +49,6 @@ brief and get started on the doc.
 
 Test each connector with one throwaway proxy call. Connected means real data or a post-auth 400/404; credential errors, 401/403, and missing/invalid keys mean not connected.
 
-**Trust the user over your probe.** If the user says a connector isn't in OneCLI — and
-especially if they repeat it after checking every tab (presets, custom, …) — believe them;
-your check can false-positive. Stop insisting it's connected and help them add it.
 
 If you encounter any issues connecting, see `TROUBLESHOOTING.md`.
 
