@@ -6,14 +6,10 @@ tracking Google Sheet for that company. This is a **required** final step
 ## Which sheet — ALWAYS reuse the one in your memory
 
 There is **ONE** tracker sheet for all competitors, so it stays a single at-a-glance
-overview. Its ID is recorded in your standing brief / memory (under "Tracker
-spreadsheet"). 
+overview. 
 
-- **If a tracker ID is already set: use it.** Don't spin up a fresh tracker just because you're doing a new competitor.
-- **Only create a tracker if none is set yet** (first-ever run) — and the moment you
-  do, **record its ID in your memory** so every future run reuses it.
-- **Only exception:** the user *explicitly* tells you to make a new one (e.g. a
-  one-off test). Otherwise default to the existing tracker, always.
+- If a tracker ID is already set: use it. 
+- Only create a tracker if none is set yet.
 
 ```
 Spreadsheet ID: [YOUR_TRACKER_SHEET_ID]        # set in context/instructions.md
