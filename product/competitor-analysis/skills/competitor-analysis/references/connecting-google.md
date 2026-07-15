@@ -1,12 +1,3 @@
-
-## How to use this reference
-
-This is **orientation** Guide the user in your own words, and
-**expect the UI to have drifted** If
-what's on their screen doesn't match what's below, trust the screen: adapt or look up the
-current step rather than reading stale instructions or stalling. Only pull the user in
-when they're the only one who can do a thing or there's a real decision — don't narrate every step. You're walking through it gradually, a few steps at a time, pausing for them to act before moving on. 
-
 ## The goal
 
 Two OneCLI connectors — **Google Docs** and **Google Sheets** — connected via OAuth. They

@@ -21,13 +21,11 @@ competitor-analysis/
 │       ├── SKILL.md                #   the entry point + operating logic
 │       ├── references/             #   detailed procedures, one file per phase
 │       │   ├── research.md
-│       │   ├── connecting-api-keys.md
 │       │   ├── connecting-google.md
 │       │   ├── doc-structure.md
 │       │   ├── doc-writing.md
 │       │   ├── recent-news.md
-│       │   ├── spreadsheet.md
-│       │   └── weekly-review.md
+│       │   └── spreadsheet.md
 │       └── scripts/                #   deterministic Google API formatting helpers
 │           ├── render-section.js
 │           └── style-tracker.js
@@ -73,8 +71,9 @@ is *for* is documented in the skill.
 containers as env vars — the OneCLI gateway holds your keys in its vault and injects
 them into outbound HTTPS calls at the proxy boundary (including the Exa MCP server's
 calls to `api.exa.ai`). A token never sits in the container env, `.mcp.json`, or chat
-context — so the Exa MCP entry is `command` + `args` only, never an `env` block with a
-real key (same rule for any MCP server you add later).
+context — so `.mcp.json` carries no real key, just `command`, `args`, and a non-secret
+placeholder (see "MCP servers that need their key at startup" below). Same rule for any MCP
+server you add later.
 
 ### 1. Register each credential in the OneCLI vault
 
@@ -89,8 +88,7 @@ Create one secret per service, matched to that service's API host:
 | Google Docs  | `docs.googleapis.com`  | OAuth (BYOC)          | your own Google OAuth app — see below         |
 | Google Sheets | `sheets.googleapis.com` | OAuth (BYOC)        | reuses the **same** Google OAuth app as Docs  |
 
-\* Confirm the exact header/param and OAuth scopes against each provider's current API
-docs. Note SerpAPI's key is a **query param** (`api_key`), not a header.
+\* Confirm the exact header/param and OAuth scopes against each provider's current API docs.
 
 **X (Twitter) needs a paid tier.** This template *reads* a competitor's recent posts,
 which on X's API generally requires a paid plan (the free tier is mostly post-only).
