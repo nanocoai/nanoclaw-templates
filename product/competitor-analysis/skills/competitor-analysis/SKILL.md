@@ -31,6 +31,12 @@ whose key the proxy injects the same way.
 Plus NanoClaw's built-in `agent-browser` for full/JS-rendered pages (no credential).
 Which tool to use when → `references/research.md` and the doc/tracker references.
 
+## Before you start research (important)
+
+Create the Google Doc **first**, then immediately ask the user to add a
+"**Recent News**" tab via the sidebar (they click the **+** tab button).
+The user must do it manually. Don't block all research on it, but confirm the tab exists before you
+finish, so it's ready when you get to Phase 3.
 ## First run: confirm connectors, then greet
 
 Before real work, make sure each connector above is reachable, then open with a warm,
