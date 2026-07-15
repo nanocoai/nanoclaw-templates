@@ -171,12 +171,7 @@ For each of these four sections, link the source using this rule:
 warrants a source (a "first/only/fastest/most" type claim, a named benchmark, a
 pointed comparison). Skip links on soft or generic statements.
 
-**A link must actually SUBSTANTIATE what it's next to.** Don't link a section title
-to a page and call it done if the specific items you named aren't on that page — e.g.
-if you list "Snowflake" as an integration, the linked page must actually list
-Snowflake. If a named item isn't on the section's dedicated page, link that item to
-where it *is* documented, or don't assert it. A link that doesn't back the claim is
-worse than no link.
+Every link must directly support the specific claim beside it; otherwise link to the correct documentation or omit the claim.
 
 **Every section must have at least ONE source hyperlink.** No section (Model
 Providers, Security, Pricing, Integrations, etc.) should end up with zero links back
