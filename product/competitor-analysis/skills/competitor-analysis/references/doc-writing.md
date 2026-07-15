@@ -20,7 +20,7 @@ Don’t hand-craft Google Docs batchUpdate formatting calls. They’re unreliabl
 ## Markdown → formatting
 
 Compose each section in plain Markdown. `render-section.js`'s header comment lists
-exactly what it renders — anything else (`#` headers, tables, code blocks) comes out as
+exactly what it renders, anything else (`#` headers, tables, code blocks) comes out as
 literal text, so skip it. Which elements must be linked, and the no-fabricated-URLs rule,
 live in `doc-structure.md` ("Hyperlinking rules").
 
