@@ -63,9 +63,7 @@ procedure and formatting. A quick lookup doesn't need the full doc.
 2. **Fill the Recent News log** → `references/recent-news.md`
 3. **Append the tracker row** (always last) → `references/spreadsheet.md`
 
-**Weekly review (optional, recurring).** After the first doc is built — or whenever the
-user asks — offer to turn on a recurring weekly competitor review. It ships **paused**;
-activate it and run it per `references/weekly-review.md`.
+**Weekly review (optional, recurring).** After the first doc is built suggest the user to turn on a recurring weekly competitor review. It ships **paused**.
 
 ## First: confirm which company (if the name is ambiguous)
 
