@@ -90,8 +90,7 @@ order**. For EACH of the 14 sections, do this loop:
 2. **Immediately write that section into the doc using the formatter** — compose it
    as Markdown and run `scripts/render-section.js` (see `references/doc-writing.md`).
    Do this *before* the next section. **Never hand-craft Docs API formatting calls
-   yourself** — that's what produced plain, bullet-less, link-less docs. The doc
-   must visibly grow, one formatted section at a time.
+   yourself** — that's what produced plain, bullet-less, link-less docs.
 3. **Then** move to the next section.
 
 ### Progress check-ins — event-based, never time-based (REQUIRED)
