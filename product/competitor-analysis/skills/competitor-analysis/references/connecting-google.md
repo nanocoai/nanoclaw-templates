@@ -27,11 +27,11 @@ to be true along the way:
 - **The user is added as a Test user** on that consent screen — *skip this and they hit
   "Access blocked" later.* This is the step most setups miss.
 - The **Google Docs API and Google Sheets API are enabled** (Drive API too, only if they
-  want docs auto-filed into a folder).
-- **The Docs + Sheets scopes are added on the consent screen** — *enabling the APIs is not
-  the same as granting their scopes; miss this and they hit "Access blocked: this app's
-  request is invalid."* Usually **APIs & Services → Data access → Add or remove scopes**
-  (may vary).
+  want docs auto-filed into a folder). **Do this first** — the scope picker in the next step
+  only lists scopes for APIs that are already enabled.
+- **Then** add the **Docs + Sheets scopes** on the consent screen — *enabling an API is not
+  the same as granting its scope; miss this and they hit "Access blocked: this app's request
+  is invalid."* Usually **APIs & Services → Data access → Add or remove scopes** (may vary).
 - An **OAuth client** of type **Web application** is created → this gives the **Client ID
   + Secret**. Keep them handy and keep the tab open — Part 2 produces a redirect URL to
   paste back here.
