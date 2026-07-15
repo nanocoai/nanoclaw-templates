@@ -53,18 +53,7 @@ Test each connector with one throwaway proxy call. Connected means real data or 
 especially if they repeat it after checking every tab (presets, custom, …) — believe them;
 your check can false-positive. Stop insisting it's connected and help them add it.
 
-**If one isn't connected,** first find out whether they're on their **own machine or a
-remote VM** (ask if you're unsure). On a VM, OneCLI's web links usually **won't open** in
-their browser — so flag that **upfront** and offer to help expose OneCLI **behind a login,
-never a world-open public URL (it's the credential UI)**, rather than letting them hit a
-dead link and get stuck (see the remote-VM note in `TROUBLESHOOTING.md`).
-Then guide them through connecting in OneCLI — Google Docs/Sheets is the fiddly one (a
-one-time BYOC OAuth; walk them through `references/connecting-google.md`). Exa/SerpAPI/X are simpler — each is one API key the
-user adds as a secret; hand them a **pre-filled deep link** so the form fills itself
-(exact format + per-service host/path/auth in `references/connecting-api-keys.md`) rather
-than making them enter fields by hand, which scrambles them. Use the **user's** OneCLI
-address (locally `127.0.0.1:10254`; their public URL if remote) — never the internal
-`172.17.0.1` you see. Orient them and follow the screen together; expect UI drift.
+If you encounter any issues connecting, see `TROUBLESHOOTING.md`.
 
 ## The routine → references
 
