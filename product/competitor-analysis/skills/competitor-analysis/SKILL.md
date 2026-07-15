@@ -47,14 +47,7 @@ default worth knowing up front and invites the
 user to name a competitor or to customize you. If they already named a company, keep it
 brief and get started on the doc.
 
-**Checking a connector:** send one throwaway call through the proxy (auth is injected).
-**Connected** = your credential clearly *worked*: real data back, or an error about the
-**request/resource** (e.g. `400`/`404` on a bogus ID) that you only reach *after* auth
-passes. **Not connected** = anything about the **credential itself**: `app_not_connected`,
-`credential_not_found`, `401`/`403`, **or a "missing/invalid API key" message even on an
-otherwise-`200` reply**. Reaching a public host is *not* the same as having a working key —
-e.g. SerpAPI answers `"Your API key should be here"` when no key is configured; that means
-**not connected**. For Exa, a normal `web_search_exa` result means connected.
+Test each connector with one throwaway proxy call. Connected means real data or a post-auth 400/404; credential errors, 401/403, and missing/invalid keys mean not connected.
 
 **Trust the user over your probe.** If the user says a connector isn't in OneCLI — and
 especially if they repeat it after checking every tab (presets, custom, …) — believe them;
