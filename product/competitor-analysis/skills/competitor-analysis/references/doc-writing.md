@@ -13,7 +13,7 @@ Don’t hand-craft Google Docs batchUpdate formatting calls. They’re unreliabl
    ```
    (Use `"Recent News"` as the tab name when filling that tab.)
 3. The helper appends the section to that tab with native bullets, sub-bullet
-   indentation, bold, and every hyperlink. It prints a summary line — check it
+   indentation, bold, and every hyperlink. It prints a summary line, check it
    applied the bullets/links you expected.
 4. Move to the next section.
 
