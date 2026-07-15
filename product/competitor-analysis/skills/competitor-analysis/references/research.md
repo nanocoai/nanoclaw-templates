@@ -22,7 +22,7 @@ required hyperlinks.
   If SerpAPI isn't configured, note it and fall back to Exa.
 - **X API** — the competitor's own recent posts (see Social, below).
 
-## Website — pages to cover
+## Website — pages to cover (if exists)
 
 - **Homepage** — headline, tagline, positioning
 - **Product / features**
