@@ -3,29 +3,8 @@
 Runbook for issues you may hit installing or running this template. The README covers
 the normal install path; this file is for when something goes wrong.
 
-## Connecting credentials when NanoClaw runs on a remote VM
-
-The agent connects services through **OneCLI's web UI**. OneCLI runs in a Docker container
-and is published to the **Docker bridge gateway** — on a Linux VM that's
-**`172.17.0.1:10254`**, *not* loopback (`127.0.0.1`). Confirm with `ss -ltn | grep 10254`.
-On a **remote VM**, your laptop's browser can't reach that internal address, so:
-
-- **Expose OneCLI's port** from the VM to a URL you can open. A forwarder must point at the
-  address OneCLI actually listens on — usually **`172.17.0.1:10254`** (targeting
-  `127.0.0.1` gives "connection refused"):
-  ```bash
-  socat TCP4-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:10254 &
-  ```
-  then map your host's port-proxy / preview URL / SSH tunnel to that port.
-- **Keep the exposed URL PRIVATE / behind a login — never make it publicly open.** This is
-  the **credential UI**; a world-reachable URL exposes your API keys. (A login-gated preview
-  URL that only *you* can open is fine.)
-- **The agent may reference `172.17.0.1:10254`** (its internal view). Use your exposed
-  address instead — for connector links *and* the Google OAuth callback (see
-  `references/connecting-google.md`).
-
-This is a NanoClaw/OneCLI hosting concern, not specific to this template — any template
-hits it on a remote VM.
+If NanoClaw runs on a remote machine, use a coding agent (Claude Code or Codex) to change the OneCLI URL to a secure, externally accessible URL.
+Then, use that URL to configure the app connections.
 
 ## The agent never replies after you create it
 
