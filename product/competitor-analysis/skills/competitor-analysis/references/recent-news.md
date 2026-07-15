@@ -16,8 +16,7 @@ A single search misses coverage. Sweep in **multiple passes**:
 - **Primary source — SerpAPI Google News** (`GET https://serpapi.com/search.json?engine=google_news&q={company}`).
   Google News indexes essentially every outlet, so it catches the long tail (the
   SiliconAngle-type pieces a semantic search drops). Make this your main news pass;
-  use Exa as a secondary net. If SerpAPI isn't set up,
-  fall back to Exa but sweep harder.
+  use Exa as a secondary net.
 - **A general pass:** recent news about the company over the time range.
 - **A dedicated pass per major event** you know about — an acquisition, a funding
   round, a big launch, a leadership change. Major events get covered by **many**
