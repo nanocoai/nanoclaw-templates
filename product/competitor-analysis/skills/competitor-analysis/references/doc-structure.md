@@ -187,7 +187,7 @@ section.
 ## Formatting rules
 
 **Prose / indented sections**
-- No dash or bullet characters — plain text only
+- No dash or bullet characters, plain text only
 - Section label: bold, 0pt indent
 - First-level items: 36pt indentStart
 - Second-level items: 72pt indentStart
