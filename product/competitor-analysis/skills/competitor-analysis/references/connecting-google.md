@@ -32,23 +32,19 @@ to be true along the way:
 
 First, **where is OneCLI running?**
 
-- **Local (their own computer):** it's at **http://127.0.0.1:10254**.
-- **Remote machine / VM:** the local address won't work — Google's sign-in has to reach
-  OneCLI back, so it needs a **public web address** (behind a login). Exposing OneCLI
+- Local (their own computer): it's probably at `http://127.0.0.1:10254`.
+- Remote machine / VM: the local address won't work. Google's sign-in has to reach
+  OneCLI back, so it needs a public web address (preferred behind a login). Exposing OneCLI
   publicly is a one-time infrastructure change; this part may need a coding agent (e.g.
-  Claude Code). Then, two VM gotchas to expect: (1) any OneCLI link the user opens must use
-  their **public** address, not the internal `172.17.0.1:10254`; (2) **after they approve**,
-  Google may redirect the browser to OneCLI's *internal* host (`172.17.0.1:10254`) and
-  time out — have them **swap that host for their public address** in the browser bar
-  (keeping the `?code=...`) to finish the connection.
+  Claude Code).
 
-Then, in OneCLI → **Connections**:
+Then, in OneCLI → Connections:
 
-- **Connect Google Docs.** It shows a **Redirect URL** plus fields for the Client ID/Secret.
-- **Copy that Redirect URL into the Google app** (the OAuth client's Authorized redirect
+- Connect Google Docs. It shows a Redirect URL plus fields for the Client ID and Client Secret.
+- Copy that Redirect URL into the Google app (the OAuth client's Authorized redirect
   URIs) — it must match **exactly**.
-- Back in OneCLI, **paste the Client ID + Secret** and authorize (sign in if asked).
-- **Do the same for Google Sheets** — same Client ID/Secret, add its redirect URL to the
+- Back in OneCLI, paste the Client ID + Secret and authorize (sign in if asked).
+- Do the same for Google Sheets, same Client ID and Client Secret, add its redirect URL to the
   same Google app.
 
 When both are done, re-check the connectors and let the user know they're set.
