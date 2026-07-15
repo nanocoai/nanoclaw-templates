@@ -68,11 +68,14 @@ manual create-then-wire path.
 Google Doc/Sheet IDs contain **underscores**, and **Telegram's Markdown parse mode can
 strip underscores out of URLs** in delivery — so a link like `…UEC_-9ipj…` arrives as
 `…UEC-9ipj…` and opens to "doesn't exist." The agent stored and *sent* the correct link;
-only the chat copy was mangled.
+only the chat copy was mangled. A quick tell: a mangled Doc ID is **shorter than the usual
+44 characters**.
 
-- **Recover the real link:** the correct ID is in the agent's notes (`CLAUDE.local.md` /
-  `/workspace/agent/`) and on the actual doc/sheet in Drive — open it from there, or ask
-  the agent to resend it.
+- **Recover it by title (easiest):** search **drive.google.com** for the doc's **title**
+  (the agent gives the title alongside every link for exactly this reason) and open it from
+  there — this sidesteps the broken URL entirely. Be signed in as the **connected** Google
+  account. The correct ID is also in the agent's notes (`/workspace/agent/`), or just ask
+  the agent to resend the link.
 - **Scope:** this is a **Telegram channel-adapter** limitation, not a template bug —
   Discord, Slack, etc. are unaffected. The real fix belongs in the Telegram adapter's
   outbound Markdown handling: its sanitizer strips all `_` when the count is odd, so it

@@ -174,3 +174,7 @@ Ask for explicit user approval before:
   everywhere. Never wrap it as `[label](url)` in chat: some platforms (e.g. Discord)
   don't render masked links and show the URL twice. The `[label](url)` syntax is **only**
   for hyperlinks inside the Google Doc (via the formatter), never chat.
+- **Always name the file when you share its link.** Put the Google Doc/Sheet **title** next
+  to the URL — e.g. `Doc: "aiOla — Competitor Analysis"` then the link on its own line. Some
+  channels (e.g. Telegram) mangle Doc URLs in delivery; with the title, the user can still
+  find the file in Drive by name (see `TROUBLESHOOTING.md`).
