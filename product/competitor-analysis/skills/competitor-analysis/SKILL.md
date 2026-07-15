@@ -15,8 +15,7 @@ Every doc follows the same structure and formatting so the set reads as one syst
 ## Tools & credentials
 
 Everything runs through the **OneCLI proxy**: it injects each service's real
-credential into the outbound call at request time. **You never see, handle, or ask
-for API keys, and a key must never appear in chat or a URL.** Call the REST services
+credential into the outbound call at request time. Call the REST services
 with a placeholder token (Google Docs/Sheets use `Authorization: Bearer onecli-managed`);
 **Exa** is an MCP server (`web_search_exa`, `web_search_advanced_exa`, `web_fetch_exa`)
 whose key the proxy injects the same way.
