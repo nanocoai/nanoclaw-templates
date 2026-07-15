@@ -4,7 +4,7 @@ Crawl the competitor's **entire** website before writing anything, and cover eve
 area below. Capture the source URL for every fact as you go — you'll need them for the
 required hyperlinks.
 
-## Tools — use the right one for each job
+## Tools
 
 - **Exa** (MCP) — discover pages and search the web/news, and pull page content.
   `web_search_exa` for quick semantic search, `web_search_advanced_exa` when you need
