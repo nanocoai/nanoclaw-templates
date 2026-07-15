@@ -1,7 +1,3 @@
-# Reference: Connecting Google (Docs + Sheets)
-
-Use this when the user needs help connecting Google — read their **intent**, not exact
-words ("yes", "idk how", "help me", "google's confusing" all mean *walk me through it*).
 
 ## How to use this reference
 
