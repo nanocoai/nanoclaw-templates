@@ -60,6 +60,6 @@ When both are done, re-check the connectors and let the user know they're set.
 - **Sign-in hangs / nothing happens after Approve** — it often completed silently; have them
   refresh the callback and the OneCLI Connections page before retrying.
 - **On a VM, the callback times out** on `172.17.0.1:10254` — swap that host for their public
-  address in the browser bar (keep the `?code=...`). See Part 2.
+  address in the browser bar.
 - **Only one of Docs/Sheets connected** — do the other connector too (same app).
 - **Wrong Google account** — disconnect and connect again with the right one.
