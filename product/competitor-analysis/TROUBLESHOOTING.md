@@ -8,39 +8,8 @@ Then, use that URL to configure the app connections.
 
 ## The agent never replies after you create it
 
-If you created the agent **by hand** — `ncl groups create` on a NanoClaw version
-that doesn't support `--template` stamping — the first message may route but the
-agent never spawns. The usual cause is a **missing container-config row**: the
-agent has no container to run in, so the host silently fails to start it. Tell-tale
-sign in `logs/nanoclaw.error.log`:
-
-```
-wakeContainer failed … "Container config not found for agent group: <id>"
-```
-
-Fix (both steps):
-
-1. **Create the config row** (idempotent — safe to re-run):
-   ```bash
-   pnpm exec tsx scripts/q.ts data/v2.db \
-     "INSERT OR IGNORE INTO container_configs (agent_group_id, updated_at) \
-      VALUES ('<agent-group-id>', '2020-01-01T00:00:00Z')"
-   ```
-2. **Restart the host** so it re-reads the DB — a running host can hold a stale
-   SQLite (WAL) view and not see the new row:
-   ```bash
-   # macOS
-   launchctl kickstart -k gui/$(id -u)/<launchd-label>
-   # Linux
-   systemctl --user restart <unit>
-   ```
-
-The next message then spawns the agent normally.
-
-**You should NOT hit this** if you stamp with `ncl groups create --template …` (the
-stamp creates the config row for you) or if you complete the Discord "which agent?"
-approval card (that path initialises the agent properly too). It's specific to the
-manual create-then-wire path.
+If the agent was created manually on a NanoClaw version without template support, upgrade to a version that supports ncl groups create --template, then recreate it using a template or the Discord approval flow. Don’t manually insert
+database rows; that bypasses required initialization and can leave the agent broken.
 
 ## A Google Doc/Sheet link 404s ("doesn't exist") on Telegram
 
