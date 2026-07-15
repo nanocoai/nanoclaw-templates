@@ -65,9 +65,6 @@ bio and recent posts match this company (same product, domain link, on-topic). I
 not fully sure, give your best-guess handle and append **"Needs human confirmation"**
 rather than presenting it as fact.
 
-**Pulling their X posts (X API v2), two app-only Bearer calls.** Pass any placeholder in
-the `Authorization` header — the OneCLI proxy swaps in the real credential for `api.x.com`;
-never send a real token.
 
 1. Resolve the handle: `GET https://api.x.com/2/users/by/username/{handle}`
 2. Fetch posts: `GET https://api.x.com/2/users/{id}/tweets?max_results=100&tweet.fields=created_at,public_metrics&exclude=retweets,replies`
