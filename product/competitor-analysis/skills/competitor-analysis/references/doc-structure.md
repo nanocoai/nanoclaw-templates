@@ -179,8 +179,8 @@ In a case you still can't find a link. mention it.
 
 ## Key-terms scrub (Phase 4 — always, before done)
 
-Scan the entire About tab for business-specific jargon — any term that means
-something specific to *this company* that a reader might not understand out of
+Scan the entire About tab for business-specific jargon, any term that means
+something specific to this company, that a reader might not understand out of
 context. Add plain-language definitions for those terms in the About / Mission
 section.
 
