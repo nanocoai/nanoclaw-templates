@@ -20,8 +20,7 @@ to be true along the way:
 - A **project** exists (new or reused).
 - The **OAuth consent screen** is set up — fill in the app info, then choose **External**
   (app name + their email).
-- **The user is added as a Test user** on that consent screen — *skip this and they hit
-  "Access blocked" later.* This is the step most setups miss.
+- **The user is added as a Test user** on that consent screen.
 - The **Google Docs API and Google Sheets API are enabled** (Drive API too, only if they
   want docs auto-filed into a folder). **Do this first** — the scope picker in the next step
   only lists scopes for APIs that are already enabled.
