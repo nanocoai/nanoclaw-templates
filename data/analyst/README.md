@@ -77,10 +77,8 @@ events data but cannot write back to your project.
 
 The BigQuery server is **read-only by design** — only `SELECT` survives; every
 query is validated by BigQuery's own dry-run planner, so `INSERT`, `UPDATE`,
-`DELETE`, `DROP`, `TRUNCATE`, `MERGE`, and `EXPORT DATA` are rejected. The
-"don't write back to the warehouse without approval" rule in `instructions.md`
-is therefore defence in depth, not the only thing standing between the agent and
-your tables.
+`DELETE`, `DROP`, `TRUNCATE`, `MERGE`, and `EXPORT DATA` are rejected. Nothing in
+the standing brief is what stops a warehouse write; the server does, at the API.
 
 ## Credentials: via OneCLI, not env vars
 
@@ -152,8 +150,8 @@ hosted `mcp.hubspot.com` server uses.
    ```
 
    Add the matching `.write` scopes only if you intend to let the agent write
-   back to the CRM — the standing brief requires your approval before it does,
-   and withholding the scope enforces that at the API.
+   back to the CRM. HubSpot is the one server here that *can* write, so
+   withholding the scope is what keeps the agent read-only, enforced at the API.
 3. Copy the key (a `pat-...` Bearer token) and give it to OneCLI for host
    `api.hubapi.com`.
 
@@ -184,8 +182,8 @@ for Google-style OAuth credentials, say so and I'll rework this section. Mixpane
 and HubSpot are unaffected and work through the vault as normal.
 
 Cost control: the server accepts `--maximum-bytes-billed` to cap a single query's
-scan. The standing brief already tells the agent to estimate bytes scanned and
-ask before running an expensive job, but the flag is the enforcing version.
+scan. Set it. The agent is not told to estimate cost before running a job, so
+this flag is what stands between an open-ended question and an expensive scan.
 
 ### Easiest path: let the agent hand you a connect link
 
@@ -218,15 +216,23 @@ No container restart needed; the gateway looks up secrets per request.
 
 ### Require human approval before sensitive actions
 
-`context/instructions.md` tells the agent to run reads and queries freely, but to
-stop and ask before writing to a source system, running a BigQuery job likely to
-scan a large/expensive volume, or exporting PII. NanoClaw enforces this in two
-layers:
+**This template has no behavioral approval layer.** The standing brief is
+deliberately short — it scopes, extracts, analyzes, and reports, and it does not
+tell the agent to stop and ask before a write, an expensive scan, or a PII
+export. Do not rely on the persona to hold it back. What constrains this agent is
+structural, and worth setting up on purpose:
 
-**Soft (behavioral).** The standing brief above — guidance the agent follows, not
-enforcement.
+| Risk | What actually stops it |
+|------|------------------------|
+| Warehouse writes | The BigQuery server rejects everything but `SELECT` |
+| Mixpanel writes | The Mixpanel server exposes read tools only |
+| CRM writes | Withholding HubSpot `.write` scopes — the only writable surface here |
+| Runaway query cost | `--maximum-bytes-billed` on the BigQuery server |
+| PII exposure | BigQuery `preventedFields` (Protected Mode), plus the scopes above |
 
-**Hard (OneCLI gateway).** OneCLI can *hold* an outbound credentialed request and
+If you want a human in the loop on a specific call, use the gateway:
+
+**OneCLI gateway.** OneCLI can *hold* an outbound credentialed request and
 require a human to approve it before it leaves the proxy: enforcement the agent
 can't talk its way around. It's a two-sided flow:
 
@@ -241,8 +247,6 @@ can't talk its way around. It's a two-sided flow:
 Gating is matched on the **outbound HTTP request** (host + method + path), not on
 the MCP tool name. To require approval before a HubSpot write, target the
 corresponding `api.hubapi.com` endpoint in the rule (confirm the exact path
-against HubSpot's API docs). For this template the strongest guarantees are
-structural rather than rule-based: the BigQuery and Mixpanel servers are
-read-only, and withholding HubSpot `.write` scopes blocks CRM writes at the API.
-Caveat: if a server-side rule exists but the NanoClaw host isn't running to
-answer it, the gated call hangs until the gateway times out.
+against HubSpot's API docs). Caveat: if a server-side rule exists but the
+NanoClaw host isn't running to answer it, the gated call hangs until the gateway
+times out.
