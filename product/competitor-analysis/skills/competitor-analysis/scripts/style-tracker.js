@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * style-tracker.js — one-time styling for the competitor tracker sheet.
+ * style-tracker.js: one-time styling for the competitor tracker sheet.
  *
  * Run this ONCE on a tracker sheet (when you first create/adopt it). It sets a
  * polished, professional look that ALL rows inherit automatically:
@@ -8,10 +8,10 @@
  *   - frozen first column (Company Name)
  *   - sensible per-column widths (nothing cut off)
  *   - default wrap + top-align for data cells
- *   - alternating row colors (banding) — applies to new rows too
+ *   - alternating row colors (banding); applies to new rows too
  *
  * After running this, just append competitor rows as plain values (Sheets
- * `values.append`) — no per-row formatting needed; the styling carries over.
+ * `values.append`); no per-row formatting needed, the styling carries over.
  *
  * Usage:  bun style-tracker.js <spreadsheetId>
  * Auth via the OneCLI proxy (curl uses HTTPS_PROXY + CA).
@@ -70,7 +70,7 @@ const requests = [
   { repeatCell: { range: { sheetId: sid, startRowIndex: 1, startColumnIndex: 0, endColumnIndex: N }, cell: { userEnteredFormat: { wrapStrategy: "WRAP", verticalAlignment: "TOP", textFormat: { fontSize: 10 } } }, fields: "userEnteredFormat(wrapStrategy,verticalAlignment,textFormat)" } },
 ];
 
-// alternating row colors — only add if none exists (addBanding errors on overlap)
+// alternating row colors: only add if none exists (addBanding errors on overlap)
 if (!hasBanding) {
   requests.push({ addBanding: { bandedRange: {
     range: { sheetId: sid, startRowIndex: 0, startColumnIndex: 0, endColumnIndex: N },

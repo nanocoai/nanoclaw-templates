@@ -1,17 +1,17 @@
 #!/usr/bin/env bun
 /**
- * render-section.js — append a Markdown section to a Google Doc TAB with real
+ * render-section.js: append a Markdown section to a Google Doc TAB with real
  * formatting (native bullets, sub-bullet indentation, bold, hyperlinks).
  *
  * Why this exists: writing formatted Google Docs via the raw API means precise,
- * index-based batchUpdate calls whose ranges shift as you insert text — and this
+ * index-based batchUpdate calls whose ranges shift as you insert text, and this
  * doc has tabs, so every location needs a tabId. Hand-crafting that is unreliable.
  * The agent writes plain Markdown; this script does the formatting deterministically.
  *
  * Usage:
  *   bun render-section.js <docId> <markdownFile> [tabTitle]
  *   (tabTitle defaults to "About"; matched trimmed + case-insensitively. In a single-tab
- *    doc it writes to that tab; in a multi-tab doc a missing tab title is a hard error —
+ *    doc it writes to that tab; in a multi-tab doc a missing tab title is a hard error;
  *    it never silently writes to the wrong tab.)
  *
  * Supported Markdown (one block per line):
@@ -34,7 +34,7 @@ if (!docId || !mdPath) {
   process.exit(1);
 }
 
-// The 13 section titles are ALWAYS bold — enforced here so it can't be forgotten.
+// The 13 section titles are ALWAYS bold; enforced here so it can't be forgotten.
 // Matched on normalized text (lowercase, whitespace removed).
 const norm = (s) => s.toLowerCase().replace(/\s+/g, "");
 const KNOWN_TITLES = new Set([
@@ -68,7 +68,7 @@ if (!tab) {
   } else {
     const titles = tabs.map((t) => `"${t.tabProperties?.title || ""}"`).join(", ") || "(none)";
     console.error(
-      `Tab "${tabTitle}" not found — refusing to write to the wrong tab. ` +
+      `Tab "${tabTitle}" not found; refusing to write to the wrong tab. ` +
       `Available tabs: ${titles}. Check the tab name (matched trimmed + case-insensitively).`
     );
     process.exit(1);
