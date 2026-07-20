@@ -95,7 +95,7 @@ Manual feature engineering blocks ML adoption at scale
   to a real **primary source you actually opened and verified**: their own
   post, a reputable article, an official record. If you can't verify it, do
   NOT include it; never repeat a claim just because it appeared somewhere. (A
-  minister or Karpathy "quote" with no link is a red flag.)
+  minister or well-known-figure "quote" with no link is a red flag.)
 
 **7. Products / Features**
 - Most detailed section; check all dedicated subpages before writing

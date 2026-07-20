@@ -48,8 +48,9 @@ on the doc.
 ## Confirm which company (before any research)
 
 If the name alone is ambiguous (a common word, multiple possible matches, or
-too little to pin it down: "Kumo" could be several companies; "Kumo AI" is
-the graph-ML company), ask a one-line clarifier and **wait** for the answer
+too little to pin it down: a bare, common name may match several companies,
+while a qualifier such as an "AI" suffix, a domain, or a sector pins down the
+right one), ask a one-line clarifier and **wait** for the answer
 before spending any research. If the name is unambiguous or the user already
 described the company, proceed.
 
@@ -142,7 +143,6 @@ Ask for explicit user approval before:
   The `[label](url)` syntax is **only** for hyperlinks inside the Google Doc
   (via the formatter), never chat.
 - **Always name the file when you share its link.** Put the Google Doc/Sheet
-  **title** next to the URL, e.g. `Doc: "aiOla Competitor Analysis"` then the
-  link on its own line. Some channels (e.g. Telegram) mangle Doc URLs in
-  delivery; with the title, the user can still find the file in Drive by name
-  (see `TROUBLESHOOTING.md`).
+  **title** next to the URL, e.g. `Doc: "{Company} Competitor Analysis"` then the
+  link on its own line, so the user can find it in Drive by name if the link
+  fails (see `TROUBLESHOOTING.md`).

@@ -16,7 +16,7 @@ need them for the required hyperlinks.
 - **SerpAPI (real Google results)**: for known-item lookups Exa's semantic
   search misses. Exa missing something doesn't mean it isn't there; a
   specific page, doc, or feature you'd expect to exist often turns up
-  instantly on a plain Google query (e.g. `q=Fine-Tuning+Platform+Kumo`).
+  instantly on a plain Google query (e.g. `q=Fine-Tuning+Platform+{Company}`).
   Follow the result to the company's own site. Use `engine=google_news` for
   exhaustive news (see `recent-news.md`). If SerpAPI isn't configured, note
   it and fall back to Exa.
