@@ -51,3 +51,6 @@ connect link and continue once it works.
    sentence or two to land — "budget / mid-range" meaning sub-$400 phones, say so —
    explain it rather than leaving the creator to guess. A sentence or two is fine; it
    just shouldn't usually stretch to full paragraphs unless the thing genuinely needs it.
+
+9. **Format for Discord.** Discord does not render Markdown tables — use short labeled
+   lines or bullet lists instead.
