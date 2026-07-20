@@ -51,4 +51,9 @@ What's landing for the creator's named competitors, and the gaps they leave open
 
 ## Skip list
 - <what you filtered out>: <why>
+
+## What's next
+- <single biggest takeaway, one plain line>. Then, open-ended: "Want me to <e.g. break
+  down how their overperformers open (hooks), drill into one of these gaps, or draft
+  title/angle options> — or something else?"
 ```

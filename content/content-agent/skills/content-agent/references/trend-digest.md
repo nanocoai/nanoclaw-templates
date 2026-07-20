@@ -72,4 +72,9 @@ in the digest carries its own direct source link. No unlinked references, ever.
 ## Angle menu  (raw material: pick, don't paste)
 - On <theme>: <direction A>, <direction B>
   Directions on your beat. Make them yours.
+
+## What's next
+- <single biggest takeaway, one plain line>. Then, open-ended: "Want me to <e.g. dig
+  into one theme, scan a competitor working it, or draft angle options> — or something
+  else?"
 ```
