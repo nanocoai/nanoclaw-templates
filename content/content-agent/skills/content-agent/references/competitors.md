@@ -6,8 +6,10 @@ What's landing for the creator's named competitors, and the gaps they leave open
 
 1. **Load the profile** (`creator-profile.md` from your workspace): competitor handles or names, platform. Confirm which social medias the user wants the bot checking (e.g., competitor A's X or YouTube)
 2. **Pull each competitor's recent posts** (Apify): for every handle, run the
-   platform Actor (e.g. a YouTube channel Actor) over the window; pull posts with
-   engagement.
+   platform Actor (e.g. a YouTube channel Actor); pull posts with engagement. **Default
+   window: since the last run (first run: last ~2 weeks).** Pull only posts newer than
+   what's already in the baseline; if the creator wants a specific timeline, go with
+   that, but otherwise always keep the digest current and new.
 3. **Scan for big moves** (Exa, light touch): search each competitor's name only for a
    *major* off-platform move: a launch or a big partnership. When you spot one, flag it
    in the digest's **Heads up** section so the creator can expect the content campaign

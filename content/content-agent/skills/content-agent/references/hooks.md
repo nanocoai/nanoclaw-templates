@@ -10,7 +10,10 @@ you never write the creator's.
    **Ask which platform to focus the hook study on.** Hooks live on any platform, so
    confirm the one the creator wants and adjust to it.
 2. **Pull hooks**: via that platform's Actor, get each competitor's recent openings:
-   the title, first line, or opening beat, whatever counts as the hook there.
+   the title, first line, or opening beat, whatever counts as the hook there. **Default
+   window: since the last run (first run: last ~2 weeks).** Pull only openings newer than
+   what's already in the hook record; if the creator wants a specific timeline, go with
+   that, but otherwise always keep the study current and new.
 3. **Classify** each hook into a pattern, e.g. contrarian claim, curiosity gap,
    "you're doing X wrong", direct question, high-stakes promise, listicle,
    pattern-interrupt, contradiction/contrast, hyper-specificity, timeframe tension,
