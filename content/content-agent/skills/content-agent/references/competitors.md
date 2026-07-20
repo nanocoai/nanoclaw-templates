@@ -4,7 +4,7 @@ What's landing for the creator's named competitors, and the gaps they leave open
 
 ## Steps
 
-1. **Load the profile** (`creator-profile.md` from your workspace): competitor handles or names, platform, the one success metric. Confirm which social medias the user wants the bot checking (e.g., competitor A's X or YouTube)
+1. **Load the profile** (`creator-profile.md` from your workspace): competitor handles or names, platform. Confirm which social medias the user wants the bot checking (e.g., competitor A's X or YouTube)
 2. **Pull each competitor's recent posts** (Apify): for every handle, run the
    platform Actor (e.g. a YouTube channel Actor) over the window; pull posts with
    engagement.
@@ -21,7 +21,7 @@ What's landing for the creator's named competitors, and the gaps they leave open
    topic, angle).
 5. **Read the rhythm.** Across competitors, note posting cadence, format mix, and
    **gaps**: topics they keep circling, or angles none of them cover.
-6. **Rank** the takeaways to 5-7, weighted to the creator's beat and metric; note what
+6. **Rank** the takeaways to 5-7, weighted to the creator's beat; note what
    you cut for the skip list.
 7. **Angle menu**: directions on the *gaps* the creator could own. Raw material.
 8. **Output** (below), then hand the choice back.

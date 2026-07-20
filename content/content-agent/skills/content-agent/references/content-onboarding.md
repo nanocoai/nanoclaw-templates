@@ -38,7 +38,6 @@ write it to the workspace.
 - **Format:** [long-form / shorts / carousels]
 - **Where to scrape (the sources):** [the specific subreddits / channels / hashtags / handles to pull from, e.g. r/blender, "Blender beginner"]. **This targets the Apify scraper**: there's near-infinite data out there, and naming exact sources is what keeps each scan focused and cheap instead of boiling the ocean. Get concrete.
 - **Keywords to filter on:** [the terms to match inside those sources, e.g. "geometry nodes", "rigging", "beginner"]. These narrow each scan to what the creator actually covers; the scans filter on them.
-- **The one success metric this season:** [watch-time / saves / subs / brand deals; **pick ONE** as the filter you rank against; they can list the rest as context, but the top one governs]
 - **What's worked before:** [past posts/titles that did well] Share firm examples 
 - **Voice:** [are they serious, funny, etc.paste key points; you read these to stay on-tone, but never write in their voice]
 - **Strategy documents:** [Any personalized strategy documents to share per specific platform or branding documents, or content pillars] 

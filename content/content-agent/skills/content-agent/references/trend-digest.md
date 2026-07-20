@@ -44,7 +44,7 @@ in the digest carries its own direct source link. No unlinked references, ever.
 6. **Cluster & dedupe** the hits into themes; merge Apify and Exa hits on the same
    theme into one item, keeping the strongest source. **A theme showing up across
    several sources is the strongest signal it's real**, so flag those as cross-source.
-7. **Rank** by momentum (engagement × recency) × fit to the beat and the one metric,
+7. **Rank** by momentum (engagement × recency) × fit to the beat,
    giving extra weight to cross-source themes. Drop off-beat and no-go themes, and note
    what you dropped for the skip list.
 8. **Angle menu**: for the top themes, 1-2 directions on the creator's beat. 

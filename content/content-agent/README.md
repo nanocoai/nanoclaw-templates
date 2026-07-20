@@ -36,9 +36,8 @@ ncl groups create --template content/content-agent --name "Content Agent"
 ```
 
 Then wire it to a channel as usual (`/manage-channels`). On first use the agent gets to
-know the creator in a short chat: their niche, platform and format, the one success
-metric it should rank against, the exact sources and keywords to scrape, and 3-5
-competitors to benchmark. It stores that profile in its workspace (alongside the
+know the creator in a short chat: their niche, platform and format, the exact sources
+and keywords to scrape, and 3-5 competitors to benchmark. It stores that profile in its workspace (alongside the
 per-competitor baselines, hook records, and inbox ledger it builds up over time) and
 reads them before every run, so its digests sharpen with each run instead of starting
 from generic trends.

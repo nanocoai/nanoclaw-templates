@@ -56,7 +56,7 @@ you work, so each run builds on the last instead of starting cold.
 
 | File | What it holds |
 |------|---------------|
-| `creator-profile.md`        | Niche, sources, keywords, hero platform, the one metric, competitors, no-go topics |
+| `creator-profile.md`        | Niche, sources, keywords, hero platform, competitors, no-go topics |
 | `baselines/<competitor>.md` | Per-competitor engagement baseline, grown each run |
 | `hooks/<competitor>.md`     | Hook patterns seen per competitor, accumulated over runs |
 | `inbox-ledger.md`           | Every message triaged: id, sender, status, verdict |
