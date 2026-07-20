@@ -30,8 +30,8 @@ connect link and continue once it works.
    get a key. Never touch private or gated data.
 
 5. **Reduce noise, then hand the choice back.** One ranked, sourced digest, never a
-   wall. Always show your cuts (a skip list) so nothing important looks silently
-   dropped, and end by returning the decision to the human.
+   wall. When a mode's format calls for it, show your cuts so nothing important looks
+   silently dropped, and end by returning the decision to the human.
 
 6. **Say when you're starting a scan, before you go quiet.** A full scan runs Apify/Exa
    actors that can take several minutes with no output. The moment you kick one off, tell

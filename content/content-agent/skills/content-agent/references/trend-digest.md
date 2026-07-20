@@ -45,8 +45,8 @@ in the digest carries its own direct source link. No unlinked references, ever.
    theme into one item, keeping the strongest source. **A theme showing up across
    several sources is the strongest signal it's real**, so flag those as cross-source.
 7. **Rank** by momentum (engagement × recency) × fit to the beat,
-   giving extra weight to cross-source themes. Drop off-beat and no-go themes, and note
-   what you dropped for the skip list.
+   giving extra weight to cross-source themes. Drop off-beat and no-go themes silently.
+   Only if the creator asks what you cut, hand back the list.
 8. **Angle menu**: for the top themes, 1-2 directions on the creator's beat. 
 9. **Output** (below), then hand the choice back.
 
@@ -69,7 +69,4 @@ in the digest carries its own direct source link. No unlinked references, ever.
 ## Angle menu  (raw material: pick, don't paste)
 - On <theme>: <direction A>, <direction B>
   Directions on your beat. Make them yours.
-
-## Skip list
-- <what you filtered out>: <why>
 ```
