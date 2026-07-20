@@ -27,10 +27,13 @@ in the digest carries its own direct source link. No unlinked references, ever.
      Apify stays the default.
    - **YouTube search Actor**: search the named channels/terms; pull recent videos
      with view/like counts.
-   - **Instagram / X / TikTok Actors**: matching Actors exist for each, use whichever
-     fits the creator's named sources and hero platform. Run the same research pattern.
-     Each platform works differently, so stay flexible, adapt to whatever that Actor
-     exposes; what matters is getting the signals.
+   - **Instagram / X / TikTok Actors**: matching Actors exist for each; use whichever
+     fits the creator's named sources and hero platform. Run each in **search/recent
+     mode scoped to the window and sorted by engagement** — never an all-time or hashtag
+     "top" feed, which serves years-old posts (a TikTok hashtag's top feed returns 2022
+     clips). If a source comes back stale (old dates), that's the symptom, not a real
+     "no signal": switch to search + date-filter + sort-by-most-liked before concluding
+     the source is dead.
    Some sources are small and may have nothing new this window (a tiny subreddit without
    much going into it). That's fine: skip them, and never pad the digest to fill space.
 4. **Query Exa** (across the open web): search the niche's core terms for recent
