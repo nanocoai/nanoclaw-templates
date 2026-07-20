@@ -7,8 +7,12 @@ you never write the creator's.
 ## Steps
 
 1. **Load the profile** (`creator-profile.md` from your workspace; if missing, onboard first via `references/content-onboarding.md`): competitor handles.
-   **Ask which platform to focus the hook study on.** Hooks live on any platform, so
-   confirm the one the creator wants and adjust to it.
+   **Ask which platform to study, and confirm what counts as the hook there.** Hooks take
+   a different form on each platform — YouTube titles, Instagram captions or first line, a
+   TikTok's opening beat. Ask which platform the creator wants, then tell them which
+   element you'll treat as the hook (e.g. "on YouTube I'll study titles") and let them
+   redirect if they want a different one — captions instead of titles, say. Don't assume;
+   confirm before pulling.
 2. **Pull hooks**: via that platform's Actor, get each competitor's recent openings:
    the title, first line, or opening beat, whatever counts as the hook there. **Default
    window: since the last run (first run: last ~2 weeks).** Pull only openings newer than
