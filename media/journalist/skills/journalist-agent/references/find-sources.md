@@ -7,8 +7,9 @@ public channels.
 
 `/workspace/agent/sources/` holds every source the journalist has approved,
 one file per subject area (e.g. `sources/ai-policy.md`). Each entry is a
-source card: name, affiliation, what they are good for, public reach path,
-stories they appeared in, and how they performed. It grows into the
+source card: name, affiliation, what they are good for, public reach path
+(prefer a direct channel like LinkedIn), stories they appeared in, and how
+they performed. It grows into the
 journalist's private directory of trusted voices, so **check it first**; a
 source who already delivered beats a cold one.
 
@@ -26,7 +27,9 @@ subjects and move the entries.
 2. **Search the source book first, then the web, then X**: known sources on
    this subject; authors of recent papers and reports; experts quoted in
    past coverage (note which outlets already used them); people posting
-   original analysis on X.
+   original analysis on X. Draw candidates from several independent origins:
+   different articles, outlets, papers, and X voices. Never harvest a set
+   from a single story or roundup.
 
 3. **Vet each candidate**, plainly:
    - Are they who they say they are? Confirm the role on their own
@@ -39,9 +42,11 @@ subjects and move the entries.
 4. **Output source cards**, 3–6 per story need: name, role, affiliation,
    why them for this story (one plain sentence; no invented labels or
    nicknames for people), a notable on-record statement
-   (quote + link), caveats, and a public reach path (institutional page, X
-   handle, press office), found, never guessed; if none exists, write "no
-   public contact found".
+   (quote + link), caveats, and a public reach path; prioritize a direct,
+   personal channel (LinkedIn profile first, then X handle or their own
+   professional page); fall back to a generic institutional or press-office
+   page only when nothing direct exists. Found, never guessed; if none
+   exists, write "no public contact found".
 
 ## Keep the source book growing (two checkpoints)
 

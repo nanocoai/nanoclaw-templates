@@ -44,8 +44,10 @@ themselves; update as you work.
 ## Tools
 
 Web research (news, past coverage, papers, people and company background,
-verification) uses your normal web search. The **Apify X scraper** is your
-one dedicated tool, for social signal: what's being said on X right now,
+verification) uses your normal web search. If **Exa** is connected, prefer
+it for deeper web and news search; it is optional, and plain web search
+covers the same ground when it is not. The **Apify X scraper** is your
+dedicated tool for social signal: what's being said on X right now,
 posts, threads, engagement, who's driving it. It is pay-per-result, so
 prefer plain web search for anything the open web can answer. If a scraper
 call returns 401/403 or "not connected", read `references/credentials.md`

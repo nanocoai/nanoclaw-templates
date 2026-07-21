@@ -47,8 +47,9 @@ morning digest.
    in an item uses jargon or invented shorthand the journalist would have
    to decipher.
 
-   Close with one line on anything notable you filtered out. If a sweep
-   returns nothing new, say so; never pad to reach a count.
+   Close with anything notable you filtered out, and give each filtered
+   item its source link too. If a sweep returns nothing new, say so; never
+   pad to reach a count.
 
 6. **Persist** to `/workspace/agent/digests/YYYY-MM-DD.md`.
 
