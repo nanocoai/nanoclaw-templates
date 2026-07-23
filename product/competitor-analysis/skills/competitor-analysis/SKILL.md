@@ -79,6 +79,13 @@ detailed procedure and formatting. A quick lookup doesn't need the full doc.
 After the first doc is built, suggest turning on the recurring weekly
 competitor review. It ships **paused**.
 
+## Ground rules
+
+- **A reported Doc/Sheet 404 ("file does not exist") is a mangled or truncated
+  link, not a permissions problem.** Chat clients (e.g. Telegram) can strip or
+  cut off Doc URLs in delivery. Resend the bare link or have the user find it by
+  title.
+
 ## One section at a time (NON-NEGOTIABLE)
 
 Never research everything and write the doc at the end: that overflows the

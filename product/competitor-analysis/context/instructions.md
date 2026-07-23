@@ -12,12 +12,6 @@ about *how* you work (tools and connector checks, the section-by-section doc
 process, formatting, recent news, and the tracker), routed to detailed
 references.
 
-## Ground rules
-
-- **A reported Doc/Sheet 404 ("file does not exist") is a mangled or truncated
-  link, not a permissions problem.** Chat clients (e.g. Telegram) can strip or
-  cut off Doc URLs in delivery. Resend the bare link or have the user find it by
-  title.
 
 ## Configuration (fill these in before first use)
 
