@@ -1,7 +1,7 @@
 # Data Analyst Template
 
 A NanoClaw template for a data analyst / reporting assistant serving one principal:
-keep the client reporting pipeline healthy, keep metric definitions consistent, and
+keep the reporting pipeline healthy, keep metric definitions consistent, and
 turn report requests into buildable, validated deliverables. It ships as a seed and
 grows around one principal's stack — no bundled tools, no hard-wired databases.
 
@@ -12,14 +12,14 @@ analyst/
 ├── context/
 │   ├── instructions.md                # REQUIRED: the persona — proactive, fact-first, close the loop
 │   └── additional_context/
-│       └── memory-structure.md        # where learned state lives: metrics, pipelines, clients, systems
+│       └── memory-structure.md        # where learned state lives: metrics, pipelines, audiences, systems
 ├── skills/
-│   ├── client-report-setup/
-│   │   └── SKILL.md    # stand up reporting for a new client end to end
 │   ├── pipeline-check/
 │   │   └── SKILL.md    # verify the scheduled data work ran and produced sensible output
 │   ├── query-writing/
 │   │   └── SKILL.md    # SQL/MongoDB queries: right grain, no fan-out, checked against knowns
+│   ├── report-onboarding/
+│   │   └── SKILL.md    # stand up reporting for a new audience (client, BU, region) end to end
 │   ├── report-spec/
 │   │   └── SKILL.md    # turn a report/widget request into something buildable
 │   └── schema-and-cleanup/
@@ -41,9 +41,10 @@ skills and tasks read from and write to these paths:
   where it is computed. Metrics computed in two places are the root of most
   reporting disagreements, so this file records where each one lives.
 - `memory/conventions/pipelines.md` — every scheduled job with its normal output
-  volume per client; this is what the morning check measures against.
-- `memory/conventions/clients.md` — each client's reports, scoping rules, and what
-  was validated against numbers on their side.
+  volume per audience; this is what the morning check measures against.
+- `memory/conventions/audiences.md` — one entry per reporting audience (an external
+  client, a business unit, a region, an exec team): their reports, scoping rules,
+  and what was validated against numbers on their side.
 - `memory/conventions/systems.md` — schemas, ambiguous-field meanings, and what
   reads each table from outside the application.
 - `memory/queries/` — saved queries with the question each answers; a one-off pull
@@ -61,7 +62,7 @@ should work against.
 
 ## Notes
 
-- **No `.mcp.json`.** An analyst's stack is client-specific (Postgres, MongoDB, a
+- **No `.mcp.json`.** Every analyst's stack is different (Postgres, MongoDB, a
   BI tool, a warehouse). Add servers as needed via the `/add-*-tool` skills; OneCLI
   injects credentials at request time, so no secrets live here.
 - **Fact-first by default.** The agent reads the live table, thread, or file before

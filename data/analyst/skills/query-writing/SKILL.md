@@ -14,13 +14,6 @@ description: >
 A query that returns the right rows today and the same rows next month, saved somewhere it can be
 found instead of rewritten.
 
-## When to use
-
-- A number is needed and no existing report carries it.
-- A query returns something that looks wrong, or disagrees with a report.
-- A query has become slow or expensive.
-- Somebody asks for a one off pull.
-
 ## Procedure
 
 1. **Get the question before writing anything.** What is being counted, over what window, at what
@@ -39,7 +32,7 @@ found instead of rewritten.
    is multiplying rows and every total after it is inflated. This is the defect that survives
    review because the output looks plausible.
 6. **Sanity check the answer against something known** before handing it over: an existing report,
-   a manual count on one client, last period's figure.
+   a manual count on one slice you can verify by hand, last period's figure.
 7. **Save it with the question it answers** written next to it, in `memory/queries/`.
 
 ## Boundaries

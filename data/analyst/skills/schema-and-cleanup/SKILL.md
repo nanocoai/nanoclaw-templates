@@ -3,8 +3,10 @@ name: schema-and-cleanup
 description: >
   Fix data that has gone wrong and change shape without breaking what reads it: duplicates, nulls,
   inconsistent document shapes, a field that means two things, a column that has to change. Use
-  when a report cannot be built because the data is not in the right shape, when a cleanup is
-  needed, before a migration, or when onboarding data from a new client.
+  when a report cannot be built because the data is not in the right shape, when duplicates,
+  nulls or inconsistent shapes are producing wrong numbers, when a field is needed or has to
+  change, before a migration, or when onboarding data from a new source that does not match the
+  standard shape.
 ---
 
 # Schema and cleanup
@@ -14,19 +16,12 @@ description: >
 The data means what people think it means, the mess is fixed at its source rather than swept, and
 nothing reading it breaks.
 
-## When to use
-
-- A report cannot be built because the data is not in the right shape.
-- Duplicates, nulls or inconsistent shapes are producing wrong numbers.
-- A field is needed, or an existing one has to change.
-- Onboarding data from a new client that does not match the standard shape.
-
 ## Procedure
 
 1. **Establish what the field is supposed to mean** from whoever writes it, before touching
    anything. A badly named field usually means two things, and guessing which one is how a cleanup
    destroys the half you did not know about.
-2. **Measure the mess before fixing it.** How many rows, which clients, since when. A cleanup with
+2. **Measure the mess before fixing it.** How many rows, which audiences, since when. A cleanup with
    no baseline cannot be shown to have worked, and this is the number you will be asked for.
 3. **Find where the bad data comes from.** A cleanup that does not fix the source runs again next
    month, and then every month after that.

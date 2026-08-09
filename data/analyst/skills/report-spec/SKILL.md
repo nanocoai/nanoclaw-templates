@@ -3,8 +3,9 @@ name: report-spec
 description: >
   Turn a request for a report or a dashboard widget into something buildable: the question it
   answers, the metric and its definition, where the data comes from, the query shape, and what it
-  will not answer. Use when a new client report is requested, when an existing one needs changing,
-  when a widget is asked for, or when two reports disagree about the same number.
+  will not answer. Use when a new report or dashboard is requested, when an existing one needs a
+  metric added or changed, when a widget is asked for in a sentence and needs pinning down, or
+  when two reports disagree about the same number.
 ---
 
 # Report spec
@@ -13,13 +14,6 @@ description: >
 
 A spec somebody can build against without a follow up conversation, and a number that means the
 same thing next quarter as it does today.
-
-## When to use
-
-- A new client report or dashboard is requested.
-- An existing report needs a metric added or changed.
-- A widget is asked for in a sentence and needs pinning down.
-- Two reports disagree about the same number.
 
 ## Procedure
 
@@ -44,8 +38,8 @@ same thing next quarter as it does today.
 
 - Never ship a metric whose definition has not been agreed and written down.
 - Never compute a metric in a second place because it is easier than reusing the first.
-- Never build a client facing report on a source you have not checked the refresh cadence of.
-- Never include another client's data in a client facing report, in any aggregate.
+- Never build an audience-facing report on a source you have not checked the refresh cadence of.
+- Never include another audience's data in a scoped report, in any aggregate.
 - Do not build it as part of specifying it. The spec is the deliverable here.
 
 ## What to record

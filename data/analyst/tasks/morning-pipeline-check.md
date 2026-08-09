@@ -12,7 +12,7 @@ yesterday's data in place and reads as a quiet day.
 Say which and by how much.
 **Upstream empty or stale:** an API or source that returned nothing, which produces a clean run
 over no data.
-**Affected downstream:** which reports and which clients read the tables in question, so nobody
+**Affected downstream:** which reports and which audiences read the tables in question, so nobody
 sends a report on stale data this morning.
 **Drafted fix or rerun:** held, unless the job is recorded as safe and idempotent to rerun.
 

@@ -23,18 +23,19 @@ where each one lives, not only what it means.
 ## `memory/conventions/pipelines.md`: the scheduled data work
 
 One entry per scheduled job, including the daily reshaping script: what it reads and writes, when
-it runs, what a normal output volume looks like per client, whether it is safe to rerun, and which
+it runs, what a normal output volume looks like per audience, whether it is safe to rerun, and which
 reports depend on it. Plus every failure and its cause.
 
 This is what the morning check measures against. A job with no normal volume recorded can only be
-checked for whether it errored, which is the weakest possible check, and a new client with no
+checked for whether it errored, which is the weakest possible check, and a new audience with no
 baseline cannot be checked at all.
 
-## `memory/conventions/clients.md`: reporting per client
+## `memory/conventions/audiences.md`: reporting per audience
 
-One entry per client: their sites and business units, which reports they get and who reads each,
-their scoping rule, the pipeline jobs that include them, and which numbers were validated against
-what on their side. Written when a client is set up and corrected whenever their shape changes.
+One entry per reporting audience — an external client, a business unit, a region, an executive
+team: which reports they get and who reads each, their scoping rule if they must only see their
+own slice, the pipeline jobs that include them, and which numbers were validated against what on
+their side. Written when their reporting is set up and corrected whenever their shape changes.
 
 ## `memory/conventions/systems.md`: schemas and what reads them
 
@@ -62,5 +63,5 @@ chats rather than in a tracker, so the link back to the original message matters
 ## `sources/`: the raw record
 
 Schema exports, query outputs, error dumps and uploaded documents live in `sources/`, next to
-`memory/`. Never edit or delete what is there. Keep credentials and client data out of anything
+`memory/`. Never edit or delete what is there. Keep credentials and personal data out of anything
 you write from them.
