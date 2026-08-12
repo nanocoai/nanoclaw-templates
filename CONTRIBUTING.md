@@ -60,19 +60,25 @@ Templates are public. Never commit API keys, tokens, or any credential.
 ## Paid services and monetization
 
 A template may depend on paid MCP servers or paid API tiers (Exa, HubSpot's paid
-plans, and similar are all fine). What is not fine is a user discovering the cost
-after they have stamped it.
+plans, and similar are all fine). What is not fine is a user discovering the
+paywall after they have stamped it.
 
 The template's `README.md` must state, up front:
 
 - that the service is paid,
-- roughly what it costs,
+- a link to the tool,
+- which plan or tier the template needs, where the vendor gates the required
+  capability behind one,
 - and that the user supplies **their own key**.
+
+**Name the tier, do not quote the price.** Prices change and a stale figure in a
+README is worse than none, so link the vendor's pricing page and name the plan
+instead — tier names are far more stable than dollar amounts.
 
 Never ship a shared key, a template-owner key, or any credential the contributor
 controls. If the template is usable on a free tier with reduced capability, say
-which parts need the paid tier — that is more useful than a blanket "requires a
-paid plan".
+which parts need the paid plan — that is more useful than a blanket "requires a
+paid subscription".
 
 **No monetization through the registry template.** No affiliate or referral
 links, no baked-in billing, no revenue share wired into the template. A registry
@@ -125,8 +131,9 @@ for its author.
       optional nonempty `script`, no other frontmatter fields, and a prompt body.
 - [ ] A per-template `README.md` explains the template and, for every service it
       needs, gives the API host, auth style, exact scopes, and where to get the key.
-- [ ] Every paid service is declared up front in the README: that it is paid,
-      roughly what it costs, and that the user brings their own key.
+- [ ] Every paid service is declared up front in the README: that it is paid, a
+      link to the tool, the tier the template needs (if any), and that the user
+      brings their own key. No prices quoted.
 - [ ] No affiliate or referral links, no baked-in billing, and no shared or
       author-owned credential anywhere in the template.
 - [ ] `node scripts/check-templates.mjs` passes.
