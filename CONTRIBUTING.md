@@ -42,12 +42,42 @@ Templates are public. Never commit API keys, tokens, or any credential.
 
 - Credential-shaped `env` and `headers` values in `mcp.json` carry the literal
   `"placeholder"`, never a real value. NanoClaw rejects a template whose
-  values match known credential formats.
+  values match known credential formats. Only declare such a var where the
+  server refuses to boot without it (`sales/sdr` does for HubSpot, not Exa).
 - Task scripts may call external services, but must not contain credentials.
 - Credentials are injected at request time by the OneCLI gateway, not baked into
-  the template. If your template needs a service connected, document how to get
-  the key and which scopes it needs in the template's own `README.md` (see
-  `sales/sdr/README.md` for the pattern).
+  the template. If your template needs a service connected, document in the
+  template's own `README.md`, for each service: the API host, the auth style,
+  the exact scopes, and where to get the key (see `sales/sdr/README.md` for the
+  pattern).
+
+> **`check-templates.mjs` is stricter than NanoClaw here.** A credential-shaped
+> *key* (`TOKEN`, `SECRET`, `PASSWORD`, `API_KEY`, `CREDENTIAL`, `PRIVATE_KEY`,
+> `AUTH`) whose value is not `"placeholder"` **fails CI**, while NanoClaw's
+> stamp-time lint only warns. A template that stamps cleanly on your machine can
+> still be rejected here — use `"placeholder"` for every credential-shaped key.
+
+## Paid services and monetization
+
+A template may depend on paid MCP servers or paid API tiers (Exa, HubSpot's paid
+plans, and similar are all fine). What is not fine is a user discovering the cost
+after they have stamped it.
+
+The template's `README.md` must state, up front:
+
+- that the service is paid,
+- roughly what it costs,
+- and that the user supplies **their own key**.
+
+Never ship a shared key, a template-owner key, or any credential the contributor
+controls. If the template is usable on a free tier with reduced capability, say
+which parts need the paid tier — that is more useful than a blanket "requires a
+paid plan".
+
+**No monetization through the registry template.** No affiliate or referral
+links, no baked-in billing, no revenue share wired into the template. A registry
+template is a configuration people can read and fork, not a distribution channel
+for its author.
 
 ## Adding a template
 
@@ -84,12 +114,21 @@ Templates are public. Never commit API keys, tokens, or any credential.
 
 - [ ] Template lives under an appropriate `<category>/<template>/`.
 - [ ] `plugin.json` is present with the exact 1.0.0 `$schema` and a valid `name`.
-- [ ] `ai.nanoco.nanoclaw/context/instructions.md` is present (registry policy).
+- [ ] If the template ships `ai.nanoco.nanoclaw/context/instructions.md`, it is
+      nonempty. A persona is optional — without one, the stamped agent uses
+      NanoClaw's default project doc.
 - [ ] `mcp.json` servers declare `type` and carry `"placeholder"` for any
       credential-shaped `env`/`headers` value — no real keys anywhere.
+- [ ] Any `"placeholder"` env var is there because the server will not boot
+      without it, and the README says never to replace it with a real key.
 - [ ] Every `ai.nanoco.nanoclaw/tasks/*.md` file has a nonempty `schedule`, an
       optional nonempty `script`, no other frontmatter fields, and a prompt body.
-- [ ] A per-template `README.md` explains the template and its credentials.
+- [ ] A per-template `README.md` explains the template and, for every service it
+      needs, gives the API host, auth style, exact scopes, and where to get the key.
+- [ ] Every paid service is declared up front in the README: that it is paid,
+      roughly what it costs, and that the user brings their own key.
+- [ ] No affiliate or referral links, no baked-in billing, and no shared or
+      author-owned credential anywhere in the template.
 - [ ] `node scripts/check-templates.mjs` passes.
 - [ ] Stamped and tested locally with a bare ref (via `NANOCLAW_TEMPLATES_DIR`
       or a copy into `templates/`).
