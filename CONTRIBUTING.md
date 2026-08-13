@@ -99,15 +99,21 @@ for its author.
 5. Run the registry checks: `node scripts/check-templates.mjs` (the same
    script CI runs).
 6. Test it end to end. `--template` resolves relative to your NanoClaw install's
-   templates directory, not your clone, so do one of:
+   templates directory, not your clone, so copy it across first. `templates/`
+   ships with only a README, so create the category directory too:
    ```bash
-   # Option A: point the templates dir at your clone, then stamp the bare ref
-   NANOCLAW_TEMPLATES_DIR="$(pwd)" ncl groups create --template <category>/<template> --name "Test"
-
-   # Option B: copy the template into your install's templates/ dir, then stamp
-   cp -R <category>/<template> <nanoclaw>/templates/<category>/<template>
+   mkdir -p <nanoclaw>/templates/<category>
+   cp -R <category>/<template> <nanoclaw>/templates/<category>/
    ncl groups create --template <category>/<template> --name "Test"
    ```
+   Re-copy after every edit — the stamp reads the copy, not your clone.
+
+   Prefixing the command with `NANOCLAW_TEMPLATES_DIR=…` does **not** work:
+   the host process reads that variable once at startup and `ncl` is only a
+   socket client, so the value never reaches template resolution. To point the
+   library at your clone instead of copying, set the variable in the host
+   service environment and restart the host.
+
    If the template defines tasks, confirm they appear paused with
    `ncl tasks list --status paused`. For a scripted task, also run it once
    with `ncl tasks run <task-id>` and inspect it with
@@ -137,6 +143,6 @@ for its author.
 - [ ] No affiliate or referral links, no baked-in billing, and no shared or
       author-owned credential anywhere in the template.
 - [ ] `node scripts/check-templates.mjs` passes.
-- [ ] Stamped and tested locally with a bare ref (via `NANOCLAW_TEMPLATES_DIR`
-      or a copy into `templates/`).
+- [ ] Stamped and tested locally with a bare ref, after copying the template
+      into the install's `templates/`.
 - [ ] No API keys, tokens, or other secrets anywhere in the diff.
