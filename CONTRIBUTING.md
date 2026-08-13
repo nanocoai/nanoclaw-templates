@@ -75,7 +75,8 @@ main [README](README.md#anatomy-of-a-template) for the full anatomy.
 
 ## Where it goes: `<category>/<template>/`
 
-Group every template under a category folder, for example `sales/sdr/`.
+Group every template under a category folder, so the path is
+`<category>/<template>/`.
 
 Before adding a new category, check whether an existing one fits and reuse it. If
 you genuinely need a new one, keep it a single, lowercase, broadly-recognized
@@ -90,13 +91,14 @@ Templates are public. Never commit API keys, tokens, or any credential.
 - Credential-shaped `env` and `headers` values in `mcp.json` carry the literal
   `"placeholder"`, never a real value. NanoClaw rejects a template whose
   values match known credential formats. Only declare such a var where the
-  server refuses to boot without it (`sales/sdr` does for HubSpot, not Exa).
+  server refuses to boot without it; a server that authenticates purely
+  through the vault should not get one.
 - Task scripts may call external services, but must not contain credentials.
 - Credentials are injected at request time by the OneCLI gateway, not baked into
   the template. If your template needs a service connected, document in the
   template's own `README.md`, for each service: the API host, the auth style,
-  the exact scopes, and where to get the key (see `sales/sdr/README.md` for the
-  pattern).
+  the exact scopes, and where to get the key. The templates already in the
+  registry show the pattern.
 
 > **`check-templates.mjs` is stricter than NanoClaw here.** A credential-shaped
 > *key* (`TOKEN`, `SECRET`, `PASSWORD`, `API_KEY`, `CREDENTIAL`, `PRIVATE_KEY`,
@@ -106,9 +108,8 @@ Templates are public. Never commit API keys, tokens, or any credential.
 
 ## Paid services and monetization
 
-A template may depend on paid MCP servers or paid API tiers (Exa, HubSpot's paid
-plans, and similar are all fine). What is not fine is a user discovering the
-paywall after they have stamped it.
+A template may depend on paid MCP servers or paid API tiers. That is fine. What
+is not fine is a user discovering the paywall after they have stamped it.
 
 The template's `README.md` must state, up front:
 
