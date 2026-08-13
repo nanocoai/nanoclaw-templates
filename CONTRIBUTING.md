@@ -4,6 +4,53 @@ Thanks for adding to the NanoClaw template catalog. Templates are accepted via
 pull request. This guide covers how a template is structured, where it goes, and
 how to test it before you open a PR.
 
+## Acceptance and ownership
+
+Please read this before you invest the work.
+
+**Acceptance is at NanoClaw's discretion.** The catalog is curated, not a
+free-for-all. A submission has to bring real value to the community: it should do
+a job people actually have, work out of the box, and be more than one team's
+internal configuration. A well-built template can still be declined — because it
+is too narrow, because it substantially duplicates one already in the catalog, or
+because the catalog does not need it yet. If you are unsure whether an idea fits,
+open an issue describing it before building the whole thing.
+
+**A merged template becomes NanoClaw's to maintain.** Once it is in the catalog,
+NanoClaw takes over responsibility for it, and may edit, restructure,
+recategorize, or retire it — bumping a pinned MCP server version, rewriting a
+persona, folding it into another template — **without asking first**, the same as
+any other file in this repo. That is not a formality: people stamp these
+templates expecting them to keep working, so the catalog has to stay
+maintainable as a whole.
+
+| | |
+|---|---|
+| Ongoing maintenance and support | NanoClaw |
+| Deciding when it changes, moves, or is retired | NanoClaw |
+| Fixing it when an upstream dependency breaks | NanoClaw |
+| Authorship credit | Yours, permanently |
+
+**You keep the credit.** Attribution survives every later edit. Record it in the
+manifest, which takes an `author` object (`name`, `email`, `url` — any subset)
+per the Agent Plugins spec:
+
+```json
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sdr",
+  "author": { "name": "Your Name", "url": "https://github.com/your-handle" }
+}
+```
+
+Add a credit line to the template's own `README.md` too if you want it visible to
+anyone reading the folder. Neither is stripped when the template is later edited.
+
+> This repo is [MIT licensed](LICENSE) and your contribution is accepted under
+> that same license, so "ownership" here means stewardship and maintenance — not
+> a transfer of copyright. Your work stays MIT, attributed to you, and anyone may
+> fork it.
+
 ## What a template is
 
 A template is an [Agent Plugins](https://agent-plugins.org) 1.0.0 directory
@@ -120,7 +167,8 @@ for its author.
    `ncl tasks get <task-id>`.
 7. Re-check the diff for any secret before you commit.
 8. Open a PR describing what the template does, including any predefined tasks
-   and MCP servers it expects.
+   and MCP servers it expects. Set `author` in `plugin.json` so the credit lands
+   with the template.
 
 ## PR checklist
 
@@ -146,3 +194,6 @@ for its author.
 - [ ] Stamped and tested locally with a bare ref, after copying the template
       into the install's `templates/`.
 - [ ] No API keys, tokens, or other secrets anywhere in the diff.
+- [ ] You have read "Acceptance and ownership" above: acceptance is
+      discretionary, and a merged template is NanoClaw's to maintain, with your
+      authorship credited permanently.
