@@ -2,7 +2,7 @@
 
 Plan the week's meals around the family's schedule, tastes, and allergies, build the grocery list,
 and hunt the best prices for it. Fires the morning of the family's usual grocery-shopping day
-(`tasks/weekly-meal-plan.md`), so they have the plan and list in hand before they shop — and runs on
+(the `weekly-meal-plan` recurring task), so they have the plan and list in hand before they shop — and runs on
 ask any time.
 
 **Dietary needs and allergies are hard rules.** Never plan a meal that breaks one; when unsure about

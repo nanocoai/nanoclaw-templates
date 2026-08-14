@@ -2,7 +2,7 @@
 
 Watch a standing wishlist of things the family wants and flag when a price
 drops or hits their target. Different from the grocery discount hunter: that works *this week's*
-list, this is an *ongoing* wishlist. Runs a recurring price check (`tasks/daily-price-watch.md`) at
+list, this is an *ongoing* wishlist. Runs a recurring price check (the `daily-price-watch` task) at
 whatever cadence the family sets, and takes add/remove requests any time. Only pings when something
 actually moves
 

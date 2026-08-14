@@ -4,7 +4,7 @@ The opt-in academic tracker for families with kids in school. When turned on, it
 the parent wants out of grade tracking, then reads what the schools send: it **sweeps dates and
 forms into the daily and weekly briefs** (via the calendar) and **tracks grades and trends** over
 time. Fires weekly on the day they chose
-(`tasks/weekly-school-sweep.md`), and runs on ask.
+(the `weekly-school-sweep` recurring task), and runs on ask.
 
 **Email is the default source** — real emails or what the family tells you, never a guessed date or
 a grade you didn't see. If a family wants to connect their school's **portal**, help them try

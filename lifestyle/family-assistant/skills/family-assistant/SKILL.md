@@ -23,7 +23,7 @@ output. The body here is the routing; the references are the mechanics.
 
 | Capability | What it's for | Tools | Reference |
 |------------|---------------|-------|-----------|
-| **morning-brief** | today at a glance — what's on, who owns each handoff, time-sensitive alerts (permission slips, bills, supplies) triaged from email and group chats, what each person needs; fires each morning from `tasks/`, also on ask | Calendar + Gmail + web | `references/morning-brief.md` |
+| **morning-brief** | today at a glance — what's on, who owns each handoff, time-sensitive alerts (permission slips, bills, supplies) triaged from email and group chats, what each person needs; fires each morning as a scheduled task, also on ask | Calendar + Gmail + web | `references/morning-brief.md` |
 | **meals-and-grocery** | planning meals for the week and building the grocery list, finding the best prices as it goes | Web | `references/meals-and-grocery.md` |
 | **week-ahead** | looking ahead at the week's logistics — pickups, deadlines, permission slips, appointments, anything needing prep | Calendar + Gmail | `references/week-ahead.md` |
 | **school** | staying on top of the kids' school — due dates, tests, grades, no-school days, anything from teachers | Gmail | `references/school.md` |
@@ -37,13 +37,14 @@ output. The body here is the routing; the references are the mechanics.
    over any fixed path, and chain capabilities when a request spans several ("what's today, and
    remind me to send the permission slip").
 3. **Recurring runs** — the morning brief, weekly meal plan, week-ahead, school sweep, and
-   price-watch also run on their own schedule from `tasks/`. A recurring task's cadence is always
+   price-watch also run on their own schedule as recurring tasks. A recurring task's cadence is always
    agreed with the family — set at onboarding for the standing ones, or asked when they set one up
    later ("I'll track that — how often should I check?").
 
 ## Operating principles
 
-The ground rules live in `context/instructions.md` — never invent, act only on request and confirm
+The ground rules live in the agent's standing instructions (inlined at the top of this project's
+context) — never invent, act only on request and confirm
 before anything leaves the house, memory is the source of truth, reduce noise, keep the family's
 data in the family, respect each group chat's access level. They hold everywhere and aren't
 repeated here.

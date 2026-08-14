@@ -7,19 +7,22 @@ family wants, and helps book appointments and reservations.
 
 ## Layout
 
-NanoClaw stamps an agent from the parts of this folder its template parser reads
-(`context/`, `skills/`, and `tasks/`); README.md is not one of them.
+NanoClaw stamps an agent from the parts of this folder its plugin reader loads
+(`skills/` and the `ai.nanoco.nanoclaw/` extension dir); README.md is not one
+of them.
 
 ```
 family-assistant/
-├── context/
-│   └── instructions.md               # REQUIRED: persona + the 8 ground rules
-├── tasks/                            # recurring tasks, each created PAUSED
-│   ├── daily-morning-brief.md
-│   ├── weekly-meal-plan.md
-│   ├── weekly-week-ahead.md
-│   ├── weekly-school-sweep.md
-│   └── daily-price-watch.md
+├── plugin.json                       # Agent Plugins manifest (marks the folder as a plugin)
+├── ai.nanoco.nanoclaw/
+│   ├── context/
+│   │   └── instructions.md           # persona + the 8 ground rules
+│   └── tasks/                        # recurring tasks, each created PAUSED
+│       ├── daily-morning-brief.md
+│       ├── weekly-meal-plan.md
+│       ├── weekly-week-ahead.md
+│       ├── weekly-school-sweep.md
+│       └── daily-price-watch.md
 ├── skills/
 │   └── family-assistant/             # one skill: the router + all mechanics
 │       ├── SKILL.md                  #   entry: capabilities → references routing
@@ -35,7 +38,7 @@ family-assistant/
 └── README.md                         # this file
 ```
 
-There's no `.mcp.json` and no scripts — every tool reaches its API through the
+There's no `mcp.json` and no scripts — every tool reaches its API through the
 OneCLI proxy, so there's nothing to pin or format deterministically.
 
 The agent defaults to Claude. To override the provider/model, add an optional
@@ -68,7 +71,7 @@ change.
 ## Stamp an agent from this template
 
 ```bash
-ncl groups create --template assistants/family-assistant --name "Family Assistant"
+ncl groups create --template lifestyle/family-assistant --name "Family Assistant"
 ```
 
 Then wire it to the family's group chat as usual (`/manage-channels`). Give it
@@ -77,7 +80,7 @@ read for context, keep it **read-only** and it stays silent there.
 
 ## Recurring tasks
 
-The five files in `tasks/` are the scheduled runs — the morning brief, weekly
+The five files in `ai.nanoco.nanoclaw/tasks/` are the scheduled runs — the morning brief, weekly
 meal plan, weekly week-ahead, weekly school sweep, and daily price-watch. Each
 is **created paused**: every scheduled task is opt-in, and the family turns on
 the ones they want at onboarding (or later) and picks the time. The `schedule`
