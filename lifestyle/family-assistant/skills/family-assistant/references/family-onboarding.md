@@ -51,8 +51,10 @@ What the household concept and its linked entities capture (a checklist, not a f
   meal plan + list fires the morning of their shopping day.
 - **Activities**: [recurring practices, lessons, clubs; who, what, when]; feeds the brief and the
   week-ahead.
-- **Morning brief**: [do they want a daily morning brief at all? if so, what time should it fire?]
-- **Week ahead**: [do they want a weekly look-ahead? if so, what day and time should it fire?]
+- **Morning brief**: [comes as standard; what time should it fire? default 7:00, and they can
+  decline it]
+- **Week ahead**: [comes as standard; what day and time should it fire? default Sunday evening,
+  and they can decline it]
 - **School sweep**: [only if they have kids in school; do they want a weekly school sweep? if so,
   what day and time should it fire?]
 - **The essentials**: [home area or address, and any standing preferences worth remembering;

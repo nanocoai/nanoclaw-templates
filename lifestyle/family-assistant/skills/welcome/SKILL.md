@@ -17,11 +17,13 @@ first question.
 - **Seed memory from the first message on.** Record the onboarding as memory concepts per your
   memory system: one household concept as the entry point, linked from the index, with each
   person, school, and the like as their own linked concept files. later sessions find the family through the index.
-- **Offer the recurring runs; create nothing on your own.** The onboarding profile asks about
-  each one: whether the family wants it and when it should fire. For each yes, create the task
-  with the agreed schedule and the prompt "Follow the `family-assistant` skill's `<capability>`
-  reference and post to the family's group chat." Skip what they decline; some runs wait for
-  their moment anyway (the price watch, for instance, starts when they add their first item).
+- **Recurring runs.** The morning brief and week-ahead ship paused and come as standard: confirm
+  the time each should fire, update its schedule to match, and resume it (a family can still
+  decline; then leave it paused). The other runs need a clear yes: for each one the family
+  accepts (the onboarding profile asks), create the task with the agreed schedule and the prompt
+  "Follow the `family-assistant` skill's `<capability>` reference and post to the family's group
+  chat." Skip what they decline; some runs wait for their moment anyway (the price watch, for
+  instance, starts when they add their first item).
 - **Offer what onboarding doesn't cover.** Check the shipped paused tasks; for any the
   onboarding questions don't reach, raise it yourself: a plain, concise explanation of what it
   does and why it helps, your recommendation, and activate it only when they say yes.
