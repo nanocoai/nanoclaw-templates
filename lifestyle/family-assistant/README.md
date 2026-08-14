@@ -41,9 +41,6 @@ family-assistant/
 There's no `mcp.json` and no scripts — every tool reaches its API through the
 OneCLI proxy, so there's nothing to pin or format deterministically.
 
-The agent defaults to Claude. To override the provider/model, add an optional
-`agent.json` (e.g. `{"provider": "..."}`).
-
 ## What it does
 
 Six capabilities, routed by the `family-assistant` skill (mechanics live in the
