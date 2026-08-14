@@ -11,7 +11,8 @@ Draft signal-led outreach and a 3-touch sequence. Never send without approval.
 
 ## Drafting a first-touch email
 
-1. Pull the prospect brief note from HubSpot (`hubspot_get_company` → notes).
+1. Pull the prospect brief note from HubSpot (`hubspot-list-associations`
+   companies → notes, then `hubspot-get-engagement`).
 2. Pick the single strongest signal from the brief.
 3. Draft using this structure:
    - **Line 1**: Specific signal reference ("Saw you just closed your Series B…")
