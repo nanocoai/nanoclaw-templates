@@ -16,7 +16,7 @@ Nothing genuinely on sale? Say so; don't manufacture a deal to look useful.
 1. **Lean on the profile**: the food staples, dietary rules and allergies, likes and won't-eats,
    the regular stores, and the week's activities (busy or out-of-the-house nights).
 2. **First grocery run: get the full list.** Onboarding only captured staples. The first time they
-   ask for grocery help, build out their full shopping list with them and save it to your workspace;
+   ask for grocery help, build out their full shopping list with them and save it to memory;
    after that you maintain the running list instead of starting over.
 3. **Plan the week's meals off real recipes.** Count the dinners actually needed; skip nights the
    calendar or activities say they're out or covered. For each, web-search an actual recipe that
@@ -55,4 +55,4 @@ Best buys  (only real, sourced deals; skip if none)
 ```
 
 Want me to adjust any meals, add to the list, or find a cheaper swap? Close by handing the
-decision back, and remind them: **you can customize me, and I remember** 
+decision back, and remind them: **you can customize me, and I remember.**

@@ -1,27 +1,8 @@
-# Reference: Connecting Google (Calendar + Gmail)
+# Connecting Google (Calendar + Gmail)
 
-Google is this agent's main external credential. **Calendar** holds the family's schedule; **Gmail**
-is where the family's logistics land. The simple default is **one Google account** the family
-funnels everything into, used for both Calendar and Gmail; that's the funnel model onboarding sets
-up. If a family would rather keep separate inboxes, OneCLI does support **more than one account per
-provider** (e.g. each parent's own Gmail), see **Multiple accounts** below; treat it as the
-optional path, not the default.
-
-**Gmail is usually quick** (managed by OneCLI, no Google Cloud setup; though some instances ask for
-an OAuth client too; see below). **Calendar takes longer** (its own OAuth client from Google Cloud
-Console). Do Gmail first for an easy win.
-
-## When a call returns 401 / 403 / "not connected"
-
-The connector has no credential in the OneCLI vault yet:
-
-1. Tell the user which connector needs connecting and surface the OneCLI connect link if the
-   gateway provided one.
-2. Walk them through the setup below. Never ask for a raw key or secret in chat.
-3. Ask them to retry once connected.
-
-If they're on a VM or remote box and the link won't open, don't dead-end them or send them to an
-admin. Guide them through reaching it.
+Google is this agent's main external credential: **Calendar** holds the family's schedule; **Gmail**
+is where the family's logistics land. Both connect the same way; whether the connect flow is a
+plain sign-in or first asks for an OAuth client depends on the OneCLI instance, not the app.
 
 ## How to use this reference
 
@@ -31,78 +12,72 @@ adapt to what the user tells you they see on their screen.
 Don't paste the whole setup as one wall. Send a small batch (two or three steps), let them reply
 "done," then send the next. Keep the language plain and easy to follow.
 
-## Gmail: usually the quick one (OneCLI-managed)
+## Connect in OneCLI (start here)
 
-**Usually** no Google Cloud Console is needed; OneCLI handles the OAuth. In the OneCLI web UI:
+For each app, in the OneCLI web UI:
 
-1. Open OneCLI (**http://127.0.0.1:10254**) → **Apps → Gmail → Connect**.
+1. Open OneCLI: prefer the connect link the gateway put in the error response; otherwise it's
+   usually at **http://127.0.0.1:10254** (the address is instance-configurable). Then **Apps →
+   Gmail / Google Calendar → Connect**.
 2. Sign in with the Google account the agent should act as: the one that receives (or gets
-   forwarded) the school, appointment, and bill mail.
+   forwarded) the school, appointment, and bill mail. **Same account for both apps.**
 3. Approve the requested access, then retry the failed call.
 
-It should come back connected with `gmail.readonly`, `gmail.modify`, and `gmail.send` scopes.
+Gmail should come back connected with `gmail.readonly`, `gmail.modify`, and `gmail.send`;
+Calendar with `calendar.readonly` and `calendar.events`.
 
-**If OneCLI asks for a Client ID + Secret for Gmail too**, don't push back; follow the Calendar
-route below, just enabling the **Gmail API** and its scopes (`gmail.readonly`, `gmail.modify`,
-`gmail.send`) instead. One OAuth client can cover both.
+**If Connect asks for a Client ID + Secret** (an instance without platform Google credentials),
+the family needs their own **Web-application OAuth client** from Google Cloud Console: next
+section. **One client covers both apps.**
 
-## Google Calendar: the longer one (Google Cloud Console + OneCLI)
+## Google Cloud Console (once, covers both apps)
 
-Calendar needs its own **Web-application OAuth client** (a Client ID + Secret) from Google Cloud
-Console, then connected in OneCLI.
-
-### Part 1: Google Cloud Console (https://console.cloud.google.com)
-
-What has to be true along the way:
+At https://console.cloud.google.com, what has to be true along the way:
 
 - A **project** exists (new or reused).
 - The **OAuth consent screen** is set up; fill in the app info, then choose **External** (app name
   + their email).
 - **The user is added as a Test user** on that consent screen; *skip this and they hit "Access
   blocked" later.* This is the step most setups miss.
-- The **Google Calendar API is enabled**. **Do this first**: the scope picker only lists scopes for
-  APIs that are already enabled.
-- **Then** add the **Calendar scopes** on the consent screen; *enabling an API is not the same as
-  granting its scope; miss this and they hit "Access blocked: this app's request is invalid."*
-  Usually **APIs & Services → Data access → Add or remove scopes** (may vary).
+- The **Gmail API and Google Calendar API are enabled**. **Do this first**: the scope picker only
+  lists scopes for APIs that are already enabled.
+- **Then** add the scopes on the consent screen (Gmail: `gmail.readonly`, `gmail.modify`,
+  `gmail.send`; Calendar: `calendar.readonly`, `calendar.events`); *enabling an API is not the
+  same as granting its scope; miss this and they hit "Access blocked: this app's request is
+  invalid."* Usually **APIs & Services → Data access → Add or remove scopes** (may vary).
 - An **OAuth client** of type **Web application** is created → this gives the **Client ID + Secret**.
-  Keep them handy and keep the tab open; Part 2 produces a redirect URL to paste back here.
+  Keep them handy and keep the tab open; the connect flow shows a redirect URL to paste back here.
 
-### Part 2: OneCLI
+Then finish the Connect flow with the client:
 
-First, **where is OneCLI running?**
-
-- **Local**: it's at **http://127.0.0.1:10254**.
-- **Remote machine / VM**: the VM's local address won't work in their browser, and Google's sign-in
-  has to reach OneCLI back. **Prefer an SSH tunnel; it's the secure way and keeps OneCLI private**
-  (never expose it publicly if you can tunnel). First, check where OneCLI is actually listening; on
-  a VM it's often **`172.17.0.1:10254`** (the Docker bridge), not `localhost`. From the user's own
-  machine, forward a local port to that address, e.g.:
-
-  ```
-  ssh -L 10255:172.17.0.1:10254 <user>@<vm-host>
-  ```
-
-  (Use `10255` locally to dodge a collision with any local OneCLI on `10254`.) Then open OneCLI at
-  **`http://localhost:10255`** in their browser and do the whole connect flow there; Google's
-  redirect lands on `localhost`, tunnels back in, and nothing is ever public.
-
-  **Only if a tunnel isn't possible** (for example, browser-console access, no SSH), expose OneCLI publicly
-  as a fallback: use the VM's public-proxy for port `10254`, keep it **behind the provider's login**,
-  do it with a **test account** and only for the minutes it takes, then make it private again. Gotcha
-  for this path: after they approve, Google may redirect to OneCLI's *internal* host
-  (`172.17.0.1:10254`) and time out; have them **swap that host for their public address** in the
-  browser bar (keeping the `?code=...`) to finish.
-
-Then, in OneCLI → **Apps → Google Calendar → Connect**:
-
-- It shows a **Redirect URL** plus fields for the Client ID/Secret.
+- The OneCLI connect screen shows a **Redirect URL** plus fields for the Client ID/Secret.
 - **Copy that Redirect URL into the Google app** (the OAuth client's Authorized redirect URIs); it
   must match **exactly**.
-- Back in OneCLI, **paste the Client ID + Secret** and authorize; sign in with the **same account
-  you connected Gmail to**.
+- **Paste the Client ID + Secret** into OneCLI and authorize; sign in with the same funneled
+  account for both apps.
 
 When both are done, re-check the connectors and let the user know they're set.
+
+## Remote box?
+
+If NanoClaw runs on a remote machine or VM, the connect link won't open as-is: Google's sign-in
+has to reach OneCLI back, and the VM's local address won't work in their browser. Guide them
+through an SSH tunnel from their own machine; never suggest exposing OneCLI publicly when a
+tunnel is possible, and don't dead-end them or send them to an admin.
+
+1. Find where OneCLI actually listens; on a VM it's often `172.17.0.1:10254` (the Docker
+   bridge), not `localhost`.
+2. From their own machine: `ssh -L 10255:172.17.0.1:10254 <user>@<vm-host>` (a local `10255`
+   dodges any local OneCLI on `10254`).
+3. They open `http://localhost:10255` in their browser and run the whole connect flow there;
+   Google's redirect lands on `localhost` and tunnels back in, nothing goes public.
+
+If a tunnel truly isn't possible, they can expose OneCLI through the VM's public proxy as a
+fallback: behind the provider's login, with a test account, for the minutes it takes, then
+private again. Gotchas on that path: Google may redirect to OneCLI's internal host and time out
+(have them swap that host for their public address in the browser bar, keeping the `?code=...`),
+and a proxy that can't reach OneCLI needs a bridge first:
+`socat TCP-LISTEN:10255,fork,reuseaddr TCP:172.17.0.1:10254`, then expose `10255`.
 
 ## Multiple accounts (optional)
 
@@ -134,7 +109,3 @@ the gateway just injects that one credential and you never see a 409.
   the callback and the OneCLI Connections page before retrying.
 - **Wrong Google account**: disconnect and connect again with the right one, and make sure Calendar
   and Gmail use the same account.
-- **Tunnel or public proxy can't reach OneCLI on a VM**: it's bound to the Docker bridge
-  (`172.17.0.1:10254`), not `localhost`. Point the SSH tunnel straight at that address. If you must
-  use the VM's public proxy instead, bridge a host port to it first with
-  `socat TCP-LISTEN:10255,fork,reuseaddr TCP:172.17.0.1:10254`, then expose `10255`.

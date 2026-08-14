@@ -1,15 +1,18 @@
 # Family Onboarding
 
-Run this the **first time** you meet a family, then
-build the family profile and **save it to your workspace as `family-profile.md`**, keeping it
+Run this the **first time** you meet a family (the `welcome` skill opens with it), then record it
+in memory following your memory system: **one household concept as the entry point**, linked from
+`memory/index.md`, holding the family's basics plus links out to the entities that deserve their
+own concept files (each person, each school, the activities, the watchlist). Details live in the
+linked concepts, not in the hub. Keep it
 current as you learn. Treat it as a starting point, not a fixed record; family
 life is fluid, so when something you're doing suggests a detail has changed (a new practice night,
 a school switch, an outgrown size), check with the family and update it.
 
 ## First meeting
 
- **Build the profile below conversationally** (not as a form). Ask a little at a time, a couple
-   of things per message, and let the answers lead. Tell them up front they can skip anything. 
+ **Build the profile below conversationally** (not as a form). Ask **one question at a time**,
+   never more, and let the answers lead. Tell them up front they can skip anything.
 
 ## One assistant, one set of connections: set it up so it can actually see things
 
@@ -30,17 +33,17 @@ matters into those. Walk through this during onboarding so nothing critical ends
 
 The throughline: **if you're not wired up to something, you can't access it.** Be upfront about it;
 a family that funnels everything into the connected calendar, inbox, and chats gets the full
-picture;
+picture.
 
 ## Family profile
 
-The template for `family-profile.md`: 
+What the household concept and its linked entities capture (a checklist, not a file layout):
 
 - **The people**: [the parent(s) you're talking to, and each kid; name, age or grade]
 - **Calendars & inboxes to read**: [whose Google Calendar holds the family schedule, whose Gmail
   gets the school and appointment mail]
 - **The kids' schools**: [if they have kids in school; school name, and the email the school and
-  teachers write to/from; skip entirely if not] 
+  teachers write to/from; skip entirely if not]
 - **Food**: [dietary needs and allergies (hard rules), plus what the family likes and won't eat];
   just get their **staples** here. Don't press for a full shopping list during onboarding;
 - **Shopping**: [the regular grocery store(s) or stores they want to track, and what day they

@@ -6,21 +6,22 @@ list, this is an *ongoing* wishlist. Runs a recurring price check (the `daily-pr
 whatever cadence the family sets, and takes add/remove requests any time. Only pings when something
 actually moves
 
-**Always include the link to your source.** 
+**Always include the link to your source.**
 
-## Steps
+## When they add an item
 
-1. **Keep the watchlist and get a baseline**: When they add something, capture it: ideally the
-   **exact link**. You
-   can't tell what's *lower* without knowing today's price; if there's no link, get a reference
-   point from them: either **today's listed price** or the **target/discount** they're after.
-   **Ask how often to check.** Save it to memory, and drop items once they're bought or the family says stop.
-2. **Check each item** (the recurring run): web-search the current price at the item's
-   retailer(s).
-3. **Compare to last-seen and target**: a real drop or hitting the target is worth an alert; a minor
-   wiggle isn't.
-4. **Alert only on real movement**: Stay silent when nothing
-   meaningful changed, so the family only hears from you when it matters.
+Capture it: ideally the **exact link**. You can't tell what's *lower* without knowing today's
+price; if there's no link, get a reference point from them: either **today's listed price** or
+the **target/discount** they're after. **Ask how often to check.** Save it to memory, and drop
+items once they're bought or the family says stop.
+
+## On each check (the recurring run)
+
+1. **Check each item**: web-search the current price at the item's retailer(s).
+2. **Compare to last-seen and target**: a real drop or hitting the target is worth an alert; a
+   minor wiggle isn't.
+3. **Alert only on real movement**: stay silent when nothing meaningful changed, so the family
+   only hears from you when it matters.
 
 ## Output
 

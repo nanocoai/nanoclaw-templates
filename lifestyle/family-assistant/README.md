@@ -16,15 +16,18 @@ family-assistant/
 ├── plugin.json                       # Agent Plugins manifest (marks the folder as a plugin)
 ├── ai.nanoco.nanoclaw/
 │   ├── context/
-│   │   └── instructions.md           # persona + the 8 ground rules
+│   │   └── instructions.md           # persona + the 7 ground rules
 │   └── tasks/                        # recurring tasks, each created PAUSED
 │       ├── daily-morning-brief.md
 │       ├── weekly-meal-plan.md
 │       ├── weekly-week-ahead.md
 │       ├── weekly-school-sweep.md
-│       └── daily-price-watch.md
+│       ├── daily-price-watch.md
+│       └── weekly-memory-hygiene.md
 ├── skills/
-│   └── family-assistant/             # one skill: the router + all mechanics
+│   ├── welcome/                      # first contact: intro + onboarding (overrides the built-in)
+│   │   └── SKILL.md
+│   └── family-assistant/             # the router + all mechanics
 │       ├── SKILL.md                  #   entry: capabilities → references routing
 │       └── references/               #   one file per capability + setup
 │           ├── connecting-google.md
@@ -57,8 +60,8 @@ matching `references/*.md`):
 
 ## Configure before first use
 
-Nothing to fill in by hand. The agent builds the family's `family-profile.md`
-conversationally on first contact (see
+Nothing to fill in by hand. The agent builds the family's profile conversationally on first
+contact and keeps it in its memory (see
 `skills/family-assistant/references/family-onboarding.md`): the people, the
 calendars and inbox to read, food staples and allergies, schools, activities,
 and which recurring tasks they want and when. That profile is the source of
@@ -77,8 +80,9 @@ read for context, keep it **read-only** and it stays silent there.
 
 ## Recurring tasks
 
-The five files in `ai.nanoco.nanoclaw/tasks/` are the scheduled runs: the morning brief, weekly
-meal plan, weekly week-ahead, weekly school sweep, and daily price-watch. Each
+The six files in `ai.nanoco.nanoclaw/tasks/` are the scheduled runs: the morning brief, weekly
+meal plan, weekly week-ahead, weekly school sweep, daily price-watch, and a weekly memory-hygiene
+pass that keeps the agent's memory tidy. Each
 is **created paused**: every scheduled task is opt-in, and the family turns on
 the ones they want at onboarding (or later) and picks the time. The `schedule`
 cron in each file is only a sensible default.
@@ -96,14 +100,29 @@ for both Gmail and Calendar. OneCLI also supports more than one account per
 provider (e.g. each parent's own Gmail) as an optional path. Full step-by-step lives in
 `skills/family-assistant/references/connecting-google.md`; the short version:
 
-| Tool | Setup | Where |
-|------|-------|-------|
-| **Gmail** | Quick: OneCLI-managed OAuth, no Google Cloud setup | OneCLI → Apps → Gmail → Connect |
-| **Google Calendar** | Longer: your own Web-app OAuth client (Client ID + Secret) from Google Cloud Console, then connected in OneCLI | Google Cloud Console + OneCLI → Apps → Google Calendar → Connect |
-| **Web search** | Provided by the runtime: used for prices, weather, and finding places to book | no per-family setup |
+| Tool | Setup | Scopes | Where |
+|------|-------|--------|-------|
+| **Gmail** | OAuth sign-in via OneCLI; an instance without platform Google credentials asks for your own Web-app OAuth client (Client ID + Secret) from Google Cloud Console | `gmail.readonly`, `gmail.modify`, `gmail.send` | OneCLI → Apps → Gmail → Connect |
+| **Google Calendar** | Same flow; one OAuth client covers both apps | `calendar.readonly`, `calendar.events` | OneCLI → Apps → Google Calendar → Connect |
+| **Web search** | Provided by the runtime: used for prices, weather, and finding places to book | n/a | no per-family setup |
 
-Do Gmail first for an easy win. If a Google call ever returns `401` / `403` /
+If a Google call ever returns `401` / `403` /
 "not connected," the connector has no credential in the vault yet; the agent
 walks the family through connecting it, then retries. Until Calendar is
 connected, the calendar-dependent capabilities work from what they can see and
 say what's missing.
+
+### One-time Google prerequisite (self-hosted OneCLI)
+
+The Connect screen asks for a **Client ID + Secret**. Create your own
+**Web-application OAuth client** in Google Cloud Console; one client covers both Gmail and
+Calendar, and the agent walks the family through the console steps in chat when a call first
+fails.
+
+### Running on a remote box?
+
+If NanoClaw runs on a VM, the Google connect flow still happens in your browser, and Google's
+sign-in has to reach OneCLI back; that usually means an SSH tunnel from your machine (never
+expose OneCLI publicly when a tunnel is possible). The agent walks you through it in chat; the
+exact steps live in `skills/family-assistant/references/connecting-google.md` under "Remote
+box?".
