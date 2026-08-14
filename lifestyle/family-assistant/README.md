@@ -17,13 +17,8 @@ family-assistant/
 ├── ai.nanoco.nanoclaw/
 │   ├── context/
 │   │   └── instructions.md           # persona + the 7 ground rules
-│   └── tasks/                        # recurring tasks, each created PAUSED
-│       ├── daily-morning-brief.md
-│       ├── weekly-meal-plan.md
-│       ├── weekly-week-ahead.md
-│       ├── weekly-school-sweep.md
-│       ├── daily-price-watch.md
-│       └── weekly-memory-hygiene.md
+│   └── tasks/
+│       └── weekly-memory-hygiene.md  # the one shipped task, created PAUSED
 ├── skills/
 │   ├── welcome/                      # first contact: intro + onboarding (overrides the built-in)
 │   │   └── SKILL.md
@@ -80,12 +75,12 @@ read for context, keep it **read-only** and it stays silent there.
 
 ## Recurring tasks
 
-The six files in `ai.nanoco.nanoclaw/tasks/` are the scheduled runs: the morning brief, weekly
-meal plan, weekly week-ahead, weekly school sweep, daily price-watch, and a weekly memory-hygiene
-pass that keeps the agent's memory tidy. Each
-is **created paused**: every scheduled task is opt-in, and the family turns on
-the ones they want at onboarding (or later) and picks the time. The `schedule`
-cron in each file is only a sensible default.
+The capability runs (morning brief, weekly meal plan, week-ahead, school sweep, price-watch) are
+not shipped as task files: every one is opt-in, so the agent creates each task at onboarding (or
+later) once the family says yes and picks the time. The one shipped task,
+`ai.nanoco.nanoclaw/tasks/weekly-memory-hygiene.md`, is a non-destructive weekly audit of the
+agent's own memory; it ships **created paused** and the agent offers it during onboarding. Its
+`schedule` cron is only a sensible default.
 
 ## Credentials: via OneCLI, not env vars
 

@@ -4,7 +4,7 @@ Look across the whole coming week so nothing sneaks up: appointments, deadlines,
 pickups and dropoffs, birthdays, and anything that needs booking or prep before it's due. This is
 the wider net the daily morning brief deliberately leaves out: the brief handles today's critical
 few, the week-ahead is the planning view. Fires weekly at the day and time the family set
-(the `weekly-week-ahead` recurring task), and runs on ask any time.
+(a recurring task), and runs on ask any time.
 
 ## Gather
 

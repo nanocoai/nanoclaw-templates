@@ -2,7 +2,7 @@
 
 Today at a glance for the whole family: what's on, who's got each handoff, anything that needs
 action today, and what each person needs to remember. Fires on its own each morning
-(the `daily-morning-brief` recurring task, at the time the family set), and runs on ask any time.
+(a recurring task, at the time the family set), and runs on ask any time.
 
 **Short and glanceable.** Lead with what matters, keep it to bullets, and never pad; a quiet day
 is a fine brief.
