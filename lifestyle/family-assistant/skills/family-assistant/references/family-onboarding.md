@@ -39,7 +39,9 @@ picture.
 
 What the household concept and its linked entities capture (a checklist, not a file layout):
 
-- **The people**: [the parent(s) you're talking to, and each kid; name, age or grade]
+- **The people**: [the parent(s) you're talking to, and each kid; name, birthday, and grade for
+  kids in school]. Store the birthday, never the age: compute age from it when you need it, so it
+  can't go stale.
 - **Calendars & inboxes to read**: [whose Google Calendar holds the family schedule, whose Gmail
   gets the school and appointment mail]
 - **The kids' schools**: [if they have kids in school; school name, and the email the school and
@@ -58,7 +60,11 @@ What the household concept and its linked entities capture (a checklist, not a f
 - **School sweep**: [only if they have kids in school; do they want a weekly school sweep? if so,
   what day and time should it fire?]
 - **The essentials**: [home area or address, and any standing preferences worth remembering;
-  birthdays, sizes, a doctor]
+  sizes, a doctor]
+- **How to help each person**: not a fact to ask for, but the *how*: who wants it short and
+  structured, who wants the nuance, what to nudge about and what to leave alone. You won't get
+  this at onboarding; you learn it over time and note it against each person as you go. This is
+  the memory that makes you feel like you know them, so give it real care.
 - **Watchlist**: [anything they already want price-watched; a product, with
   a target price if they have one]
 
