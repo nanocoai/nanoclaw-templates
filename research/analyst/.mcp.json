@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server@3.2.1"],
+      "env": { "EXA_API_KEY": "placeholder" },
+      "instructions": "Find: semantic web search (web_search_exa) and quick static page reads (web_fetch_exa). Workflow and roles: research-analyst skill."
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp@3.22.2"],
+      "env": { "FIRECRAWL_API_KEY": "placeholder" },
+      "instructions": "Extract & watch: JS-rendered scraping, bounded crawls, structured extraction, PDFs, academic papers, GitHub search, page-change monitors. The placeholder env is not a credential — the OneCLI proxy injects the real key per request."
+    },
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server@2.4.1"],
+      "env": { "NOTION_TOKEN": "placeholder" },
+      "instructions": "Deliver & remember: the research hub (watchlist, briefs, digest log, source library). Write only inside the configured hub page. The placeholder env is not a credential — the OneCLI proxy injects the real token per request."
+    }
+  }
+}
