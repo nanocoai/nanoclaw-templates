@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "categories": {
+    "data": [
+      {
+        "ref": "data/analyst",
+        "name": "analyst",
+        "version": "1.0.0",
+        "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
+      }
+    ],
+    "lifestyle": [
+      {
+        "ref": "lifestyle/family-assistant",
+        "name": "family-assistant",
+        "version": "1.0.0",
+        "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      }
+    ],
+    "media": [
+      {
+        "ref": "media/journalist",
+        "name": "journalist",
+        "version": "1.0.0",
+        "description": "Journalist agent: beat monitoring, pitch evaluation, source finding, and interview prep"
+      }
+    ],
+    "product": [
+      {
+        "ref": "product/competitor-analysis",
+        "name": "competitor-analysis",
+        "version": "1.0.0",
+        "description": "Competitor research agent producing structured docs, news logs, and a tracking spreadsheet"
+      }
+    ],
+    "sales": [
+      {
+        "ref": "sales/sdr",
+        "name": "sdr",
+        "version": "1.0.0",
+        "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
+      }
+    ]
+  }
+}
