@@ -19,7 +19,7 @@ Only ever write an event on a confirmed booking — `references/read-the-transcr
   Booked under: Yarin
   Party of 3
   Asked for: outside table, high chair, Marco's section
-  Phone: +972-3-555-0110
+  Phone: +1-415-555-0142
   They hold the table 15 minutes.
   ```
 

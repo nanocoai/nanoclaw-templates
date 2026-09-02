@@ -24,11 +24,11 @@ memory/
 ---
 type: place
 title: "Marco's Trattoria"
-tags: ["restaurant", "italian", "tel-aviv"]
+tags: ["restaurant", "italian", "mission-district"]
 ---
 
-Phone: +972-3-555-0110 (verified on the call, 2026-09-04)
-Address: 12 Rothschild
+Phone: +1-415-555-0142 (verified on the call, 2026-09-04)
+Address: 12 Valencia St
 Books by: phone only — the website form is never answered
 Ask for: Marco, the owner; he handles the outside tables
 Standing asks here: table outside; never the back room

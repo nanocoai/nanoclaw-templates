@@ -28,7 +28,7 @@ in memory with a different brief.
 6. **Write the brief and call** — `references/call-brief.md`.
 
    ```bash
-   dial call --to "+972..." --outbound-instruction "$BRIEF" \
+   dial call --to "+1415..." --outbound-instruction "$BRIEF" \
      --idempotency-key "$RUN_ID-attempt-1" --json
    ```
 
@@ -83,16 +83,16 @@ Luigi's, that fact leads the report.
 Booked
 ✅ Marco's Trattoria — Thu 4 Sep, 20:00, table for 3
    Outside table, asked for Marco, high chair.
-   Under "Yarin". 12 Rothschild. +972-3-555-0110
+   Under "Yarin". 12 Valencia St. +1-415-555-0142
    In your calendar.
 
 Booked somewhere else
 ✅ Marco's was full all evening, so — Luigi's, Thu 4 Sep, 19:45, table for 3
-   Outside table, high chair. Under "Yarin". 8 Allenby.
+   Outside table, high chair. Under "Yarin". 8 Mission St.
 
 Inconclusive (no confirmation on the call)
 ⚠️ Rang Marco's but couldn't get a clear confirmation — nothing's in your calendar.
-   Their number: +972-3-555-0110. Ask for Marco.
+   Their number: +1-415-555-0142. Ask for Marco.
 
 Nothing available
 ❌ Tried Marco's, Luigi's and Sabbia — all full Thursday evening.

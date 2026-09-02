@@ -49,7 +49,7 @@ booking — see `references/read-the-transcript.md`. Never omit it to save space
 ## Placing it
 
 ```bash
-dial call --to "+972355501100" \
+dial call --to "+14155550142" \
   --outbound-instruction "$BRIEF" \
   --idempotency-key "booking-2026-09-04-marcos-attempt-1" \
   --json
