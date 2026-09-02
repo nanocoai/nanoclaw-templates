@@ -26,12 +26,9 @@ always wins over a reference's fixed path.
 
 | Capability | What it's for | Reference |
 |------------|---------------|-----------|
-| **book-it** | the whole run: ask → place → slot → call → confirmation → calendar → memory. The main event; start here for any booking | `references/book-it.md` |
-| **find-the-place** | turning "somewhere Italian near me" into a shortlist with numbers, addresses, and hours — and knowing when memory already has the answer | `references/find-the-place.md` |
-| **pick-the-slot** | reading the calendar and choosing a time inside the window that they can actually make | `references/pick-the-slot.md` |
+| **book-it** | the whole run: memory → place → slot → call → confirmation → calendar → memory. The main event; start here for any booking | `references/book-it.md` |
 | **call-brief** | writing the `--outbound-instruction`: the disclosure, the ask, the fallbacks you pre-authorise, and the read-back you require | `references/call-brief.md` |
 | **read-the-transcript** | pulling the confirmation out of what was said, and deciding when there isn't one | `references/read-the-transcript.md` |
-| **hold-the-calendar** | writing the event back so it's useful on the day: address, number, name it's under, what you asked for | `references/hold-the-calendar.md` |
 | **memory-structure** | what goes on the place, what goes in the standing asks, and how the two are kept apart | `references/memory-structure.md` |
 
 Rescheduling and cancelling are `book-it` with a different brief — the same run, ringing a place
@@ -43,13 +40,12 @@ Never lose this order, whatever the request:
 
 1. **Ground in memory first.** Known place? Standing asks that apply? This is always the first
    move, before any search.
-2. **Find and shortlist** — `find-the-place`.
-3. **Pick the slot** — `pick-the-slot`.
-4. **Write the brief and call** — `call-brief`.
-5. **Read what happened** — `read-the-transcript`.
-6. **Book the calendar** — `hold-the-calendar`. Only on a real confirmation.
-7. **Learn** — `memory-structure`.
-8. **Report once**, naming what you applied.
+2. **Find, shortlist, and pick the slot** — `book-it`, steps 3 and 4.
+3. **Write the brief and call** — `call-brief`.
+4. **Read what happened** — `read-the-transcript`.
+5. **Book the calendar** — only on a real confirmation.
+6. **Learn** — `memory-structure`.
+7. **Report once**, naming what you applied.
 
 ## Caps
 

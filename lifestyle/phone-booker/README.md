@@ -41,11 +41,8 @@ phone-booker/
 │       ├── SKILL.md                  #   entry: capabilities → references routing
 │       └── references/
 │           ├── book-it.md            #   the end-to-end run
-│           ├── find-the-place.md
-│           ├── pick-the-slot.md
 │           ├── call-brief.md         #   writing the --outbound-instruction
 │           ├── read-the-transcript.md
-│           ├── hold-the-calendar.md
 │           ├── memory-structure.md   #   places vs. standing asks
 │           ├── connecting-google.md
 │           └── setting-up-dial.md
@@ -60,12 +57,9 @@ to pin, and no credential fields anywhere in the template.
 
 | Capability | What it's for |
 |------------|---------------|
-| **book-it** | the whole run: ask → place → slot → call → confirmation → calendar → memory. Covers rescheduling and cancelling too |
-| **find-the-place** | memory first, then a shortlist with numbers, addresses and hours |
-| **pick-the-slot** | reading the calendar and choosing a time inside the window they can actually make |
+| **book-it** | the whole run: memory → place → slot → call → confirmation → calendar → memory. Covers rescheduling and cancelling too |
 | **call-brief** | writing the call's system prompt: disclosure, the ask, pre-authorised fallbacks, mandatory read-back |
 | **read-the-transcript** | pulling the confirmation out of what was said — and deciding when there isn't one |
-| **hold-the-calendar** | writing the event back so it's useful on the day |
 | **memory-structure** | what goes on the place, what goes in the standing asks, and how they're kept apart |
 
 It books anything you have to ring up: restaurants, barbers, dentists, doctors, vets, mechanics,
@@ -134,7 +128,7 @@ Dial's key stays in the vault rather than entering the sandbox.
 
 | Tool | Paid? | API host | Auth | Scopes | Where to set it up |
 |------|-------|----------|------|--------|--------------------|
-| **Dial** | **Yes — your own account and number** ([getdial.ai](https://getdial.ai), [pricing](https://getdial.ai/pricing)) | `api.getdial.ai` | API key, held in the OneCLI vault | n/a | `/add-dial-tool` in NanoClaw; the key is provisioned by `dial onboard`. Details: `skills/phone-booker/references/setting-up-dial.md` |
+| **Dial** | **Yes — your own account and number** ([getdial.ai](https://getdial.ai), [pricing](https://getdial.ai/pricing)) | `api.getdial.ai` | API key, held in the OneCLI vault | n/a | `/add-dial-tool` in NanoClaw; the key is read from the host's Dial login and stored in the vault. Details: `skills/phone-booker/references/setting-up-dial.md` |
 | **Google Calendar** | No | `www.googleapis.com` | OAuth via OneCLI; an instance without platform Google credentials asks for your own Web-app OAuth client (Client ID + Secret) from Google Cloud Console | `calendar.readonly`, `calendar.events` | OneCLI → Apps → Google Calendar → Connect. Details: `skills/phone-booker/references/connecting-google.md` |
 | **Web search** | No | provided by the runtime | n/a | n/a | no per-user setup |
 

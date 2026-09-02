@@ -30,7 +30,7 @@ They read it back, or clearly agreed to it in terms you can quote. You have a bo
 - anything they added that you didn't ask for: "we hold the table 15 minutes," "come to the side
   door," "bring the card you booked with." **These are the things worth remembering.**
 
-Then `references/hold-the-calendar.md`.
+Then hold the calendar — `references/book-it.md`, step 9.
 
 ## 2. A clear no
 
