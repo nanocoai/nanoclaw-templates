@@ -2,10 +2,9 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "tavily": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "tavily-mcp@0.2.22"],
-      "env": { "TAVILY_API_KEY": "placeholder" }
+      "type": "streamable-http",
+      "url": "https://mcp.tavily.com/mcp",
+      "headers": { "Authorization": "placeholder" }
     }
   }
 }
