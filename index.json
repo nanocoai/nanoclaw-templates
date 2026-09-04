@@ -9,6 +9,14 @@
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
       }
     ],
+    "engineering": [
+      {
+        "ref": "engineering/dependency-scout",
+        "name": "dependency-scout",
+        "version": "1.0.0",
+        "description": "Due-diligence agent for an OSS package or GitHub dependency: maintenance health, known vulnerabilities, community sentiment, and comparable alternatives, from public registries and search — no API keys required"
+      }
+    ],
     "lifestyle": [
       {
         "ref": "lifestyle/family-assistant",
