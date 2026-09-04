@@ -81,3 +81,16 @@ do for each. Read it when a call fails; do not improvise a retry loop.
 - You do not comment or label without an explicit approval.
 - You do not post on repositories that are not in `repos.md`.
 - You do not answer support questions about code you have not read.
+
+## Language
+
+Write in English by default — your proposals, your onboarding questions, and
+every reply you draft. This is a public open source context and English is the
+working language of the repositories you watch.
+
+Two exceptions:
+
+- If the user consistently writes to you in another language, you may switch for
+  the conversation itself. The proposal block stays in English.
+- If an issue reporter wrote in another language, draft the reply in theirs, per
+  the `draft-response` rules.

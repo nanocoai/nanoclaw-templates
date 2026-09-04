@@ -7,6 +7,10 @@ searches for duplicates, checks whether a bug report is actually reproducible,
 and sends you a proposed label set plus a draft reply. Nothing reaches GitHub
 until you say yes.
 
+**The watching costs nothing.** A gate script polls the public GitHub API with no
+credentials at all, and the agent is only woken when something new actually
+appeared. A GitHub token is needed only to act — to comment and to label.
+
 ## Who it's for
 
 Maintainers of one to five repositories who get more issues than they can answer
@@ -27,67 +31,80 @@ help you.
 | Draft | Writes the reply in your voice, under 150 words, with no promises about timelines. |
 | Wait | Sends you a proposal in a fixed format and stops. |
 
+Approval is per action. Saying yes to one issue does not approve the next one.
+
 ## What it deliberately does not do
 
 - **It does not close, reopen, lock, merge, or assign anything.** Ever, even if
   asked. Those are one-click actions in the GitHub UI and they are not worth the
   blast radius of an agent getting them wrong.
 - **It does not touch pull requests.** Code review is a different job.
-- **It does not post without an explicit yes** for that specific action. An
-  approval never carries forward to the next issue.
+- **It does not post without an explicit yes** for that specific action.
 - **It does not claim to reproduce bugs.** It cannot run your code and it says so.
 - **It does not create labels.** If nothing in your taxonomy fits, it tells you.
 - **It does not act on repositories outside the list you configured.**
 
-## Services and credentials
-
-| Field | Value |
-|-------|-------|
-| Service | GitHub |
-| API host to match | `api.githubcopilot.com` |
-| Auth style | `Authorization: Bearer <token>` |
-| Scopes | Fine-grained PAT limited to the repositories you watch, with **Issues: read and write** and **Metadata: read**. Nothing else. |
-| Where to get it | GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens |
-| Cost | Free. No paid service is required. |
-
-The template ships **no credentials**. `mcp.json` carries the literal
-`placeholder`, and the real token is held by the OneCLI Agent Vault and injected
-by API host at request time. The first time the agent calls GitHub it will reply
-with a connect link; paste the token there.
-
-The watcher's gate script calls the **public** `api.github.com` unauthenticated
-(60 requests per hour per IP, which covers a 30-minute poll over five repos with
-room to spare). The token is only needed to act, not to watch.
-
-### If the vault does not cover the remote server
-
-The remote GitHub MCP server authenticates with a request header. If your install
-cannot inject into a plugin-owned server's headers, delete `mcp.json` from your
-copy and register the server yourself instead:
-
-```bash
-ncl groups config add-mcp-server \
-  --id <group-id> \
-  --name github-issues \
-  --url https://api.githubcopilot.com/mcp/x/issues \
-  --headers '{"Authorization": "Bearer <your-token>"}'
-ncl groups restart --id <group-id>
-```
-
-Everything else in the template works unchanged.
-
-The URL is the `issues` toolset specifically, not the default server. The agent
-only needs issue tools, so it only gets issue tools.
-
-## Running it
+## Install
 
 ```bash
 ncl groups create --template engineering/maintainer --name "Maintainer"
 ```
 
-Then talk to it. On first contact it runs its onboarding: which repos, which
-labels, what tone, and anything it should never do. It writes your answers to
-memory and to the watcher's config.
+Then wire it to a channel and say hello. On first contact it runs its onboarding:
+which repos, which labels, what tone, and anything it should never do. It writes
+your answers to `memory/conventions/` and to the watcher's config, so triage is
+reproducible rather than improvised.
+
+### Add the GitHub tools
+
+The template ships **no `mcp.json`**, on purpose. Register the GitHub MCP server
+yourself, once, with your own token:
+
+```bash
+ncl groups config add-mcp-server \
+  --id <group-id> \
+  --name github \
+  --url https://api.githubcopilot.com/mcp/x/issues \
+  --headers '{"Authorization": "Bearer <your-token>"}'
+ncl groups restart --id <group-id>
+```
+
+That URL is GitHub's remote MCP server scoped to the **issues toolset only**, not
+the full server. The agent needs issue tools, so it gets issue tools and nothing
+else.
+
+#### Why the server is not in the template
+
+An earlier version declared this server in `mcp.json` with
+`"Authorization": "placeholder"`, expecting the OneCLI Agent Vault to substitute
+the real token by API host. It does not: the vault does not inject into the
+headers of a plugin-owned server, and the ownership guard then refuses
+`remove-mcp-server` because the entry would reappear on the next restamp. Reading
+issues worked (the public API needs no auth) but every write hung.
+
+This matches the documented position that static header credentials on a
+plugin-owned server are unsupported, and that the operator should register a
+user-owned server with `--headers` instead. Rather than ship a server that cannot
+authenticate, this template ships none and asks for one command.
+
+The endpoint itself is fine — a direct `initialize` call against
+`https://api.githubcopilot.com/mcp/x/issues` with a real bearer token returns a
+valid JSON-RPC handshake.
+
+### Token scopes
+
+| Field | Value |
+|-------|-------|
+| Service | GitHub |
+| API host | `api.githubcopilot.com` |
+| Auth style | `Authorization: Bearer <token>` |
+| Scopes | A fine-grained PAT limited to the repositories you watch, with **Issues: read and write** and **Metadata: read**. Nothing else. |
+| Where to get it | GitHub → Settings → Developer settings → Personal access tokens |
+| Cost | Free. No paid service is required. |
+
+The gate script does **not** use this token. It calls the public
+`api.github.com` unauthenticated — 60 requests per hour per IP, which covers a
+30-minute poll over five repositories with room to spare.
 
 ### Turning on the routines
 
@@ -118,22 +135,26 @@ script's verdict in advance. What the gate saves is the **model invocation**,
 which is the expensive part. A quiet week costs 336 container wakes and zero
 agent calls.
 
+It also lets the task run every 30 minutes at all: ungated template tasks are
+capped at four firings per 24 hours.
+
 ## When things fail
 
 The agent follows a written playbook rather than improvising retries.
 
 | Failure | Behaviour |
 |---------|-----------|
-| Token missing, expired, or under-scoped | Reports once with the connect link. No retry loop. |
+| Token missing, expired, or under-scoped | Reports once. No retry loop. |
 | Rate limited | Watcher stays quiet; the agent stops calling and names the reset time. |
 | Repository renamed, private, or deleted | Watcher wakes the agent, which tells you and leaves your config alone. |
 | Network or 5xx during a poll | Watcher stays quiet and does **not** advance its cursor, so issues that arrived during an outage are still picked up on the next successful poll. |
 | Issue closed between the proposal and your approval | Does not post. Tells you and asks. |
 | Issue edited between read and approval | Re-reads and re-proposes before posting. |
 | A proposed label no longer exists | Does not create it. Reports the mismatch. |
+| Onboarding has not run yet | Refuses to triage rather than inventing labels, and names which convention files are missing. |
 | 8 consecutive script failures | The runtime auto-pauses the series. `ncl tasks get issue-watch` shows the run log. |
 
-## Configuration files it writes
+## Files it writes
 
 | Path | Contents |
 |------|----------|
@@ -145,12 +166,23 @@ The agent follows a written playbook rather than improvising retries.
 
 Edit them by asking the agent, or by hand.
 
+## Updating
+
+Re-stamping brings a newer version of the template to the agent it created:
+
+```bash
+ncl groups create --template engineering/maintainer --name "Maintainer" --yes
+ncl groups restart --id <group-id>
+```
+
+Persona and skill changes need the restart to take effect. Task series and their
+paused/resumed state survive the restamp.
+
 ## Layout
 
 ```
 engineering/maintainer/
 ├── plugin.json
-├── mcp.json                                  # github-issues, streamable-http
 ├── README.md
 ├── skills/
 │   ├── welcome/                              # onboarding
@@ -167,6 +199,23 @@ engineering/maintainer/
         ├── issue-watch.md                    # */30, script-gated
         └── weekly-digest.md                  # Mondays 09:00
 ```
+
+## Verified
+
+Stamped and run end to end against a live repository before submission:
+
+- Stamps with an empty `templateReport`; re-stamps cleanly and removes a
+  plugin-owned MCP server that a hand-run `remove-mcp-server` refuses to touch.
+- Gate script ran 7 times with 0 failures across both paths — quiet when nothing
+  changed, waking the agent when a watched repo had 9 new issues.
+- The container reaches `api.github.com` through the egress lockdown.
+- Woken before onboarding had run, the agent refused to triage and named the
+  three missing convention files instead of inventing labels.
+- Triaged three issues: classified `bug` / `unclear` / `bug`, declined to confirm
+  a duplicate because both bodies were empty, and named the missing repro
+  elements one by one.
+- Approving one proposal posted one comment and applied `bug` + `needs-info`,
+  leaving the other two waiting.
 
 ## License
 
