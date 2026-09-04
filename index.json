@@ -11,6 +11,12 @@
     ],
     "lifestyle": [
       {
+        "ref": "lifestyle/checkin-companion",
+        "name": "checkin-companion",
+        "version": "1.0.0",
+        "description": "A best-effort check-in convenience tool: schedules periodic check-ins, calls you if you miss a few, and calls a named emergency contact if you still don't respond. Not a safety-critical system - see README."
+      },
+      {
         "ref": "lifestyle/family-assistant",
         "name": "family-assistant",
         "version": "1.0.0",
