@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "outage-watch",
+  "version": "1.0.0",
+  "description": "Dependency outage sentinel: cross-references vendor status pages against live web signal to catch cloud/SaaS/data-infra outages early and triage incidents.",
+  "author": { "name": "Adam Morad", "url": "https://github.com/adamorad" }
+}
