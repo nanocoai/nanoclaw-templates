@@ -19,16 +19,16 @@ Tavily key.
 
 | Tool | What it's for |
 |------|---------------|
-| `tavily-search` | scam-report, review, and news search (primary) |
-| `tavily-extract` | pulling full text from a specific page (a review thread, a company's About page) |
-| `tavily-map` / `tavily-crawl` | mapping a seller's own site when it's unclear where their reviews/policies live |
+| `tavily_search` | scam-report, review, and news search (primary) |
+| `tavily_extract` | pulling full text from a specific page (a review thread, a company's About page) |
+| `tavily_map` / `tavily_crawl` | mapping a seller's own site when it's unclear where their reviews/policies live |
 
 Plus NanoClaw's built-in `agent-browser` for pages that need JS rendering to
 see reviews (no credential needed).
 
 ## First run: confirm connection, then greet
 
-Test Tavily with one throwaway `tavily-search` call before the first real
+Test Tavily with one throwaway `tavily_search` call before the first real
 check. A real result or a post-auth error means connected; a 401/403 or
 missing-key error means not connected — see `references/troubleshooting.md`.
 

@@ -18,7 +18,7 @@ turned up nothing bad on its own.
   payment apps' "friends and family" option requested for a
   should-be-buyer-protected transaction.
 - **Reused or stock photos.** Search a distinctive photo (via
-  `tavily-search` with descriptive terms, or `tavily-extract` on suspected
+  `tavily_search` with descriptive terms, or `tavily_extract` on suspected
   source pages) for it appearing elsewhere attached to a different
   name/price/location.
 - **New or thin identity.** Account, domain, or business with no history
@@ -31,7 +31,7 @@ turned up nothing bad on its own.
 - `"<name/domain/phone/email>" scam` / `"<name>" review` / `"<name>" complaint`
 - Site-specific scam-report boards and subreddits relevant to the category
   (renters', job-seekers', marketplace-specific communities) — use
-  `tavily-search` with the platform name plus "scam reports"
+  `tavily_search` with the platform name plus "scam reports"
 - Regulatory/consumer-protection sources where relevant (better-business or
   local-equivalent listings, tenant-rights sites for rentals)
 - Reverse-image-style search of any provided photo via descriptive text

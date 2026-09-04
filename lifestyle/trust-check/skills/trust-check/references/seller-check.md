@@ -7,7 +7,7 @@ listing).
    registration/incorporation terms and, where relevant, look for an
    official registry result — a business with no findable trace beyond its
    own website/listing is a signal, not proof of anything on its own.
-2. **Domain and site age.** If there's a website, use `tavily-extract` to
+2. **Domain and site age.** If there's a website, use `tavily_extract` to
    pull its About/Contact page; note whether it gives a real address, phone
    number, or only a contact form. A storefront with no verifiable physical
    or business identity is worth flagging.
