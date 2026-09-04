@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "phone-booker",
+  "author": { "url": "https://github.com/YarinDay" },
+  "version": "1.0.0",
+  "description": "Books things by phone: finds a slot that fits your calendar, calls the place, books it, and puts the event back with the address and the name it's under",
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Phone Booker" }
+  }
+}
