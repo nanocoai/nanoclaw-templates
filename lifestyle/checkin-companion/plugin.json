@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "checkin-companion",
+  "version": "1.0.0",
+  "description": "A best-effort check-in convenience tool: schedules periodic check-ins, calls you if you miss a few, and calls a named emergency contact if you still don't respond. Not a safety-critical system - see README.",
+  "homepage": "https://github.com/adamorad/checkin-companion",
+  "repository": "https://github.com/adamorad/checkin-companion",
+  "license": "MIT",
+  "author": {
+    "name": "Adam Morad",
+    "email": "adammor17@gmail.com",
+    "url": "https://github.com/adamorad"
+  },
+  "keywords": ["safety", "checkin", "dial", "lifestyle", "reminders"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Check-In Companion"
+    }
+  }
+}
