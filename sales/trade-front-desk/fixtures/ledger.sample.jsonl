@@ -1,0 +1,10 @@
+{"ts":"2026-08-31T09:15:00-05:00","channel":"sms","outcome":"complete","job_type":"plumbing","language":"en","at_risk_usd":285,"asked_price":true,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-01T10:22:00-05:00","channel":"sms","outcome":"complete","job_type":"plumbing","language":"es","at_risk_usd":285,"asked_price":true,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-02T11:40:00-05:00","channel":"sms","outcome":"complete","job_type":"plumbing","language":"en","at_risk_usd":285,"asked_price":true,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-02T14:05:00-05:00","channel":"sms","outcome":"complete","job_type":"hvac","language":"en","at_risk_usd":420,"asked_price":false,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-03T09:30:00-05:00","channel":"sms","outcome":"abandoned","job_type":"electrical","language":"en","at_risk_usd":310,"asked_price":false,"after_hours":false,"abandoned_step":"address"}
+{"ts":"2026-09-03T15:18:00-05:00","channel":"sms","outcome":"emergency","job_type":"roofing","language":"en","at_risk_usd":1200,"asked_price":false,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-03T21:47:00-05:00","channel":"sms","outcome":"emergency","job_type":"plumbing","language":"en","at_risk_usd":285,"asked_price":false,"after_hours":true,"abandoned_step":null}
+{"ts":"2026-09-04T08:02:00-05:00","channel":"sms","outcome":"spam","job_type":"unknown","language":"en","at_risk_usd":0,"asked_price":false,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-01T16:11:00-05:00","channel":"sms","outcome":"complete","job_type":"concrete","language":"es","at_risk_usd":950,"asked_price":false,"after_hours":false,"abandoned_step":null}
+{"ts":"2026-09-02T16:55:00-05:00","channel":"voice","outcome":"complete","job_type":"roofing","language":"en","at_risk_usd":1200,"asked_price":false,"after_hours":false,"abandoned_step":null}
