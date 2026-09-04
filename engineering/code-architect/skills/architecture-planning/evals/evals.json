@@ -1,0 +1,58 @@
+{
+  "skill_name": "architecture-planning",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan a multi-tenant document assistant using RAG. We need an MVP in eight weeks and must prevent tenant data leaks.",
+      "expected_output": "The plan selects a small book-guided panel such as AI, Security, and Change Management, and always seats the Tech lead with the current-source evidence contract. Each book-guided expert receives an assignment naming the planning-proposal contract and requests two to four books matched to its field and the tenant-isolation problem. Book-guided experts use pretrained knowledge and report verified chapters, sections, practices, and concrete applications. The Tech lead performs query-driven web research without a fixed source list and reports verified current-source insights, technology signals, and tradeoffs. Any programming-language expert receives an explicit watch list. The report recommends a viable architecture with evaluations, isolation, observability, rollout, and alternatives, attributed to lenses, and separates architecture direction from production proof.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Design a safe refactor from our PHP monolith to clearer modules without changing its public API yet.",
+      "expected_output": "The plan emphasizes Change Management, characterization tests, seams, compatibility, staged migration, and rollback rather than assuming microservices. It seats the Tech lead for current source-backed context. A PHP expert asks the Librarian for books fitted to both PHP practice and the safe-modularization problem, then uses pretrained knowledge to trace verified chapters, sections, and practices to concrete constraints and design choices. Major recommendations include confidence, missing proof, and next smallest delegated proof spec.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Choose a data structure and service design for ranking a live stream of millions of scores.",
+      "expected_output": "The plan adds the Algorithmic expert and standing Tech lead, states workload assumptions, compares algorithms and operational designs, and includes complexity, correctness, benchmarking, current technical context, failure tradeoffs, and the next smallest delegated proof spec for any unproven operational claim.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Plan a modular monolith using classic architecture books, and give me hard proof that every expert read those books.",
+      "expected_output": "The Librarian returns two to four exact editions selected for both each book-guided expert's field and the modular-monolith problem, without locating copies, choosing sections, or providing book content. Each book-guided expert is explicitly instructed to use pretrained knowledge and reports the exact chapters, sections, and practices applied. The Tech lead does not request books and instead returns verified current-source insights, technology signals, and tradeoffs. The coordinator verifies identity, locations, practice association, source relevance, and concrete application without requiring a free or complete copy. The report distinguishes verified book-grounded recall from runtime reading and proof of training-set membership.",
+      "files": [],
+      "expectations": [
+        "Each selected book-guided expert receives between two and four books.",
+        "The Librarian privately requires exact title-author-edition recognition and at least three distinctive book-specific ideas from pretrained knowledge without exposing the check or recalled material to the expert.",
+        "Every book has separate expertise_fit and problem_fit reasons.",
+        "The Librarian provides no copy, source locator, section name, book summary, principle, or excerpt.",
+        "Book selection is not limited by whether a free, licensed, or complete digital copy is available.",
+        "The expert is explicitly instructed to use pretrained knowledge and chooses chapters and sections based on its expertise and the architecture problem.",
+        "Every selected book reports the chapters, sections, and practices actually used.",
+        "Every selected book has one book-guided expert book_practices entry.",
+        "The Tech lead uses tech-lead-current-brief.json, does not contact the Librarian, does not use a hardcoded source list, and does not return recommendations.",
+        "Every covered chapter names sections and applied practices with interpretation, architecture_evidence, applied_to, and application.",
+        "The coordinator verifies book identity, chapter and section locations, practice association, and concrete application.",
+        "The report does not claim runtime reading or exact training-set membership.",
+        "The verification record includes proof_assessments with direction, provider, or operational confidence.",
+        "The coordinator owns final recommendations; the Tech lead provides source-backed insights, technologies, and tradeoffs only."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Design a vendor-neutral sandbox runtime plan for a multi-tenant agent platform. Support one container orchestrator first, with room for additional hosted providers later. I only want an architecture plan and a delegated proof spec, not code or manifests. Include current-source research links. The Tech lead must provide sources but should not make recommendations directly.",
+      "expected_output": "The plan preserves the user's no-code/no-manifest scope, keeps final recommendations with the coordinator, and uses the Tech lead only for source-backed insights, technology signals, and tradeoffs. Delegated proof specs name owner, acceptance evidence, observations to capture, and pass/fail conditions instead of telling the architecture panel to build adapters, write fixtures, add tests, create manifests, run deployments, or implement proof harnesses.",
+      "files": [],
+      "expectations": [
+        "The report does not implement or run missing production proof.",
+        "The Tech lead source list appears explicitly before current-source insights, technologies, and tradeoffs.",
+        "The proof spec is framed as validation work for runtime owners.",
+        "No proof step tells the architecture panel to build adapters, write fixtures, add tests, create manifests, run deployments, or implement proof harnesses.",
+        "Provider-specific fields stay out of the core contract unless clearly marked as adapter-local capabilities."
+      ]
+    }
+  ]
+}

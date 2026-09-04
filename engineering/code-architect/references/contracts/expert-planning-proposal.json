@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Expert planning proposal",
+  "description": "Returned by each book-guided expert to the coordinator in architecture-planning.",
+  "type": "object",
+  "required": ["role", "book_practices", "options", "recommended_option", "assumptions"],
+  "additionalProperties": false,
+  "if": { "properties": { "role": { "const": "ai" } } },
+  "then": { "required": ["standards_conformance"] },
+  "properties": {
+    "role": { "type": "string" },
+    "book_practices": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "description": "One entry for every selected book, tracing its practices to constraints and proposed architecture output.",
+      "items": {
+        "type": "object",
+        "required": ["book_id", "title", "edition", "knowledge_basis", "chapters_used"],
+        "additionalProperties": false,
+        "properties": {
+          "book_id": { "type": "string", "description": "Exact id from this expert's selected book list." },
+          "title": { "type": "string", "description": "Exact title from the selected book list." },
+          "edition": { "type": "string", "description": "Exact edition from the selected book list." },
+          "knowledge_basis": { "const": "pretrained_knowledge", "description": "The expert used its pretrained knowledge; this is not a claim about exact training-set membership." },
+          "chapters_used": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Distinct chapters recalled and used. Every chapter must contribute at least one applied practice.",
+            "items": {
+              "type": "object",
+              "required": ["chapter", "sections", "practices"],
+              "additionalProperties": false,
+              "properties": {
+                "chapter": { "type": "string", "minLength": 1, "description": "Exact chapter number and title recalled for this edition." },
+                "sections": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "type": "string", "minLength": 1 },
+                  "description": "Exact section names recalled and used from this chapter."
+                },
+                "practices": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": ["practice", "interpretation", "architecture_evidence", "applied_to", "application"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "practice": { "type": "string", "description": "A named principle or practice specifically associated with this chapter or its listed sections." },
+                      "interpretation": { "type": "string", "description": "What the practice means in the expert's own words." },
+                      "architecture_evidence": { "type": "string", "description": "The concrete constraint, design, code, or artifact examined through this practice." },
+                      "applied_to": { "type": "string", "description": "The exact option, decision, or recommendation shaped by this practice." },
+                      "application": { "type": "string", "description": "How applying the practice to the evidence shaped the proposed architecture." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "summary", "strengths", "failure_modes", "change_cost"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "summary": { "type": "string", "description": "Components, interfaces, data, and key flows in a few sentences." },
+          "strengths": { "type": "array", "items": { "type": "string" } },
+          "failure_modes": { "type": "array", "items": { "type": "string" } },
+          "change_cost": { "type": "string", "description": "What it costs to evolve or reverse this option later." },
+          "smallest_viable_form": { "type": "string", "description": "The smallest version of this option that meets known needs." }
+        }
+      }
+    },
+    "recommended_option": {
+      "type": "object",
+      "required": ["name", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Must match one option's name." },
+        "reason": { "type": "string", "description": "Why it wins against the stated constraints." }
+      }
+    },
+    "standards_conformance": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Required from the AI architect (role ai). One entry per artifact and standard pair for agent skills, plugins, MCP servers or clients, and agent instruction files in scope; a single not_applicable entry when the scope has none.",
+      "items": {
+        "type": "object",
+        "required": ["standard", "url", "artifact", "clause", "verdict", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "standard": { "enum": ["mcp", "agent-plugins", "agent-skills", "claude-agent-skills", "agents-md", "claude-md"] },
+          "url": { "enum": ["https://modelcontextprotocol.io/", "https://agent-plugins.org/", "https://agentskills.io/", "https://platform.claude.com/docs/en/agents-and-tools/agent-skills", "https://agents.md/", "https://claude.com/blog/using-claude-md-files"] },
+          "artifact": { "type": "string", "minLength": 1, "description": "The skill, plugin, MCP server or client, or instruction file checked, by path or name." },
+          "clause": { "type": "string", "minLength": 1, "description": "The section or rule of the standard that was checked." },
+          "verdict": { "enum": ["conforms", "deviates", "not_applicable"] },
+          "evidence": { "type": "string", "minLength": 1, "description": "What in the artifact shows the verdict; for not_applicable, why no such artifact is in scope." }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Missing facts or open decisions that could change the recommendation."
+    }
+  }
+}

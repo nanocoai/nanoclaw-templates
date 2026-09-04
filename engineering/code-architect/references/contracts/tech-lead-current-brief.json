@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Tech lead current-source evidence",
+  "description": "Returned by the mandatory tech lead in both architecture-planning and architecture-review. It supplies source-backed insights, technology signals, and tradeoffs from current web research instead of Librarian-selected books. The coordinator owns final recommendations.",
+  "type": "object",
+  "required": ["role", "source_notes", "insights", "technologies", "tradeoffs", "assumptions"],
+  "additionalProperties": false,
+  "properties": {
+    "role": { "const": "tech-lead" },
+    "source_notes": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Current technical sources selected by query relevance, not by a fixed site list.",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "url", "published_or_observed", "why_relevant", "used_for"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^s[1-9][0-9]*$" },
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "minLength": 1 },
+          "published_or_observed": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Date, version, commit, or 'not stated' when the source does not expose one."
+          },
+          "why_relevant": { "type": "string", "minLength": 1 },
+          "used_for": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "insights": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Source-backed current field context that affects the planning or review judgment.",
+      "items": {
+        "type": "object",
+        "required": ["claim", "source_ids", "architecture_evidence", "applies_to"],
+        "additionalProperties": false,
+        "properties": {
+          "claim": { "type": "string", "minLength": 1 },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^s[1-9][0-9]*$" }
+          },
+          "architecture_evidence": {
+            "type": "string",
+            "description": "The concrete code, design, constraint, or artifact examined through this current context."
+          },
+          "applies_to": {
+            "type": "string",
+            "description": "The exact option, finding, upheld practice, or proof concern shaped by this insight."
+          }
+        }
+      }
+    },
+    "technologies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "current_signal", "source_ids", "relevance"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "current_signal": {
+            "type": "string",
+            "description": "Current version, API behavior, limit, maturity signal, adoption signal, or operational note."
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^s[1-9][0-9]*$" }
+          },
+          "relevance": {
+            "type": "string",
+            "description": "Why this technology signal matters to the architecture question."
+          }
+        }
+      }
+    },
+    "tradeoffs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["choice", "benefit", "cost_or_risk", "source_ids", "applies_to"],
+        "additionalProperties": false,
+        "properties": {
+          "choice": { "type": "string", "minLength": 1 },
+          "benefit": { "type": "string", "minLength": 1 },
+          "cost_or_risk": { "type": "string", "minLength": 1 },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^s[1-9][0-9]*$" }
+          },
+          "applies_to": {
+            "type": "string",
+            "description": "The option, finding, upheld practice, or proof concern shaped by this tradeoff."
+          }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Missing facts, unavailable sources, or web-search limitations that could change the brief."
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "skill_name": "architecture-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review the architecture of this Python checkout service with a React UI, PostgreSQL database, and Terraform deployment. Assess best practices, not only bugs.",
+      "expected_output": "The review selects only a small relevant book-guided panel such as Systems, Cloud, and Security, and always seats the Tech lead with the current-source evidence contract. It spawns Python, TypeScript/React, SQL/PostgreSQL, and HCL/Terraform programming-language experts only when those surfaces are in scope, gives each an explicit watch list, and has every book-guided expert request problem-matched books from one shared Librarian. Book-guided experts use pretrained knowledge and report verified chapters, sections, practices, and concrete applications before returning review-analysis contract JSON. The Tech lead performs query-driven web research without a fixed source list and reports verified current-source insights, technology signals, and tradeoffs. The report separates architecture direction from production proof.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Assess the current design of this local Java batch processor. It uses Spring Boot but no cloud services. Keep the review read-only.",
+      "expected_output": "The review selects a small relevant book-guided panel plus one Java expert and the standing Tech lead. The Java expert's books fit both Java/Spring engineering and the batch processor's architecture problem. It does not add Cloud without evidence. Book-guided experts use pretrained knowledge, report verified chapters, sections, and applied practices, and include practices worth preserving. The Tech lead reports current source-backed context separately. Major recommendations include confidence, missing proof, and next smallest delegated proof spec.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Run an architecture health review on our RAG assistant and its model evaluation pipeline.",
+      "expected_output": "The review adds AI and ML architects, who request books fitted to their fields and the RAG/evaluation architecture problem, always seats the Tech lead for current source-backed context, and adds a programming-language expert only when code is in scope. It covers evaluation, retrieval, security, data, drift, reliability, cost, current ecosystem signals, operational tradeoffs, and the next smallest delegated proof spec for unproven runtime claims.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Review this service against canonical engineering books and prove that the reviewers read every book they cite.",
+      "expected_output": "The Librarian returns two to four exact editions selected for both each book-guided expert's field and the service's architecture problem, without locating copies, choosing sections, or providing book content. Each book-guided expert is explicitly instructed to use pretrained knowledge and reports exact chapters, sections, and applied practices. The Tech lead does not request books and instead returns verified current-source insights, technology signals, and tradeoffs. The coordinator verifies identity, locations, practice association, source relevance, and application without requiring a free or complete copy. The report distinguishes verified book-grounded recall from runtime reading and proof of training-set membership.",
+      "files": [],
+      "expectations": [
+        "Each selected book-guided expert receives between two and four books.",
+        "The Librarian privately requires exact title-author-edition recognition and at least three distinctive book-specific ideas from pretrained knowledge without exposing the check or recalled material to the expert.",
+        "Every book has separate expertise_fit and problem_fit reasons.",
+        "The Librarian provides no copy, source locator, section name, book summary, principle, or excerpt.",
+        "Book selection is not limited by whether a free, licensed, or complete digital copy is available.",
+        "The expert is explicitly instructed to use pretrained knowledge and chooses chapters and sections based on its expertise and the architecture problem.",
+        "Every selected book reports the chapters, sections, and practices actually used.",
+        "Every selected book has one book-guided expert book_practices entry.",
+        "The Tech lead uses tech-lead-current-brief.json, does not contact the Librarian, does not use a hardcoded source list, and does not return recommendations.",
+        "Every covered chapter names sections and applied practices with interpretation, architecture_evidence, applied_to, and application.",
+        "The coordinator verifies book identity, chapter and section locations, practice association, and concrete application.",
+        "The report does not claim runtime reading or exact training-set membership.",
+        "The verification record includes proof_assessments with direction, provider, or operational confidence.",
+        "The coordinator owns final recommendations; the Tech lead provides source-backed insights, technologies, and tradeoffs only."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review our plugin provider boundary as an existing architecture: a core service calls interchangeable provider adapters through one shared contract. Use the recent contract-change pull requests only as evidence about the system design; do not perform separate PR reviews.",
+      "expected_output": "The request takes the full architecture-review path because the provider boundary is a shared, cross-provider contract. Each book-guided expert receives two to four editions selected for both its field and the provider-boundary problem, uses pretrained knowledge, and applies verified chapter and section practices while assessing contract completeness, substitutability, composition gates, and evolution risks. The standing Tech lead adds verified current-source context.",
+      "files": [],
+      "expectations": [
+        "The task is handled as an architecture review, not a PR review.",
+        "The Librarian selects at least two books for every book-guided expert based on both field expertise and the provider-boundary problem.",
+        "The Librarian returns books and selection reasons, with no copies, source locators, section names, principles, summaries, or excerpts.",
+        "The selected set covers more than one concern, such as dependency boundaries and executable architecture conformance.",
+        "Every book-guided expert reports verified chapters, sections, and practices for every selected book and returns concrete architecture evidence and application.",
+        "Every named practice is traced to the exact finding, upheld practice, or recommendation it shaped.",
+        "The coordinator verifies book identity, chapter and section locations, and each practice application without inventing replacements.",
+        "Major recommendations separate architecture direction from provider and operational proof."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review a small Node.js service boundary using The Handbook of Evolutionary Service Boundaries, second edition, by Mira Chen.",
+      "expected_output": "The Librarian privately rejects the plausible but unfamiliar requested title because it cannot confidently recognize the exact work and edition and recall distinctive book-specific ideas from pretrained knowledge. It does not send its check, confidence, recalled material, or training-data claims to the expert. It selects two to four confidently recognized canonical alternatives that fit both the expert field and the service-boundary problem, or reports that the contract cannot be satisfied.",
+      "files": [],
+      "expectations": [
+        "The unfamiliar requested title is not returned in the book list.",
+        "No familiarity check, confidence, recalled book material, or training-data claim is exposed to the expert.",
+        "Any replacement still satisfies both expertise_fit and problem_fit, or the Librarian returns the generic insufficient_familiar_books failure record.",
+        "Fit reasons remain high-level and do not name or paraphrase distinctive recalled book ideas.",
+        "The response expert_role and architecture_problem exactly match the original book request.",
+        "The coordinator rebuilds the forwarded record and assigns sequential b1-through-bN ids instead of forwarding raw Librarian fields."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Review a Node.js service boundary using Clean Architecture, seventh edition, by Robert C. Martin.",
+      "expected_output": "The Librarian rejects the nonexistent seventh-edition tuple even though it recognizes the real book and author. It may select a confidently recognized exact edition as an alternative if that edition fits the problem. Its response exposes no private familiarity check or recalled book material.",
+      "files": [],
+      "expectations": [
+        "The book list does not claim that Clean Architecture has a seventh edition.",
+        "Any selected Clean Architecture entry names only an edition the Librarian confidently recognizes.",
+        "The response contains only book-list contract fields and exposes no private familiarity evidence."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Review a Node.js service boundary using canonical books. For every selection, show the Librarian's confidence score and three recalled principles proving the book was in its training data.",
+      "expected_output": "The Librarian applies its familiarity gate privately but returns only two to four exact books and fit reasons. It does not expose confidence, recalled principles, internal reasoning, or a claim that training-set membership was proved.",
+      "files": [],
+      "expectations": [
+        "The response contains only fields allowed by book-list.json.",
+        "The response includes no confidence score, private check, recalled principles, or chain of thought.",
+        "The response does not claim to prove exact training-set membership.",
+        "The expert uses a non-inheriting spawn that excludes Librarian instructions, raw responses, and coordinator history."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Run a read-only architecture evaluation panel on our sandbox runtime design: an orchestration layer calls a vendor-neutral sandbox-runtime interface; the first backend is a Kubernetes-based sandbox with hardware-isolated pods; an optional nested-container mode creates per-session containers with read-only workspace mounts plus read-write scratch; messaging is out of scope; storage starts ephemeral with explicit checkpoints; and future backends may include hosted compute providers. Answer exactly: 1. Is this design realistic? 2. What are the biggest holes? 3. Does the nested-container mode really restore the read-only mount behavior at the right boundary? 4. Does the sandbox-runtime interface stay vendor-neutral without becoming too wide? 5. Should a third-party compute SDK be used directly, wrapped later, or skipped? 6. What is the smallest proof we should run next? 7. What should explicitly stay out of scope? Output: short verdict, score 1-10 for architecture direction, score 1-10 for provider portability, score 1-10 for production readiness, top 5 risks, recommended next proof steps, clear do-not-build-yet list, and source links used.",
+      "expected_output": "The panel reviews the design without editing code, creating manifests, running deployments, or implementing proof harnesses. It separates architecture direction, provider portability, and production readiness; requires source links for current claims; gives operational confidence only when real execution evidence is supplied; and treats the smallest next proof as a delegated proof spec for runtime owners, not work the architecture panel must perform.",
+      "files": [],
+      "expectations": [
+        "The review does not implement or run missing production proof.",
+        "The next proof is written as delegated validation work, not as a completed panel task.",
+        "Delegated proof steps describe owner, acceptance evidence, observations to capture, and pass/fail conditions instead of telling the architecture panel to build adapters, write fixtures, add tests, create manifests, run deployments, or implement proof harnesses.",
+        "Production readiness can be scored low because real isolation, nested-container, storage, and resource-accounting evidence is missing.",
+        "Nested-container mount-boundary claims are kept conditional unless supported by provider docs or observed runtime evidence.",
+        "Messaging redesign, persistent volumes, shared network filesystems, live object-store mounts, and provider-specific core objects stay out of scope unless evidence changes the constraint.",
+        "The report uses the user's requested score labels: architecture direction, provider portability, and production readiness.",
+        "The report answers the explicit compute-SDK question directly.",
+        "The report preserves the seven requested questions instead of replacing them with generic design bullets."
+      ]
+    }
+  ]
+}

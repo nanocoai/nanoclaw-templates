@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Expert assignment",
+  "description": "Sent by the coordinator to each selected expert. The expert answers with JSON against the contract named in output_contract.",
+  "type": "object",
+  "required": ["role", "task_type", "question", "scope", "watch_list", "output_contract"],
+  "additionalProperties": false,
+  "if": { "properties": { "role": { "const": "tech-lead" } } },
+  "then": { "not": { "required": ["justification"] } },
+  "else": { "required": ["justification"] },
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The lens this expert applies, e.g. 'systems' or 'language:typescript'."
+    },
+    "task_type": {
+      "enum": ["planning", "review"]
+    },
+    "question": {
+      "type": "string",
+      "description": "One sentence: the decision or review question for this assignment."
+    },
+    "scope": {
+      "type": "string",
+      "description": "The program or system boundary under analysis and the constraints that apply."
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Repositories, revisions, documents, logs, or artifacts the expert may read."
+    },
+    "watch_list": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files, components, or artifacts this expert must inspect."
+    },
+    "output_contract": {
+      "type": "string",
+      "description": "File name of the contract in the shared contracts directory that the expert's response must satisfy, e.g. 'expert-review-analysis.json'."
+    },
+    "justification": {
+      "type": "string",
+      "description": "Required for every book-guided expert: the specific evidence in the scope that made this lens necessary. A lens without evidence is not seated. Omit it for the Tech lead, which is a standing seat."
+    }
+  }
+}

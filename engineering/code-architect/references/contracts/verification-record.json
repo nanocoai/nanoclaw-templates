@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Verification record",
+  "description": "Produced by the coordinator between receiving expert JSON and writing the report. Every item the report presents must have a confirmed entry; everything removed or demoted is listed with its reason.",
+  "type": "object",
+  "required": ["entries", "books", "book_practice_checks", "source_checks", "proof_assessments", "removed"],
+  "additionalProperties": false,
+  "properties": {
+    "books": {
+      "type": "array",
+      "description": "One identity check per selected book. Only official author or publisher material can confirm the title, author, and edition; model recall is not identity proof.",
+      "items": {
+        "type": "object",
+        "required": ["expert_role", "book_id", "title", "author", "edition", "verdict", "method"],
+        "additionalProperties": false,
+        "properties": {
+          "expert_role": { "type": "string" },
+          "book_id": { "type": "string" },
+          "title": { "type": "string" },
+          "author": { "type": "string" },
+          "edition": { "type": "string" },
+          "verdict": { "enum": ["confirmed", "unverifiable"] },
+          "method": { "type": "string", "description": "What official author or publisher material the coordinator checked to confirm title, author, and edition." }
+        }
+      }
+    },
+    "book_practice_checks": {
+      "type": "array",
+      "description": "One independent check per selected book. The coordinator verifies that each named practice belongs to the book and was concretely applied.",
+      "items": {
+        "type": "object",
+        "required": ["expert_role", "book_id", "title", "practices_checked", "verdict", "method"],
+        "additionalProperties": false,
+        "properties": {
+          "expert_role": { "type": "string" },
+          "book_id": { "type": "string" },
+          "title": { "type": "string" },
+          "practices_checked": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["chapter", "sections", "practice", "applied_to", "verdict", "method"],
+              "additionalProperties": false,
+              "properties": {
+                "chapter": { "type": "string", "description": "Verified chapter number and title from the selected edition." },
+                "sections": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "Verified sections used for this practice." },
+                "practice": { "type": "string" },
+                "applied_to": { "type": "string" },
+                "verdict": { "enum": ["confirmed", "unverifiable"] },
+                "method": { "type": "string", "description": "How the coordinator confirmed that the reported chapter or section supports the practice and checked that its application follows from the architecture evidence." }
+              }
+            }
+          },
+          "verdict": { "enum": ["confirmed", "unverifiable"] },
+          "method": { "type": "string", "description": "Summary of the independent book-practice and application checks." }
+        }
+      }
+    },
+    "source_checks": {
+      "type": "array",
+      "description": "One independent check per Tech lead source used in the report.",
+      "items": {
+        "type": "object",
+        "required": ["expert_role", "source_id", "title", "url", "published_or_observed", "used_for", "verdict", "method"],
+        "additionalProperties": false,
+        "properties": {
+          "expert_role": { "const": "tech-lead" },
+          "source_id": { "type": "string", "pattern": "^s[1-9][0-9]*$" },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "published_or_observed": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Date, version, commit, or 'not stated' when the source does not expose one."
+          },
+          "used_for": { "type": "string" },
+          "verdict": { "enum": ["confirmed", "unverifiable"] },
+          "method": {
+            "type": "string",
+            "description": "How the coordinator checked the URL, source date or version when exposed, relevance, and concrete application."
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "description": "One entry per finding, option, upheld practice, or corrective action that reaches the report.",
+      "items": {
+        "type": "object",
+        "required": ["item", "lenses", "verdict", "method"],
+        "additionalProperties": false,
+        "properties": {
+          "item": { "type": "string", "description": "The claim, option name, practice, or action verified." },
+          "lenses": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" },
+            "description": "The expert role(s) whose analyses support this item; duplicates merge here."
+          },
+          "verdict": { "enum": ["confirmed", "unverifiable"] },
+          "method": { "type": "string", "description": "What was read, run, or compared to check it, distinguishing reading from running. A parity, performance, or coverage claim is confirmed only by citing a command actually run and its relevant output; established by reading alone, it reaches the report as an assumption." },
+          "final_severity": {
+            "enum": ["P0", "P1", "P2", "P3"],
+            "description": "Review tasks: the severity after re-grading against the contract definitions; state it even when unchanged."
+          }
+        }
+      }
+    },
+    "proof_assessments": {
+      "type": "array",
+      "description": "One production-proof check per major recommendation, option, or evolution step. This records evidence and a delegated proof spec; it does not require the panel to execute missing proof.",
+      "items": {
+        "type": "object",
+        "required": ["item", "confidence", "evidence", "missing_proof", "next_smallest_proof"],
+        "additionalProperties": false,
+        "properties": {
+          "item": { "type": "string" },
+          "confidence": {
+            "enum": ["direction", "provider", "operational"],
+            "description": "direction: architecture evidence or sources support the shape. provider: target-provider docs or examples support it. operational: a real command, test, deploy, or drill proved it in the target shape."
+          },
+          "evidence": { "type": "string", "description": "The code, source, document, or command output behind this confidence level." },
+          "missing_proof": { "type": "string", "description": "What has not been proven yet; use 'none' only for operational proof." },
+          "next_smallest_proof": { "type": "string", "description": "The smallest concrete delegated proof spec that would raise confidence: owner task, acceptance evidence, observations to capture, and pass/fail conditions. Do not imply the panel has run it or must implement it." }
+        }
+      }
+    },
+    "removed": {
+      "type": "array",
+      "description": "Expert output that does not reach the report.",
+      "items": {
+        "type": "object",
+        "required": ["item", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "item": { "type": "string" },
+          "reason": { "type": "string", "description": "Refuted by evidence, duplicate merged elsewhere, praise without evidence, grade the risk text failed to justify, or out of scope." }
+        }
+      }
+    }
+  }
+}

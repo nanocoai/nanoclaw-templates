@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scope record",
+  "description": "Produced by the coordinator when it establishes scope, completed by the time the panel is seated. Grounds every assignment justification; the report's panel and context sections draw from it.",
+  "type": "object",
+  "required": ["task_type", "request_summary", "boundary", "constraints", "unknowns", "languages", "execution_mode"],
+  "additionalProperties": false,
+  "properties": {
+    "task_type": { "enum": ["planning", "review"] },
+    "request_summary": {
+      "type": "string",
+      "description": "One or two sentences: what the user asked for."
+    },
+    "boundary": {
+      "type": "string",
+      "description": "The program or system boundary under analysis."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Repositories, documents, logs, or artifacts consulted to establish scope."
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Stated goals, non-goals, budgets, deadlines, and doctrine that bind the analysis."
+    },
+    "unknowns": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Material facts that are missing, stated instead of invented."
+    },
+    "languages": {
+      "type": "array",
+      "description": "Every materially involved language or DSL, judged by content. Each entry records whether a language expert was seated; an empty array states that none is materially involved.",
+      "items": {
+        "type": "object",
+        "required": ["name", "evidence", "seated", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "evidence": { "type": "string", "description": "Where in the scope this language materially appears." },
+          "seated": { "type": "boolean" },
+          "reason": { "type": "string", "description": "Why a language expert was or was not seated." }
+        }
+      }
+    },
+    "test_command": {
+      "type": "string",
+      "description": "How to run the scope's own test suite, when one exists and the environment allows running it."
+    },
+    "execution_mode": {
+      "const": "agents",
+      "description": "The Librarian, Tech lead, and experts run separately, and every expert uses a non-inheriting spawn, so private familiarity checks cannot enter expert context."
+    }
+  }
+}
