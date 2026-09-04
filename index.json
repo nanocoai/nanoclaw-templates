@@ -9,6 +9,14 @@
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
       }
     ],
+    "engineering": [
+      {
+        "ref": "engineering/maintainer",
+        "name": "maintainer",
+        "version": "1.0.0",
+        "description": "Triages incoming GitHub issues end to end: classifies, checks for duplicates, drafts a reply, and publishes only after you approve."
+      }
+    ],
     "lifestyle": [
       {
         "ref": "lifestyle/family-assistant",
