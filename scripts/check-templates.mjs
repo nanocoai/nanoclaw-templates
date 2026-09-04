@@ -10,7 +10,8 @@
  *   - no legacy layout (context/instructions.md without plugin.json), no .mcp.json
  *   - mcp.json: exact $schema, exactly two top-level fields, declared type on
  *     every server, no credential-shaped env/header values ("placeholder" ok)
- *   - skills/<name>/SKILL.md frontmatter has name + description
+ *   - skills/<name>/SKILL.md frontmatter has name + description, and no
+ *     unquoted value carrying a ": " (invalid YAML — the skill is skipped)
  *   - no symlinks anywhere in a template
  *
  * Zero dependencies by design — plain node. Run: node scripts/check-templates.mjs
@@ -134,6 +135,16 @@ function checkSkills(tpl, dir) {
     for (const field of ['name', 'description']) {
       if (!new RegExp(`^${field}\\s*:`, 'm').test(frontmatter)) {
         fail(tpl, `skills/${entry.name}/SKILL.md frontmatter is missing "${field}"`);
+      }
+    }
+    // A ": " inside an unquoted value parses as a nested mapping, so the whole
+    // skill is silently skipped at stamp time ("SKILL.md frontmatter is not
+    // valid YAML") and the template stamps without it.
+    for (const line of frontmatter.split('\n')) {
+      const match = /^([A-Za-z_-]+)\s*:\s*(\S.*)$/.exec(line);
+      if (!match || /^["'|>]/.test(match[2])) continue;
+      if (match[2].includes(': ')) {
+        fail(tpl, `skills/${entry.name}/SKILL.md frontmatter "${match[1]}" is not valid YAML: ": " inside an unquoted value — quote the value or use a dash`);
       }
     }
   }
