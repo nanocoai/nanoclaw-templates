@@ -7,6 +7,12 @@
         "name": "analyst",
         "version": "1.0.0",
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
+      },
+      {
+        "ref": "data/outage-watch",
+        "name": "outage-watch",
+        "version": "1.0.0",
+        "description": "Dependency outage sentinel: cross-references vendor status pages against live web signal to catch cloud/SaaS/data-infra outages early and triage incidents."
       }
     ],
     "lifestyle": [
