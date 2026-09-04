@@ -23,12 +23,6 @@
         "name": "journalist",
         "version": "1.0.0",
         "description": "Journalist agent: beat monitoring, pitch evaluation, source finding, and interview prep"
-      },
-      {
-        "ref": "media/publish-gauntlet",
-        "name": "publish-gauntlet",
-        "version": "1.0.0",
-        "description": "Review desk that runs a draft through four fixed lenses and returns ranked findings plus a fact-preserving cleaned draft."
       }
     ],
     "product": [
