@@ -23,6 +23,12 @@
         "name": "journalist",
         "version": "1.0.0",
         "description": "Journalist agent: beat monitoring, pitch evaluation, source finding, and interview prep"
+      },
+      {
+        "ref": "media/publish-gauntlet",
+        "name": "publish-gauntlet",
+        "version": "1.0.0",
+        "description": "Review desk that runs a draft through four fixed lenses and returns ranked findings plus a fact-preserving cleaned draft."
       }
     ],
     "product": [
@@ -39,6 +45,12 @@
         "name": "sdr",
         "version": "1.0.0",
         "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
+      },
+      {
+        "ref": "sales/trade-front-desk",
+        "name": "trade-front-desk",
+        "version": "2.0.0",
+        "description": "Text-and-call front desk for a small trade business on a Dial phone line."
       }
     ]
   }
