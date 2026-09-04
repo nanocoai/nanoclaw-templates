@@ -1,0 +1,17 @@
+{
+  "name": "finops-cost-sentinel-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AWS credential bridge for the finops-cost-sentinel NanoClaw template - see src/worker.js for why this exists.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "aws4fetch": "^1.0.20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
