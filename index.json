@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/home-assistant",
+        "name": "home-assistant",
+        "version": "1.0.0",
+        "description": "Smart-home agent for your own Home Assistant: reads and controls whatever you expose to Assist, and puts it on a schedule when asked"
       }
     ],
     "media": [

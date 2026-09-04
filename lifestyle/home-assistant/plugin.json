@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "home-assistant",
+  "author": { "name": "Amit Yanay", "url": "https://github.com/CrAzyScreamx" },
+  "version": "1.0.0",
+  "description": "Smart-home agent for your own Home Assistant: reads and controls whatever you expose to Assist, and puts it on a schedule when asked"
+}
