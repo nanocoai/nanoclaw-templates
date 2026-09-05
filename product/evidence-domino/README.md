@@ -61,7 +61,7 @@ ncl groups create \
 
 If `ncl` is not on `PATH`, run `pnpm ncl` from the NanoClaw checkout. Inspect
 the returned `templateReport`; a created group does not by itself prove every
-component stamped successfully.
+component stamped successfully. Some CLI versions omit `templateReport`; in that case inspect the group’s installed plugin, instructions, and paused task directly. If this plugin is already installed in another group, add `--new` to create an isolated group; use `--id <group-id>` to update an identified group.
 
 The CLI channel ships with NanoClaw. If this agent is not connected to
 `cli/local`, inspect the existing messaging group and wirings before changing
@@ -75,6 +75,96 @@ ncl wirings list --messaging-group-id <messaging-group-id> --json
 Attach the Evidence Domino group only after identifying which existing wiring
 should remain. Multiple agents on the same catch-all CLI pattern may all
 respond.
+
+For a dedicated CLI channel, save the existing wiring list, then remove only
+the identified setup-agent wiring if it would also respond. Substitute the
+actual IDs returned by the inspection commands:
+
+```sh
+ncl wirings list --messaging-group-id <messaging-group-id> --json > wiring-backup.json
+ncl wirings delete --id <identified-setup-wiring-id> --json
+ncl wirings create \
+  --messaging-group-id <messaging-group-id> \
+  --agent-group-id <evidence-domino-group-id> \
+  --engage-mode pattern --engage-pattern '.' --session-mode shared --json
+ncl wirings list --messaging-group-id <messaging-group-id> --json
+```
+
+Skip the delete command if there is no conflicting setup wiring. Preserve
+unrelated agents and channels. The last command should show only the intended
+agent matching your test messages on this dedicated CLI channel.
+
+NanoClaw must have a working model provider connected through its official
+setup. Provider selection belongs to the operator, not this template. On an
+installation where Codex has already been installed and authenticated:
+
+```sh
+ncl groups config update --id <evidence-domino-group-id> --provider codex --json
+ncl groups restart --id <evidence-domino-group-id> --json
+```
+
+From the NanoClaw checkout, send a readiness message:
+
+```sh
+pnpm run chat 'Read the Evidence Domino skill and tell me whether a project is active. Do not start a capture.'
+```
+
+The one-shot CLI stops after two seconds of silence following the first reply.
+If a result arrives late, recover it through `ncl sessions list --json`, then
+`ncl sessions history <session-id> --limit 100 --json`. An early acknowledgement
+is not proof that the operation finished.
+
+## Run the controlled example through chat
+
+Use a fresh group with no active project. This example is fictional and must
+stay labelled **Controlled source replay**. The manifest's public fixture URLs
+must be available; if a URL fails, stop and report the failed live gate rather
+than substituting a local response.
+
+Send this from the NanoClaw checkout:
+
+```sh
+pnpm run chat 'Start a Controlled source replay using the installed Evidence Domino fixtures/demo-proposal.md and fixtures/replay-manifest.json. Read the fictional supplier-v1.md as my proposed starting estimate. Propose the item, unit, inputs and three exact sentence mappings, and show the required baseline confirmation. Do not initialize until I confirm.'
+```
+
+Check the proposed mapping: 100 plinths, $40 per plinth, $6,000 customer quote,
+and $1,500 minimum. Then send:
+
+```sh
+pnpm run chat 'I confirm this mapping uses a public-list-price estimate, not a locked supplier quotation, and start monitoring.'
+pnpm run chat 'In this Controlled source replay, capture manifest version v1 through Tavily now and stage its interpretation. Check the declared version marker. Do not use an offline response.'
+```
+
+The v1 check should report no material change. Next:
+
+```sh
+pnpm run chat 'In this Controlled source replay, capture manifest version v2 through Tavily now, verify its marker, and stage the comparable interpretation. Show the review ID, conditional consequence and HTML report path. Do not approve it.'
+```
+
+Expected result: $5,500 supplier cost, $500 remaining before other costs,
+and a conditional $1,000 shortfall. Open the report and check the evidence
+before sending the exact approval phrase with the returned revision ID:
+
+```sh
+pnpm run chat 'Confirm that this observed price applies and adopt revision <returned-revision-id>.'
+pnpm run chat 'Show current status and the adopted document path. Do not run another capture.'
+```
+
+The active baseline should now be version 2. The event date, customer quote,
+and target should still be unchanged. Both captures, the review and the original
+document remain available in plugin data.
+
+To inspect a report on the host, find the group's `folder` in
+`ncl groups get --id <group-id> --json`. Replace the container prefix
+`/workspace/agent/` in the reported path with `<nanoclaw>/groups/<folder>/`.
+For example, on macOS:
+
+```sh
+open '<nanoclaw>/groups/<folder>/plugin-data/evidence-domino/reviews/<review-id>/report.html'
+```
+
+On Linux use `xdg-open` or open that file with your browser. The HTML is a
+read-only snapshot; approval happens in chat.
 
 ## Tavily access and data disclosure
 
@@ -122,6 +212,14 @@ The agent proposes the three sentence mappings and shows the initial evidence
 and arithmetic. After you send the exact baseline confirmation shown by the
 agent, `init` creates baseline version 1.
 
+The cost and remaining sentences can use natural wording. The minimum sentence
+must state only the condition and fixed target, for example “This meets our
+minimum remaining amount of $1,500.” If it also mentions changing headroom or
+a shortfall amount, the agent proposes a simpler sentence and asks you to
+approve the edit before starting. This keeps a still-true condition from
+retaining stale figures later. The helper returns the exact supported wording;
+it never silently normalizes the original document.
+
 Later, say **“Check now.”** A comparable observed rate produces a review with
 **Applicability awaiting review**. To adopt it, explicitly say:
 
@@ -129,6 +227,11 @@ Later, say **“Check now.”** A comparable observed rate produces a review wit
 
 That approval adopts the displayed evidence interpretation and document
 revision together. It does not alter the customer quote or minimum target.
+
+Approval waits while a newer check is running or its evidence is unresolved.
+An ambiguous observation must be recorded even though it creates no calculated
+revision. A later validated identical observation may reuse the existing
+review without another change alert.
 
 The final chat response includes the review ID and immutable report path.
 Reports show their status when generated. Ask for current status in chat rather
@@ -193,6 +296,12 @@ saved report for later inspection.
 - Missing content, rate limits, quota errors, malformed output, stale
   approvals, changed documents, and concurrent checks retain the last approved
   baseline.
+- An oversized response stops without an immediate retry. Its retained bytes
+  are bounded and labelled incomplete; they are not claimed to be the entire
+  response. Ordinary supported responses are preserved in full.
+- Ambiguous signed-money notation, accounting parentheses and fractional or
+  negative quantities require correction rather than being read as a positive
+  number. USD amounts use no more than two decimal places.
 - Generated reports escape retrieved text, contain no remote assets, and are
   read-only snapshots.
 - Agent-written approval records document a private owner workflow; they are
@@ -200,6 +309,21 @@ saved report for later inspection.
   same writable directory.
 
 ## Development and verification
+
+### Recovery and upgrades
+
+A lock is never removed automatically. If a command reports a lock, inspect its
+owner and confirm that operation has stopped before removing only that lock.
+Keep a copy of the project data first. A crash during publication leaves the
+previous complete baseline readable. If staging published an orphan review,
+start a fresh capture after recovery instead of restaging the same capture.
+An interrupted approval can be retried with the same reviewed revision.
+
+Reviews created before baseline metadata binding must be regenerated by a new
+capture and staging before approval. If an older baseline has a minimum
+sentence containing changing amounts, staging stops: obtain the owner's
+approval for the suggested simpler sentence and initialize a fresh group with
+the corrected document. Preserve the original group's history.
 
 Run the deterministic suite with Node 22:
 
@@ -219,6 +343,10 @@ node scripts/check-version-bump.mjs main
 Finally, copy and stamp a fresh template and exercise the full chat workflow
 with a real Tavily retrieval. Mocked or offline tests do not establish that
 integration.
+
+The registry scripts in the examined snapshot have a path-decoding bug when
+the checkout contains spaces. Run those scripts from a checkout at a path
+without spaces. This does not affect the template helper or its Node tests.
 
 ## License and stewardship
 
