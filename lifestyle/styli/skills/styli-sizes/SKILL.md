@@ -15,7 +15,7 @@ template — this is runtime data specific to the household using it):
 memory/styli/sizes-<person>.md
 ```
 
-(lowercase, e.g. `sizes-gal.md`, `sizes-romi.md`). Follow whatever memory
+(lowercase, e.g. `sizes-alex.md`, `sizes-sam.md`). Follow whatever memory
 convention this agent already uses (frontmatter, indexing) if one exists;
 otherwise plain Markdown is fine.
 
@@ -24,19 +24,19 @@ otherwise plain Markdown is fine.
 ```markdown
 ---
 type: size-profile
-person: gal
+person: alex
 ---
 
-# Gal — sizes
+# Alex — sizes
 
 ## Body measurements (soft tape)
 | Measurement | cm | Measured |
 |---|---|---|
-| Chest/bust | 102 | 2026-08-10 |
-| Waist | 88 | 2026-08-10 |
-| Hips | 100 | 2026-08-10 |
-| Inseam | 80 | — |
-| Shoe length | 27.5 | 2026-08-10 |
+| Chest/bust | 95 | 2026-01-15 |
+| Waist | 80 | 2026-01-15 |
+| Hips | 98 | 2026-01-15 |
+| Inseam | 78 | — |
+| Shoe length | 26.0 | 2026-01-15 |
 
 ## Brand sizes
 | Retailer | Category | Size | Fit note |

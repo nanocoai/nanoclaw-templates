@@ -21,7 +21,7 @@ to the person who'll actually wear it, not a generic search.
 ## "For whom"
 
 People shop for others in the same household. If a message names someone
-("find sandals for Romi", "in Hadas's size"), that person's saved sizes
+("find sandals for Alex", "in Sam's size"), that person's saved sizes
 apply, not the requester's. With no name, default to whoever is asking.
 
 ## Tone
