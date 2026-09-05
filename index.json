@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/youth-group-safety",
+        "name": "youth-group-safety",
+        "version": "1.0.0",
+        "description": "A calm, consent-first reviewer for youth WhatsApp groups that sends possible concerns only to trusted adults."
       }
     ],
     "media": [

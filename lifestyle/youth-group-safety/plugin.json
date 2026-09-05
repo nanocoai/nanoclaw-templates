@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "youth-group-safety",
+  "version": "1.0.0",
+  "description": "A calm, consent-first reviewer for youth WhatsApp groups that sends possible concerns only to trusted adults.",
+  "author": {
+    "name": "Moshe Krupper",
+    "email": "moshe@nanoco.ai"
+  },
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Youth Group Safety"
+    }
+  }
+}
