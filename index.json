@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/styli",
+        "name": "styli",
+        "version": "1.0.0",
+        "description": "Personal shopping stylist: understands a text request or a photo of an item, searches across configured retailers via Tavily web search, remembers each person's clothing sizes and body measurements, and returns a shareable HTML results gallery ranked against what you actually asked for."
       }
     ],
     "media": [
