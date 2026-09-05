@@ -7,6 +7,12 @@
         "name": "analyst",
         "version": "1.0.0",
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
+      },
+      {
+        "ref": "data/finops-cost-sentinel",
+        "name": "finops-cost-sentinel",
+        "version": "1.0.0",
+        "description": "Watches your AWS bill for anomalies, tag gaps, and rightsizing waste - researches unfamiliar charges and calls you for genuine P1s."
       }
     ],
     "lifestyle": [
