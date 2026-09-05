@@ -41,6 +41,16 @@ approval.
 
 ## Output
 
+`status` and new staged reports also expose deterministic recovery facts: the
+supplier-price ceiling and the hypothetical customer quote required to retain the
+minimum remaining amount. Explain these when useful. They are business options,
+not evidence of a new supplier offer or permission to reprice a customer. If recovery
+is unavailable, report that limitation without inventing a value.
+
+An optional host-side local chat companion is documented in `workspace/README.md`.
+Its Ollama mode is separate from this NanoClaw agent's model provider. Do not claim
+this conversation is fully local unless its actual provider configuration proves it.
+
 Return the project/review ID, status, and immutable HTML report path. Reports
 are snapshots: tell the owner to ask for current status in chat. If a scheduled
 check finds a review, save it and describe it in the task result; never approve

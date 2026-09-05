@@ -65,7 +65,7 @@ function setBusy(value, label = '') {
   $('activity').textContent = value ? label : 'Your conversation stays in this workspace.';
   $('chat-form').setAttribute('aria-busy', String(value));
   for (const id of ['open-intake', 'upload-context', 'clear-chat', 'submit-intake', 'upload-draft', 'refresh-model']) $(id).disabled = value;
-  $('send-chat').disabled = value || state?.model?.available === false;
+  $('send-chat').disabled = value;
   $('chat-input').disabled = value;
   $('run-preflight').disabled = value || !state?.project;
   $('export-document').disabled = value || !state?.project;
@@ -78,7 +78,12 @@ async function action(label, work, errorTarget = 'error-banner') {
   if (busy) return;
   clearErrors();
   setBusy(true, label);
-  try { await work(); } catch (error) { showError(error, errorTarget); }
+  try { await work(); } catch (error) {
+    showError(error, errorTarget);
+    // Failed retrieval/interpretation can still record a new unresolved observation.
+    // Refresh the visible state so an older approval or reassuring headline cannot linger.
+    try { acceptState(await api('/api/state')); } catch { /* Preserve the original actionable error. */ }
+  }
   finally { setBusy(false); }
 }
 
@@ -153,7 +158,7 @@ function renderDocuments() {
     const remove = element('button', 'doc-delete', '×');
     remove.type = 'button';
     remove.setAttribute('aria-label', `Remove ${document.name} from reference context`);
-    remove.title = `Remove ${document.name}`;
+    remove.title = `Remove ${document.name} and clear chat quotations`;
     remove.addEventListener('click', () => action('Removing reference document…', async () => {
       acceptState(await api(`/api/documents/${encodeURIComponent(document.id)}`, { method: 'DELETE' }));
     }));
@@ -213,7 +218,7 @@ function renderPending() {
 function render() {
   const project = state.project;
   $('project-badge').textContent = project ? 'Confirmed' : 'Not set up';
-  $('project-description').textContent = project ? [project.item || project.project?.item || 'Your approved proposal', project.quantity ? `${project.quantity} ${project.unitBasis || 'units'}` : '', project.baseline?.version || project.baselineVersion ? `Version ${project.baseline?.version || project.baselineVersion}` : '', Number.isSafeInteger(project.baseline?.unitPriceCents) ? `${usd(project.baseline.unitPriceCents)} per unit · approved` : ''].filter(Boolean).join(' · ') : 'Start with a draft and the supplier price it depends on.';
+  $('project-description').textContent = project ? [project.title || project.item || 'Your approved proposal', project.quantity ? `${project.quantity} ${project.unitBasis || 'units'}` : '', project.baseline?.version || project.baselineVersion ? `Version ${project.baseline?.version || project.baselineVersion}` : '', Number.isSafeInteger(project.baseline?.unitPriceCents) ? `${usd(project.baseline.unitPriceCents)} per unit · approved` : ''].filter(Boolean).join(' · ') : 'Start with a draft and the supplier price it depends on.';
   $('open-intake').hidden = Boolean(project);
   $('export-document').hidden = !project;
   const privacy = state.privacy || {};

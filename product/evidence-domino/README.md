@@ -1,5 +1,7 @@
 # Evidence Domino
 
+**New: [private conversational workspace](workspace/README.md).** Run a local browser chat with Ollama, add proposal context, ask for cited commitments, and test supplier-price scenarios. The companion shares this template's calculation and approval engine; it runs on the host and does not require changing NanoClaw's provider. Local-only is the default, with public Tavily checks available by explicit opt-in. It is a single-owner pilot, with text/Markdown/CSV support and no live Slack connector.
+
 **A public price changed. See the exact draft-proposal sentences it affects.**
 
 Evidence Domino is a NanoClaw template for one owner who prepares a fixed-price

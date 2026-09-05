@@ -594,7 +594,7 @@ function applySentencePatch(document, oldAnchors, newSentences, changedRoles) {
   return { proposed, nextAnchors, changes: ranges.sort((a, b) => a.start - b.start) };
 }
 
-function parseUsdLiteral(literal) {
+export function parseUsdLiteral(literal) {
   requireString(literal, 'interpretation.priceLiteral', 80);
   const trimmed = literal.trim();
   const match = trimmed.match(/^([\-−]?)(?:\$\s*|USD\s+)(\d{1,3}(?:,\d{3})*|\d+)(?:\.(\d{2}))?(?:\s*USD)?$/i) ??

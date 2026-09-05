@@ -26,7 +26,7 @@
         <ul id="documents" class="document-list"></ul>
         <button id="upload-context" class="button secondary full"><span aria-hidden="true">＋</span> Add context</button>
         <input id="context-file" type="file" accept=".md,.txt,.csv,text/plain,text/markdown,text/csv" hidden>
-        <p class="file-hint">MD, TXT or CSV · 20 KB each<br>Up to 10 files · 100 KB in total</p>
+        <p class="file-hint">MD, TXT or CSV · 20 KB each<br>Up to 10 files · 100 KB in total<br>Removing a file also clears chat.</p>
       </section>
       <details class="privacy-card">
         <summary><span aria-hidden="true">◈</span> Local by design</summary>
@@ -49,7 +49,7 @@
           <button type="button" data-prompt="What if the unit price is $55?">Try a different price</button>
           <button type="button" data-prompt="What did we promise about delivery?">Find a commitment</button>
         </div>
-        <form id="chat-form" class="composer"><label class="sr-only" for="chat-input">Ask about your proposal</label><textarea id="chat-input" rows="2" placeholder="Ask about your proposal…" maxlength="8000" required></textarea><button id="send-chat" class="button primary send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↑</span></button></form>
+        <form id="chat-form" class="composer"><label class="sr-only" for="chat-input">Ask about your proposal</label><textarea id="chat-input" rows="2" placeholder="Ask about your proposal…" maxlength="4000" required></textarea><button id="send-chat" class="button primary send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↑</span></button></form>
         <div class="composer-foot"><span id="activity" role="status">Your conversation stays in this workspace.</span><span>Enter to send · Shift + Enter for a new line</span></div>
       </div>
     </main>

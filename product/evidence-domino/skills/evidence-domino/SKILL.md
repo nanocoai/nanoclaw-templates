@@ -134,6 +134,14 @@ Tavily evidence.
 
 ## Scope statement for users
 
+New status and review records can include `recovery`: integer-cent supplier price
+ceiling, headroom and required customer quote. Use these code-produced numbers to
+explain options; never automatically change the quote, quantity, target or supplier.
+Legacy snapshots may not have recovery fields. An optional `recoveryError` means
+only that this additional analysis is unavailable; the original calculation remains
+authoritative. The host-side `workspace/README.md` explains local conversational
+context and explicit hypothetical scenarios using the same deterministic engine.
+
 Evidence Domino tracks three confirmed sentences in one draft. It does not
 validate the whole proposal, decide contract applicability, verify every cost,
 or act on the proposed revision without approval.
