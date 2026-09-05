@@ -35,8 +35,8 @@
       {
         "ref": "product/evidence-domino",
         "name": "evidence-domino",
-        "version": "1.0.0",
-        "description": "Trace a changed public supplier price into the exact draft-proposal sentences and calculations it affects"
+        "version": "1.1.0",
+        "description": "Review supplier-price changes, calculate recovery options, and discuss proposal context in an optional private local workspace"
       }
     ],
     "sales": [
