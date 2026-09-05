@@ -34,6 +34,14 @@ Send one message with the candidate, role, question set, and each reference's na
 
 Rese replies with what it understood and the three questions it will ask, and waits for **go** or changes. Then it places the call and comes back with the summary file and a five-line digest when the transcript is in. Say "go ahead without confirming" in the request to skip the check. Shipped question sets: `default`, `engineer`, `manager`, `sales`, three questions each. "Create a set for customer success" starts the question-set skill.
 
+## Scheduling a call
+
+Most references agree a time first. Put it in the request, or in the confirmation reply:
+
+> Reference check for Maya Chen, set: engineer. Reference: Jordan Lee +14155550123, former manager at Acme 2022 to 2025. Maya confirmed Jordan expects a call. Call Jordan on Tuesday at 3pm.
+
+Rese creates a one-shot NanoClaw task for that time, confirms it in one line, and places the call when the task fires (within about a minute of the time). "Move Jordan's call to Wednesday 10am" and "cancel Jordan's call" update or cancel it. Times are read in the install's timezone, or the agent group's override (`ncl groups config update <group> --timezone Europe/Berlin`), so set that to the recruiter's zone.
+
 ## Consent
 
 Rese never dials without a consent record.

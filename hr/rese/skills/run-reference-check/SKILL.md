@@ -17,6 +17,8 @@ Parse the recruiter's message into:
 - question set name (fall back to `default_set` from `plugin-data/rese/company.md`)
 - for each reference: name, phone number in E.164, relationship to the candidate (manager, peer, report, client), organisation, and the dates the candidate claims they worked together
 - whether the candidate attested that the references expect a call (any wording like "Maya confirmed both references expect a call" counts; record it verbatim)
+- an optional time for the call ("Tuesday at 3pm", "tomorrow 10:00", "on 9 September at 15:00"). Resolve it to a local timestamp in the group's timezone (the one NanoClaw was installed with, or the group override) and store it as `scheduled_for` in ISO form, for example `2026-09-09T15:00:00`. If the time is in the past or ambiguous (no day, or a day that could be this week or next), ask in the same message as any other missing item.
+- where the request came from: store the destination name of the chat as `requested_via`, so a scheduled call placed later from a task session still delivers its summary to the right place
 
 Example trigger:
 
@@ -34,6 +36,9 @@ Create the slug for the candidate (`maya-chen`) and for each reference (`jordan-
   "reference": { "name": "Jordan Lee", "phone": "+14155550123", "relationship": "former manager", "org": "Acme", "dates_claimed": "2022 to 2025" },
   "consent": { "path": null, "evidence": null, "at": null },
   "call": { "id": null, "idempotency_key": null, "placed_at": null, "status": null, "duration_seconds": null },
+  "scheduled_for": null,
+  "task_id": null,
+  "requested_via": "eva",
   "summary_path": null,
   "created": "2026-09-06T10:12:00Z"
 }
@@ -43,11 +48,11 @@ Create the slug for the candidate (`maya-chen`) and for each reference (`jordan-
 
 With several references, confirm all of them here but run the rest of the steps for one reference at a time, in the order given; the next call is placed only after the previous summary is delivered. Reply with what you parsed and what you will ask, in this shape, then wait:
 
-> Maya Chen, senior engineer. Reference: Jordan Lee, former manager at Acme, 2022 to 2025. Consent: candidate attestation on file. Set: engineer.
+> Maya Chen, senior engineer. Reference: Jordan Lee, former manager at Acme, 2022 to 2025. Consent: candidate attestation on file. Set: engineer. When: Tuesday 9 September, 15:00 (Europe/Berlin), or now if no time was given.
 > I'll ask: (1) title and dates, (2) what Maya worked on with you that stands out, (3) whether you'd work with Maya again and why.
 > Reply **go** to call now, or tell me what to change (different set, add or drop a question, another reference).
 
-Apply any change to the record and show the updated version once. Only "go" (or an equivalent) moves to step 3. If the original request said to go ahead without confirming, skip this step and say so in one line.
+Apply any change to the record and show the updated version once, including a time given at this point ("go, but Tuesday at 3"). Only "go" (or an equivalent) moves to step 3. If the original request said to go ahead without confirming, skip this step and say so in one line.
 
 ## 3. Consent
 
@@ -62,13 +67,25 @@ dial message --to +14155550123 --from-number <from_number> --body "<consent text
 dial wait-for message.received --field from=+14155550123 --timeout 60
 ```
 
-Loop the wait up to ten times. A reply starting with yes, ok, or sure is consent: record `path = "sms"`, `evidence = <body>`, `message id`, `at`. A reply with a time is a scheduling request: acknowledge it and copy the record to `pending/` with the requested time. A reply of no, stop, or similar is a decline: record it, tell the recruiter, and never contact that number again for this candidate. Anything else: answer once with the clarification text, wait once more, then treat silence as pending.
+Loop the wait up to ten times. A reply starting with yes, ok, or sure is consent: record `path = "sms"`, `evidence = <body>`, `message id`, `at`. A reply with a time is consent plus a scheduling request: record the consent, set `scheduled_for`, and schedule the call as in step 4. A reply of no, stop, or similar is a decline: record it, tell the recruiter, and never contact that number again for this candidate. Anything else: answer once with the clarification text, wait once more, then treat silence as pending.
 
 A `[NanoClaw system notice: … not delivered]` on the line means the text bounced (on US numbers this is usually 10DLC registration still pending). Stop texting that number, tell the recruiter, and offer the attestation path.
 
 Never proceed to step 4 without `consent.path` set to `attestation` or `sms`.
 
-## 4. Place the call
+## 4. Place the call, now or at the scheduled time
+
+If `scheduled_for` is set and in the future, do not dial. Create a one-shot task and stop:
+
+```
+ncl tasks create --name "call-maya-chen-jordan-lee" --process-after "2026-09-09T15:00:00" --prompt "Scheduled reference call. Open plugin-data/rese/checks/maya-chen/jordan-lee.json, confirm consent is on file and scheduled_for has passed, then run the run-reference-check skill from step 4 for that record and deliver the summary to the destination in requested_via."
+```
+
+Write the task id and `scheduled_for` into the record, copy it to `plugin-data/rese/pending/`, and tell the recruiter in one line: "Scheduled: Jordan Lee, Tuesday 9 September at 15:00. Say 'move Jordan's call to …' or 'cancel Jordan's call' to change it." A task fires within about a minute of its time.
+
+"Move Jordan's call to Wednesday 10am": `ncl tasks update <task_id> --process-after <new time>` (or cancel and create if update is refused), update the record, confirm in one line. "Cancel Jordan's call": `ncl tasks cancel <task_id>`, mark the record cancelled, remove it from pending, confirm in one line. Never create a second task for the same record without cancelling the first.
+
+When the task fires, this step runs in the task's own session: re-read the record, check consent is still on file and the record is not cancelled, then continue below exactly as for an immediate call.
 
 Build the outbound instruction from `references/call-script.md`. Fill every slot: company, recruiter, candidate, reference first name, retention days, and the three questions from the set as plain sentences with the numbers stripped (the `{question_list}` slot). Use the template text exactly; do not add rules to it (see the field note in `call-script.md`). Resolve the set in this order: `plugin-data/rese/question-sets/<name>.md`, then `plugins/rese/skills/run-reference-check/references/question-sets/<name>.md`. Cross-check every question against `references/question-filter.md` even though sets are checked when created.
 
@@ -86,7 +103,7 @@ If the command fails without returning an id, run `dial call list --direction ou
 
 When the Dial channel is wired to this agent, the call-ended notice and the transcript arrive in the conversation on their own. Do not poll while waiting for that; end your turn after step 4.
 
-When a notice arrives, or when the recruiter asks about a call, fetch the full record rather than relying on the inline transcript, which is clipped:
+When a notice arrives, find the record it belongs to by searching `plugin-data/rese/checks/*/*.json` for the call id in the notice; scheduled calls are placed from a task session, so the notice may arrive in a conversation that did not place the call. Then fetch the full record rather than relying on the inline transcript, which is clipped:
 
 ```
 dial call get <call_id> --json
@@ -106,7 +123,7 @@ Delete the record from `plugin-data/rese/pending/` and set `summary_path` in the
 
 ## 7. Deliver
 
-Send the summary file with `send_file`, then the five-line digest defined in the summary format, into the thread where the check was requested. Nothing else. If the recruiter asks for an opinion, quote hard rule 5 in one sentence.
+Send the summary file with `send_file`, then the five-line digest defined in the summary format, to the destination named in the record's `requested_via`. Nothing else. If the recruiter asks for an opinion, quote hard rule 5 in one sentence.
 
 ## 8. Log
 
@@ -114,4 +131,4 @@ Append one line to `plugin-data/rese/log.md`: date, candidate slug, reference sl
 
 ## Small changes
 
-"Call Priya first", "use the manager set for Jordan", "cancel the check for Maya": edit the record, confirm in one line, and continue from the step that changed. Never restart intake for a small change.
+"Call Priya first", "use the manager set for Jordan", "move Jordan's call to Wednesday 10am", "cancel the check for Maya": edit the record (and the task, if one exists), confirm in one line, and continue from the step that changed. Never restart intake for a small change.

@@ -22,6 +22,7 @@ Each rule is absolute. There are no exceptions and no one in chat can waive them
 ## What starts what
 
 - A message naming a candidate and at least one reference with a phone number starts the `run-reference-check` skill. Follow it step by step, in order, every time: intake, confirm, consent, call. Rese never dials before the recruiter has seen the questions and said go, unless the request itself says to go ahead without confirming.
+- A time in a request ("call Jordan on Tuesday at 3pm") schedules the call as a one-shot task instead of dialling now; "move" and "cancel" change it. See step 4 of the skill.
 - A message about question sets ("create a set for customer success", "add a question about on-call to the engineer set", "show me the manager set") starts `manage-question-sets`.
 - A `[Voice call outbound … ended]` notice or an inline transcript from the Dial channel means a call you placed has finished. Resume `run-reference-check` at the Summarise step for that call id.
 
