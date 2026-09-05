@@ -335,6 +335,13 @@ function usdAmountTokens(text) {
   const tokens = [];
   for (const match of text.matchAll(USD_TOKEN_RE)) {
     try {
+      const prefix = text.slice(0, match.index);
+      // A separated sign is part of the expression, except a Markdown list marker.
+      const separatedSign = prefix.match(/([+\-−])\s*$/u);
+      const listMarker = separatedSign && /^[ \t]*-[ \t]+$/u.test(prefix.slice(prefix.lastIndexOf('\n') + 1));
+      if (separatedSign && !listMarker) continue;
+      // Accounting notation is deliberately unsupported, including spaced parentheses.
+      if (/\(\s*$/u.test(prefix) || /^\s*\)/u.test(text.slice(match.index + match[0].length))) continue;
       tokens.push({ text: match[0], cents: parseUsdLiteral(match[0]), start: match.index, end: match.index + match[0].length });
     } catch {
       // The tokenizer is deliberately conservative; ignore any token it cannot parse.
@@ -374,11 +381,33 @@ export function containsExactWholeNumber(text, quantity) {
   if (typeof text !== 'string' || !Number.isSafeInteger(quantity) || quantity < 1) return false;
   const grouped = quantity.toLocaleString('en-US');
   const forms = grouped === String(quantity) ? escapeRegExp(grouped) : `(?:${escapeRegExp(grouped)}|${quantity})`;
-  const pattern = new RegExp(`(?<![$\\p{L}\\p{N}_.,])${forms}(?![\\p{L}\\p{N}_]|[.,]\\d)`, 'u');
-  return pattern.test(text);
+  const pattern = new RegExp(`(?<![$\\p{L}\\p{N}_.,/⁄∕%\\-−+])${forms}(?![\\p{L}\\p{N}_/⁄∕%]|[.,]\\d)`, 'gu');
+  return [...text.matchAll(pattern)].some((match) => {
+    const prefix = text.slice(0, match.index);
+    const suffix = text.slice(match.index + match[0].length);
+    if (/(?:[$€£¥+−/⁄∕%]|USD|EUR|GBP|\d\s*[.,])\s*$/iu.test(prefix)) return false;
+    if (/-\s*$/u.test(prefix) && !/^[ \t]*-[ \t]+$/u.test(prefix.slice(prefix.lastIndexOf('\n') + 1))) return false;
+    if (/^\s*(?:[/⁄∕%]|USD\b|EUR\b|GBP\b)/iu.test(suffix)) return false;
+    return true;
+  });
+}
+
+function validateMinimumSentence(sentence, project, calculation) {
+  const tokens = usdAmountTokens(sentence);
+  const suggestion = buildSentences(project, project.baselineUnitPriceCents, calculation).minimum;
+  if (tokens.length === 1 && tokens[0].cents === project.minimumRemainingCents) {
+    const token = tokens[0];
+    const skeleton = (sentence.slice(0, token.start) + '<target>' + sentence.slice(token.end)).trim();
+    // Finite grammar: only the target is numeric; no remaining/shortfall claims can go stale.
+    const positive = /^(?:This meets our minimum remaining amount of|That remaining amount satisfies our minimum buffer of) <target>\.$/u;
+    const negative = /^(?:This does not meet our minimum remaining amount of|That remaining amount does not satisfy our minimum buffer of) <target>\.$/u;
+    if ((calculation.meetsTarget ? positive : negative).test(skeleton)) return;
+  }
+  fail('UNSUPPORTED_MINIMUM_SENTENCE', 'The minimum sentence must state only whether the fixed target is met. Ask the owner to approve a document edit using the suggested sentence, then map and initialize the edited document. The original has not been rewritten.', { suggestion });
 }
 
 function validateInitialDocumentValues(input, project, calculation, anchors) {
+  validateMinimumSentence(anchors.minimum, project, calculation);
   const values = requireObject(input.documentValues, 'documentValues');
   const expected = {
     quantity: project.quantity,
@@ -814,7 +843,6 @@ function parseCurlEnvelope(stdout) {
   if (!Number.isInteger(httpStatus) || httpStatus < 0 || httpStatus > 599) {
     fail('RETRIEVAL_FAILED', 'curl returned an invalid HTTP status marker.', { statusText });
   }
-  if (Buffer.byteLength(raw, 'utf8') > MAX_RESPONSE_BYTES) fail('RESPONSE_TOO_LARGE', 'Tavily response exceeded 1 MB.');
   return { raw, httpStatus };
 }
 
@@ -842,6 +870,7 @@ async function invokeCurl(sourceUrl) {
   const binary = process.env.EVIDENCE_DOMINO_TEST_CURL_BIN || 'curl';
   const childEnv = { ...process.env };
   delete childEnv.TAVILY_API_KEY;
+  let result;
   try {
     const { stdout, stderr } = await execFile(binary, args, {
       encoding: 'utf8',
@@ -850,31 +879,46 @@ async function invokeCurl(sourceUrl) {
       env: childEnv,
       windowsHide: true,
     });
-    return { ...parseCurlEnvelope(stdout), stderr, exitCode: 0 };
+    result = { raw: stdout, stderr, exitCode: 0, httpStatus: 0 };
   } catch (error) {
     const stdout = typeof error.stdout === 'string' ? error.stdout : '';
-    let envelope = null;
-    try {
-      if (stdout) envelope = parseCurlEnvelope(stdout);
-    } catch {
-      // Preserve the execution failure rather than hiding it behind envelope parsing.
-    }
-    return {
-      raw: envelope?.raw ?? stdout,
-      httpStatus: envelope?.httpStatus ?? 0,
+    result = {
+      raw: stdout,
+      httpStatus: 0,
       stderr: typeof error.stderr === 'string' ? error.stderr : error.message,
       exitCode: Number.isInteger(error.code) ? error.code : null,
       signal: error.signal ?? null,
       executionCode: typeof error.code === 'string' ? error.code : null,
+      responseComplete: false,
     };
   }
+  let envelopeComplete = false;
+  try {
+    result = { ...result, ...parseCurlEnvelope(result.raw) };
+    envelopeComplete = true;
+  } catch {
+    // The bounded stdout is retained even when no complete envelope was received.
+    result.responseComplete = false;
+  }
+  const observedBytes = Buffer.byteLength(result.raw, 'utf8');
+  if (observedBytes > MAX_RESPONSE_BYTES || result.executionCode === 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER') {
+    let retained = Buffer.from(result.raw, 'utf8').subarray(0, MAX_RESPONSE_BYTES).toString('utf8');
+    while (Buffer.byteLength(retained, 'utf8') > MAX_RESPONSE_BYTES) retained = retained.slice(0, -1);
+    return { ...result, raw: retained, errorCode: 'RESPONSE_TOO_LARGE', responseComplete: false,
+      responseTruncated: true, observedResponseBytes: observedBytes,
+      responseSizeKnown: envelopeComplete && result.executionCode !== 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER' };
+  }
+  return { ...result, responseComplete: result.responseComplete ?? true,
+    responseTruncated: false, observedResponseBytes: observedBytes, responseSizeKnown: result.responseComplete !== false };
 }
 
 function isTransientAttempt(attempt) {
+  if (attempt.errorCode === 'RESPONSE_TOO_LARGE') return false;
   return attempt.httpStatus >= 500 || attempt.httpStatus === 0 || attempt.exitCode === 28 || attempt.signal === 'SIGTERM';
 }
 
 function parseTavilySuccess(attempt, source) {
+  if (attempt.errorCode) return { ok: false, code: attempt.errorCode, message: 'Tavily response exceeded 1 MB; only a bounded diagnostic prefix was retained.' };
   if (attempt.httpStatus !== 200) {
     return { ok: false, code: `HTTP_${attempt.httpStatus || 'ERROR'}`, message: 'Tavily did not return HTTP 200.' };
   }
@@ -884,7 +928,7 @@ function parseTavilySuccess(attempt, source) {
   } catch (error) {
     return { ok: false, code: 'MALFORMED_RESPONSE', message: error.message };
   }
-  if (!Array.isArray(body.results)) return { ok: false, code: 'MALFORMED_RESPONSE', message: 'results is missing.' };
+  if (!isPlainObject(body) || !Array.isArray(body.results)) return { ok: false, code: 'MALFORMED_RESPONSE', message: 'results is missing.' };
   const requested = normalizePublicHttpsUrl(source.url);
   const matching = body.results.filter((entry) => {
     if (!isPlainObject(entry) || typeof entry.url !== 'string') return false;
@@ -951,6 +995,10 @@ export async function captureCommand(input, root) {
       stderr: result.stderr?.slice(0, 4_096) ?? '',
       responseBytes: Buffer.byteLength(raw, 'utf8'),
       responseHash: sha256(raw),
+      responseComplete: result.responseComplete,
+      responseTruncated: result.responseTruncated,
+      observedResponseBytes: result.observedResponseBytes,
+      responseSizeKnown: result.responseSizeKnown,
     });
     parsed = parseTavilySuccess(result, source);
     if (parsed.ok || !isTransientAttempt(result)) break;
@@ -1271,8 +1319,10 @@ export async function stageCommand(input, root) {
     const document = await readFile(path.join(baselineDir(root, baseline.version), 'document.md'), 'utf8');
     if (sha256(document) !== baseline.documentHash) fail('STATE_CORRUPT', 'Active document hash does not match its baseline record.');
     validateAnchors(document, baseline.anchors);
+    validateMinimumSentence(baseline.anchors.minimum, project, baseline.calculation);
     const fingerprint = materialFingerprint(baseline.version, interpretation);
-    if (fingerprint === active.latestMaterialFingerprint && active.latestApplicableReviewId) {
+    const pendingReview = active.latestApplicableReviewId ? await loadReview(root, active.latestApplicableReviewId) : null;
+    if (fingerprint === active.latestMaterialFingerprint && pendingReview?.baselineRecordHash === sha256(stableJson(baseline))) {
       const next = {
         ...active,
         latestProcessedSequence: capture.sequence,
@@ -1328,6 +1378,7 @@ export async function stageCommand(input, root) {
       controlledReplay: capture.controlledReplay,
       baselineVersion: baseline.version,
       baselineDocumentHash: baseline.documentHash,
+      baselineRecordHash: sha256(stableJson(baseline)),
       captureSequence: capture.sequence,
       source: {
         captureId,
@@ -1432,10 +1483,11 @@ export async function approveCommand(input, root) {
     }
     if (review.revisionId !== revisionId || !review.changed) fail('INVALID_REVISION', 'The named review has no matching adoptable revision.');
     if (
-      active.latestObservation?.decisionBasisChanged === true &&
-      active.latestObservation.sequence > review.captureSequence
+      active.latestCaptureSequence > active.latestProcessedSequence ||
+      (active.latestObservation?.decisionBasisChanged === true &&
+      active.latestObservation.sequence > review.captureSequence)
     ) {
-      fail('STALE_APPROVAL', 'A newer failed, ambiguous, or changed observation superseded this review.', {
+      fail('STALE_APPROVAL', 'A newer capture is incomplete, awaits interpretation, or superseded this review. Validate the latest observation before approval.', {
         latestObservation: active.latestObservation,
       });
     }
@@ -1458,6 +1510,9 @@ export async function approveCommand(input, root) {
       fail('STALE_APPROVAL', 'This is not the latest applicable review for the active baseline.');
     }
     const current = await loadBaseline(root, active.currentBaselineVersion);
+    if (!review.baselineRecordHash || review.baselineRecordHash !== sha256(stableJson(current))) {
+      fail('STALE_APPROVAL', 'The baseline metadata changed or this legacy review lacks a baseline-record hash. Capture and stage a fresh review.');
+    }
     const currentDocument = await readFile(path.join(baselineDir(root, current.version), 'document.md'), 'utf8');
     if (sha256(currentDocument) !== current.documentHash || current.documentHash !== review.baselineDocumentHash) {
       fail('STALE_APPROVAL', 'The active document changed after this review was prepared.');
