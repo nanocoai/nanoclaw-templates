@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/training-window",
+        "name": "training-window",
+        "version": "1.0.0",
+        "description": "Finds the best hour(s) today or tomorrow to train outside by scoring heat, humidity, UV, and air quality hour-by-hour — no API keys required"
       }
     ],
     "media": [
