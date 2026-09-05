@@ -72,15 +72,15 @@ Never proceed to step 4 without `consent.path` set to `attestation` or `sms`.
 
 Build the outbound instruction from `references/call-script.md`. Fill every slot: company, recruiter, candidate, reference first name, retention days, and the three questions from the set as plain sentences with the numbers stripped (the `{question_list}` slot). Use the template text exactly; do not add rules to it (see the field note in `call-script.md`). Resolve the set in this order: `plugin-data/rese/question-sets/<name>.md`, then `plugins/rese/skills/run-reference-check/references/question-sets/<name>.md`. Cross-check every question against `references/question-filter.md` even though sets are checked when created.
 
-Set `idempotency_key = "<candidate-slug>-<reference-slug>-1"` (increment the trailing number only for a deliberate second attempt after a no-answer). Write it to the record before dialling.
+Set `idempotency_key = "rese-<candidate-slug>-<reference-slug>-<created>-1"`, where `<created>` is the record's creation timestamp compressed to digits (`20260906T101200Z` becomes `20260906101200`). Increment the trailing number only for a deliberate second attempt after a no-answer. Write the key to the record before dialling. The timestamp matters: Dial keys are account-wide and permanent, so a key built from names alone would return an old call for the same person instead of placing a new one.
 
 ```
-dial call --to +14155550123 --from-number <from_number> --idempotency-key maya-chen-jordan-lee-1 --language <language or omit for auto> --outbound-instruction "<script>" --json
+dial call --to +14155550123 --from-number <from_number> --idempotency-key rese-maya-chen-jordan-lee-20260906101200-1 --language <language or omit for auto> --outbound-instruction "<script>" --json
 ```
 
 Immediately write the returned call id, `placed_at`, and `status = "initiated"` to the record, and copy the record into `plugin-data/rese/pending/`. Only then tell the recruiter: "Calling Jordan now. I'll send the summary when the transcript is in."
 
-If the command fails without returning an id, run `dial call list --direction outbound --since <placed_at minus 5 minutes>` and look for a call to that number. If one exists, use its id. If none exists, retry once with the same idempotency key. A `429 call_limit_reached` means the account is at its concurrent-call cap: wait five minutes, then retry with the same key.
+If the command fails without returning an id, run `dial call list --direction outbound --since <placed_at minus 5 minutes>` and look for a call to that number. If one exists, use its id. If none exists, retry once with the same idempotency key. A `429 call_limit_reached` means the account is at its concurrent-call cap: wait five minutes, then retry with the same key. If the returned call record shows a different `to` number or an instruction you did not send, the key collided with an older call: do not summarise it, generate a fresh key with the current time, and place the call again.
 
 ## 5. Wait for the transcript
 
