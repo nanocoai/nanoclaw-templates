@@ -370,6 +370,14 @@ export function containsExactQuantityAndBasis(text, quantity, unitBasis) {
   return pattern.test(text);
 }
 
+export function containsExactWholeNumber(text, quantity) {
+  if (typeof text !== 'string' || !Number.isSafeInteger(quantity) || quantity < 1) return false;
+  const grouped = quantity.toLocaleString('en-US');
+  const forms = grouped === String(quantity) ? escapeRegExp(grouped) : `(?:${escapeRegExp(grouped)}|${quantity})`;
+  const pattern = new RegExp(`(?<![$\\p{L}\\p{N}_.,])${forms}(?![\\p{L}\\p{N}_]|[.,]\\d)`, 'u');
+  return pattern.test(text);
+}
+
 function validateInitialDocumentValues(input, project, calculation, anchors) {
   const values = requireObject(input.documentValues, 'documentValues');
   const expected = {
@@ -388,19 +396,9 @@ function validateInitialDocumentValues(input, project, calculation, anchors) {
   if (mismatches.length) {
     fail('INCONSISTENT_DRAFT', 'The declared document values do not match the deterministic calculation.', { mismatches });
   }
-  if (!containsExactQuantityAndBasis(anchors.cost, project.quantity, project.unitBasis)) {
-    fail('INCONSISTENT_DRAFT', 'The cost sentence does not contain the exact configured whole-number quantity followed by its unit basis.', {
+  if (!containsExactWholeNumber(anchors.cost, project.quantity)) {
+    fail('INCONSISTENT_DRAFT', 'The cost sentence does not contain the exact configured whole-number quantity.', {
       quantity: project.quantity,
-      unitBasis: project.unitBasis,
-    });
-  }
-  const expectedMinimumSentence = calculation.meetsTarget
-    ? `This meets our minimum remaining amount of ${formatUsd(project.minimumRemainingCents)}.`
-    : `This does not meet our minimum remaining amount of ${formatUsd(project.minimumRemainingCents)}.`;
-  if (anchors.minimum !== expectedMinimumSentence) {
-    fail('INCONSISTENT_DRAFT', 'The minimum sentence must use the fixed amount-only condition template matching the calculated truth.', {
-      expected: expectedMinimumSentence,
-      received: anchors.minimum,
     });
   }
   const checks = [

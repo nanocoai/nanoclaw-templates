@@ -11,6 +11,7 @@ import {
   calculate,
   containsExactUsdAmount,
   containsExactQuantityAndBasis,
+  containsExactWholeNumber,
   formatUsd,
   runCommand,
   validateAnchors,
@@ -186,6 +187,59 @@ test('USD token matching rejects numeric prefixes and accepts exact formatted eq
   assert.equal(containsExactUsdAmount('Remaining is -$5.', 500), false);
   assert.equal(containsExactQuantityAndBasis('We need 100 units today.', 100, 'units'), true);
   assert.equal(containsExactQuantityAndBasis('We need 10 units today.', 100, 'units'), false);
+  assert.equal(containsExactWholeNumber('The plan rents 3 named backpacks.', 3), true);
+  assert.equal(containsExactWholeNumber('The plan rents 13 named backpacks.', 3), false);
+  assert.equal(containsExactWholeNumber('The plan rents 3.5 named backpacks.', 3), false);
+});
+
+test('init accepts owner-confirmed natural sentence wording', async (t) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'evidence-domino-natural-'));
+  t.after(async () => rm(root, { recursive: true, force: true }));
+  const document = `# Harbor Glow Reception
+
+Service date: November 7, 2026.
+
+The plan rents 3 Pacsafe Go 15L Anti-Theft Backpacks at $109.95 each, for a tracked supplier cost of $329.85.
+
+The fixed client fee of $500.00 leaves $170.15 after this supplier line and before all other costs.
+
+That remaining amount satisfies our minimum buffer of $150.00.`;
+  const anchors = {
+    cost: 'The plan rents 3 Pacsafe Go 15L Anti-Theft Backpacks at $109.95 each, for a tracked supplier cost of $329.85.',
+    remaining: 'The fixed client fee of $500.00 leaves $170.15 after this supplier line and before all other costs.',
+    minimum: 'That remaining amount satisfies our minimum buffer of $150.00.',
+  };
+  await runCommand('init', initInput({
+    mode: 'live',
+    controlledReplay: undefined,
+    sourceUrl: 'https://supplier.example.test/pacsafe-backpack',
+    item: 'Pacsafe Go 15L Anti-Theft Backpack',
+    unitBasis: 'one backpack',
+    quantity: 3,
+    customerQuoteCents: 50_000,
+    minimumRemainingCents: 15_000,
+    baselineUnitPriceCents: 10_995,
+    baselineEvidence: {
+      priceLiteral: '$109.95',
+      supportingPassage: 'Pacsafe Go 15L Anti-Theft Backpack. $109.95 USD.',
+      sourceUrl: 'https://supplier.example.test/pacsafe-backpack',
+    },
+    document,
+    anchors,
+    documentValues: {
+      quantity: 3,
+      unitPriceCents: 10_995,
+      trackedCostCents: 32_985,
+      customerQuoteCents: 50_000,
+      remainingCents: 17_015,
+      minimumRemainingCents: 15_000,
+      meetsTarget: true,
+    },
+  }), { dataDir: root });
+  const status = await runCommand('status', {}, { dataDir: root });
+  assert.equal(status.baseline.version, 1);
+  const storedBaseline = JSON.parse(await readFile(path.join(root, 'baselines', 'v0001', 'baseline.json'), 'utf8'));
+  assert.deepEqual(storedBaseline.anchors, anchors);
 });
 
 test('init preserves an immutable baseline and labels a pre-existing shortfall honestly', async (t) => {
@@ -278,20 +332,6 @@ test('init rejects an inconsistent draft, duplicate anchors, overlap, private UR
     anchors: { ...ANCHORS, cost: 'We need 10 units at $40 each, costing $4,000.' },
   }), { dataDir: await nextRoot() }), 'INCONSISTENT_DRAFT');
 
-  const dynamicFailureDocument = DOCUMENT.replace(
-    'This meets our minimum remaining amount of $1,500.',
-    'This does not meet our minimum remaining amount of $2,500 by $500.',
-  );
-  await expectCode(runCommand('init', initInput({
-    minimumRemainingCents: 250_000,
-    document: dynamicFailureDocument,
-    anchors: { ...ANCHORS, minimum: 'This does not meet our minimum remaining amount of $2,500 by $500.' },
-    documentValues: {
-      ...initInput().documentValues,
-      minimumRemainingCents: 250_000,
-      meetsTarget: false,
-    },
-  }), { dataDir: await nextRoot() }), 'INCONSISTENT_DRAFT');
 });
 
 test('negative initial remaining is accepted only as a complete signed money token', async (t) => {

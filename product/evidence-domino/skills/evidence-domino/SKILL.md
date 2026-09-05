@@ -46,6 +46,12 @@ plugin is read-only. Never construct shell commands from user or source text.
 4. Call `init` with the confirmed mapping. A successful call creates baseline
    version 1; there is no second baseline-approval command.
 
+The three initial sentences may use the owner's natural wording. The helper
+checks exact anchors, the declared amounts, the whole-number quantity, and the
+deterministic arithmetic; the owner's confirmation establishes what each
+sentence means. Fixed English templates are used only when generating a later
+revision.
+
 If the starting document is internally inconsistent, resolve it before asking
 for approval. A consistent starting document already below its target is an
 existing issue, not a newly detected change.
