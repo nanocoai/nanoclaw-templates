@@ -26,6 +26,16 @@ Searching for a reference or candidate would turn Rese into a background-check t
 
 Reference material is sensitive and stale quickly. Records are purged after the retention window by the `retention-purge` task, which starts paused and must be enabled by the operator.
 
+## If the reference is in the EU
+
+The same three behaviours carry the design in the EU, and one of them is now a legal requirement rather than good practice.
+
+- **AI disclosure.** Article 50 of the EU AI Act requires that people interacting with an AI system are told so. It has applied since 2 August 2026 and was not postponed by the Digital Omnibus. Rese's first sentence on every call satisfies it.
+- **Recording and transcription.** Germany (section 201 of the Criminal Code) and most member states treat recording a private conversation without the other party's agreement as an offence, and data-protection law needs its own basis for keeping the transcript. That is why the disclosure names the purpose and the retention period before asking permission, and why a "no" ends the call before any question. The announcement is the first thing said on the call, which is the accepted way to handle the seconds before it.
+- **No evaluation.** AI systems used to evaluate candidates are high-risk under Annex III of the AI Act. Those obligations were deferred to 2 December 2027, and Rese is designed to stay outside them by transcribing and summarising without scoring, ranking, or recommending. Do not add scoring to this template for EU use.
+- **Lawful basis and information.** Employers in the EU usually run reference checks on legitimate interest, with the candidate told in the privacy notice that references are contacted. Include Rese in that notice. The reference learns from the call itself who is processing their words and for how long.
+- **Where the audio goes.** Dial processes and records the call. Check Dial's data-processing terms and transfer mechanism before using Rese with EU references, and set a short retention window.
+
 ## Own install, own account
 
 Rese runs on the employer's own NanoClaw install with the employer's own Dial account. No third party receives the transcript. A hosted version serving other employers would change this analysis.

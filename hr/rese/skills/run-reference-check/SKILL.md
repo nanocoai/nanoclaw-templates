@@ -62,7 +62,7 @@ Never proceed to step 3 without `consent.path` set to `attestation` or `sms`.
 
 ## 3. Place the call
 
-Build the outbound instruction from `references/call-script.md`. Fill every slot: company, recruiter, candidate, reference, relationship, dates claimed, and the question list from the set, one question per line with no numbers or markers (the `{question_list}` slot). Resolve the set in this order: `plugin-data/rese/question-sets/<name>.md`, then `plugins/rese/skills/run-reference-check/references/question-sets/<name>.md`. Cross-check every question against `references/question-filter.md` even though sets are checked when created.
+Build the outbound instruction from `references/call-script.md`. Fill every slot: company, recruiter, candidate, reference, relationship, dates claimed, retention days, and the question list from the set, one question per line with no numbers or markers (the `{question_list}` slot). Resolve the set in this order: `plugin-data/rese/question-sets/<name>.md`, then `plugins/rese/skills/run-reference-check/references/question-sets/<name>.md`. Cross-check every question against `references/question-filter.md` even though sets are checked when created.
 
 Set `idempotency_key = "<candidate-slug>-<reference-slug>-1"` (increment the trailing number only for a deliberate second attempt after a no-answer). Write it to the record before dialling.
 
