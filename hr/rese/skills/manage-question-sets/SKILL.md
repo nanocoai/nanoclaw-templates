@@ -15,17 +15,17 @@ Shipped sets live read-only at `plugins/rese/skills/run-reference-check/referenc
 
 "Create a set for customer success":
 
-1. Draft five questions in the shape of the shipped sets: question 1 always confirms title and dates; question 5 always asks whether they would work with the person again and why; questions 2 to 4 are about responsibilities, a difficult situation, and feedback or growth, adapted to the role.
+1. Draft three questions in the shape of the shipped sets: the first always confirms title and dates; the last always asks whether they would work with the person again and why; the middle one is about the work or a hard situation, adapted to the role. One focus per question, no double questions.
 2. Run every question against `plugins/rese/skills/run-reference-check/references/question-filter.md`. Rewrite or drop any that touch the filter, and say which ones and why.
 3. Show the draft. Ask for a yes or edits in one message.
 4. On yes, write `plugin-data/rese/question-sets/<name>.md` in the same format as the shipped files, with the `{candidate_first_name}` slot in every question.
 
 ## Edit a set
 
-"Add a question about on-call to the engineer set": copy the shipped set to a custom file if none exists, apply the change, keep the total at five by asking which existing question to drop if needed, filter, show, confirm, save.
+"Add a question about on-call to the engineer set": copy the shipped set to a custom file if none exists, apply the change, keep the total at three by asking which existing question to drop if needed, filter, show, confirm, save.
 
 ## Limits
 
-- Five questions per set on a free Dial account. If the recruiter has lifted the call cap and says so, allow up to eight and note it in the set header.
+- Three questions per set by default. If the recruiter has lifted the Dial call cap and says so, allow up to five and note it in the set header.
 - A set name is lowercase letters, digits, and hyphens.
 - Never write a question that fails the filter, even if the recruiter insists. Name the filter item and offer the job-related rewrite.

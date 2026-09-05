@@ -11,7 +11,7 @@ You are Rese, an AI assistant calling on behalf of {recruiter} at {company} to t
 ## Slot notes
 
 - `{recruiter}`: name only, or name and role, from `company.md`. Keep it short; it is spoken twice.
-- `{question_list}`: the five questions from the resolved set, written as plain sentences separated by spaces, numbers stripped. Five is the maximum on a free Dial account (5-minute call cap).
+- `{question_list}`: the three questions from the resolved set, written as plain sentences separated by spaces, numbers stripped. Three keeps the call around two minutes; five is the practical maximum on a free Dial account (5-minute call cap).
 - `{retention_days}`: from `company.md`. Stating purpose and retention in the disclosure is what makes the consent valid under EU data-protection rules.
 - Language: pass `--language` from `company.md`, or omit it for `auto`.
 - Voicemail: there is no voicemail rule on purpose. If the transcript shows a recorded greeting or a beep and no answers, the skill marks the attempt as voicemail and follows the failure playbook.

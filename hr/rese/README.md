@@ -12,7 +12,7 @@ Recruiters and hiring managers at companies without an enterprise applicant-trac
 
 | Service | Host | Auth | Cost | Notes |
 | --- | --- | --- | --- | --- |
-| [Dial](https://getdial.ai) | `api.getdial.ai` | Bearer API key, held in the OneCLI vault; the key never enters the agent container | Paid, pay-as-you-go with a free tier. You bring your own account. See [Dial pricing](https://getdial.ai/pricing). | The free tier caps calls at 5 minutes and 2 concurrent calls. Any top-up or subscription lifts both. Question sets ship with five questions to fit the cap. |
+| [Dial](https://getdial.ai) | `api.getdial.ai` | Bearer API key, held in the OneCLI vault; the key never enters the agent container | Paid, pay-as-you-go with a free tier. You bring your own account. See [Dial pricing](https://getdial.ai/pricing). | The free tier caps calls at 5 minutes and 2 concurrent calls. Any top-up or subscription lifts both. Question sets ship with three questions, so a call runs about two minutes. |
 
 Rese needs no other service and ships no `mcp.json`. The Dial CLI is installed into the agent container by NanoClaw's `/add-dial-tool` skill, which pins the CLI version and stores the key in the vault.
 
@@ -32,7 +32,7 @@ Send one message with the candidate, role, question set, and each reference's na
 
 > Reference check for Maya Chen, senior engineer, set: engineer. References: Jordan Lee +14155550123, former manager at Acme 2022 to 2025; Priya Nair +16465550188, peer at Acme. Maya confirmed both expect a call this week.
 
-Rese replies with one line per reference, places each call, and comes back with the summary file and a five-line digest when each transcript is in. Shipped question sets: `default`, `engineer`, `manager`, `sales`. "Create a set for customer success" starts the question-set skill.
+Rese replies with what it understood and the three questions it will ask, and waits for **go** or changes. Then it places the call and comes back with the summary file and a five-line digest when the transcript is in. Say "go ahead without confirming" in the request to skip the check. Shipped question sets: `default`, `engineer`, `manager`, `sales`, three questions each. "Create a set for customer success" starts the question-set skill.
 
 ## Consent
 
