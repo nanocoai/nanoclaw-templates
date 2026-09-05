@@ -68,7 +68,7 @@ The `retention-purge` task deletes checks older than the retention window (defau
 
 ## Demo
 
-The demo video shows: onboarding, one trigger message in Slack, the phone ringing and the AI disclosure heard on speaker, three questions answered, the transcript notice arriving through the Dial channel, the summary file with the fixed "no score" closing line, and a second check where the reference declines on the call and Rese logs it without a summary.
+The demo video runs on a freshly stamped agent, wired to a Slack DM and a Dial line, and shows in order: the onboarding questions on the first message; a reference request missing the phone number, and Rese asking for it; the confirmation with the three questions and the recruiter's "go"; the attestation prompt; the phone ringing, the AI disclosure and the recording notice heard on speaker, three questions answered; the transcript arriving through the Dial channel; the summary file and five-line digest landing in the same Slack DM, with the fixed "no score" closing line.
 
 ## Credit
 
