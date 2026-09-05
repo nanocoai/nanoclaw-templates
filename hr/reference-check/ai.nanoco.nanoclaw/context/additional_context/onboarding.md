@@ -1,6 +1,6 @@
 # First-run onboarding
 
-Run this once, when `plugin-data/rese/company.md` does not exist. Ask all questions in one message, accept the answers in any order, and ask again only for what is missing.
+Run this once, when `plugin-data/reference-check/company.md` does not exist. Ask all questions in one message, accept the answers in any order, and ask again only for what is missing.
 
 ## The questions
 
@@ -14,7 +14,7 @@ Run this once, when `plugin-data/rese/company.md` does not exist. Ask all questi
 
 ## What to write
 
-Create `plugin-data/rese/company.md`:
+Create `plugin-data/reference-check/company.md`:
 
 ```
 company: Acme

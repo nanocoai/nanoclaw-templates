@@ -1,6 +1,6 @@
 # Summary format
 
-File: `plugin-data/rese/checks/<candidate-slug>/<reference-slug>-summary.md`. Follow the skeleton exactly. Do not add sections. Do not add adjectives about the reference or the candidate that are not in the transcript.
+File: `plugin-data/reference-check/checks/<candidate-slug>/<reference-slug>-summary.md`. Follow the skeleton exactly. Do not add sections. Do not add adjectives about the reference or the candidate that are not in the transcript.
 
 ```
 # Reference summary: {candidate_name}

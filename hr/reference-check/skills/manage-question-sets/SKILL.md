@@ -5,7 +5,7 @@ description: Creates, edits, and shows reference-check question sets, filtering 
 
 # Manage question sets
 
-Shipped sets live read-only at `plugins/rese/skills/run-reference-check/references/question-sets/`. Custom sets are written to `plugin-data/rese/question-sets/<name>.md` and take precedence over a shipped set with the same name.
+Shipped sets live read-only at `plugins/reference-check/skills/run-reference-check/references/question-sets/`. Custom sets are written to `plugin-data/reference-check/question-sets/<name>.md` and take precedence over a shipped set with the same name.
 
 ## Show a set
 
@@ -16,9 +16,9 @@ Shipped sets live read-only at `plugins/rese/skills/run-reference-check/referenc
 "Create a set for customer success":
 
 1. Draft three questions in the shape of the shipped sets: the first always confirms title and dates; the last always asks whether they would work with the person again and why; the middle one is about the work or a hard situation, adapted to the role. One focus per question, no double questions.
-2. Run every question against `plugins/rese/skills/run-reference-check/references/question-filter.md`. Rewrite or drop any that touch the filter, and say which ones and why.
+2. Run every question against `plugins/reference-check/skills/run-reference-check/references/question-filter.md`. Rewrite or drop any that touch the filter, and say which ones and why.
 3. Show the draft. Ask for a yes or edits in one message.
-4. On yes, write `plugin-data/rese/question-sets/<name>.md` in the same format as the shipped files, with the `{candidate_first_name}` slot in every question.
+4. On yes, write `plugin-data/reference-check/question-sets/<name>.md` in the same format as the shipped files, with the `{candidate_first_name}` slot in every question.
 
 ## Edit a set
 

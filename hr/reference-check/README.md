@@ -20,10 +20,10 @@ Rese needs no other service and ships no `mcp.json`. The Dial CLI is installed i
 
 ## Setup
 
-1. Stamp the template: `ncl groups create --template hr/rese --name "Rese"`.
+1. Stamp the template: `ncl groups create --template hr/reference-check --name "Rese"`.
 2. Run `/add-dial` in your NanoClaw checkout if you have not connected Dial yet. Pair your phone as the line's owner. Say yes when it offers `/add-dial-tool`, or run `/add-dial-tool` afterwards and grant Rese's agent group.
 3. Wire Rese to where recruiters work. Slack DM is the intended interface. Wire the Slack DM and the Dial line to Rese's agent group with `--session-mode agent-shared`, so the call-ended notice and transcript from the Dial channel land in the same conversation as the Slack request. See [Isolation levels](https://docs.nanoclaw.dev/concepts/isolation-levels). Telegram or any other channel works the same way.
-4. Say hello. Rese asks the onboarding questions (company name, recruiter, the Dial line number, default question set, consent path, retention window, call language) and writes `plugin-data/rese/company.md`.
+4. Say hello. Rese asks the onboarding questions (company name, recruiter, the Dial line number, default question set, consent path, retention window, call language) and writes `plugin-data/reference-check/company.md`.
 5. Optionally resume the two scheduled tasks, which start paused: `ncl tasks list --group <agent-group-id> --status paused`, then `ncl tasks resume <task-id>`.
 
 ## How to run a check
@@ -64,7 +64,7 @@ On every call, regardless of path, the voice agent says it is an AI, says the ca
 
 ## Data
 
-Everything lives in `plugin-data/rese/` inside the agent group's folder on your host:
+Everything lives in `plugin-data/reference-check/` inside the agent group's folder on your host:
 
 - `company.md`: onboarding answers.
 - `checks/<candidate>/<reference>.json` and `-summary.md`: the record and the summary.
