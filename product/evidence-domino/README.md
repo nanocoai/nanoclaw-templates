@@ -84,6 +84,12 @@ be replaced with an operator-owned Tavily API key through NanoClaw's OneCLI
 Agent Vault when higher limits are needed. Evidence Domino does not contain,
 request, print, or store a credential.
 
+The template adds its own guard of 20 HTTP transmissions per agent group per
+UTC day. Every retry counts against that budget, and only one retry is allowed
+for a transient timeout or server error. Tavily's effective provider quota can
+still be lower or higher; the local budget is a safety limit, not a claim about
+the provider account. There is no automatic paid upgrade.
+
 Only the public source URL and neutral extraction parameters are sent to
 Tavily. The proposal and customer identity are not included in that request.
 The configured agent model may process proposal text and retrieved evidence as
