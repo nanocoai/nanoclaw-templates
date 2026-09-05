@@ -62,7 +62,7 @@ async function api(path, { method = 'GET', body, raw = false } = {}) {
 
 function setBusy(value, label = '') {
   busy = value;
-  $('activity').textContent = value ? label : 'Your conversation stays in this workspace.';
+  $('activity').textContent = value ? label : '';
   $('chat-form').setAttribute('aria-busy', String(value));
   for (const id of ['open-intake', 'upload-context', 'clear-chat', 'submit-intake', 'upload-draft', 'refresh-model']) $(id).disabled = value;
   $('send-chat').disabled = value;
@@ -112,6 +112,7 @@ function renderMessages() {
   if (!entries.length) {
     messages.querySelectorAll('.message').forEach((node) => node.remove());
     $('welcome').hidden = false;
+    $('welcome').querySelector('p').textContent = state.project ? 'Ask about delivery or try a different supplier price.' : 'Add a draft or supporting notes to get started.';
     return;
   }
   $('welcome').hidden = true;
@@ -122,7 +123,7 @@ function renderMessages() {
     article.append(element('div', 'message-content', entry.content || ''));
     if (entry.citations?.length) {
       const citations = element('details', 'citations');
-      citations.append(element('summary', '', `${entry.citations.length} supporting ${entry.citations.length === 1 ? 'passage' : 'passages'}`));
+      citations.append(element('summary', '', `${entry.citations.length} ${entry.citations.length === 1 ? 'source' : 'sources'}`));
       for (const citation of entry.citations) {
         const item = element('div', 'citation');
         item.append(element('strong', '', citation.name || citation.sourceId || 'Reference document'));
@@ -171,20 +172,28 @@ function renderPreflight() {
   const preflight = state.preflight;
   const card = $('preflight');
   card.replaceChildren();
-  card.append(element('p', 'eyebrow', preflight ? 'CONFIRMED INPUTS · DETERMINISTIC CHECK' : state.project ? 'READY FOR A CHECK' : 'WAITING FOR A PROPOSAL'));
-  card.append(element('h3', '', preflight?.headline || (state.project ? 'Your assumptions are saved.' : 'The important numbers, together.')));
-  if (!preflight) {
-    card.append(element('p', 'muted small', state.project ? 'Run a proposal health check to see your remaining amount, price limit and possible next steps.' : 'After setup, see the remaining amount, your price limit and any shortfall here.'));
-    return;
+  card.hidden = Boolean(state.pending?.kind === 'approve');
+  card.append(element('p', 'eyebrow', preflight ? 'APPROVED ESTIMATE' : 'NO PROPOSAL'));
+  card.append(element('h3', '', preflight?.headline || 'Add a proposal to check its cost.'));
+  if (!preflight) return;
+  const numbers = element('div', 'recovery-list');
+  for (const [label, value] of [['Remaining before other costs', preflight.calculation.remainingCents], ['Minimum remaining', state.project.minimumRemainingCents]]) {
+    const row = element('div', 'recovery-item');
+    row.append(element('strong', '', label), element('span', '', usd(value)));
+    numbers.append(row);
   }
+  card.append(numbers);
   if (preflight.details?.length) {
+    const details = element('details', 'calculation-details');
+    details.append(element('summary', '', 'Calculation and scope'));
     const list = element('ul');
     for (const detail of preflight.details) list.append(element('li', '', readable(detail)));
-    card.append(list);
+    details.append(list);
+    card.append(details);
   }
   if (preflight.recovery && Object.keys(preflight.recovery).length) {
     const recovery = element('div', 'recovery-list');
-    const options = [['priceCeilingCents', 'Supplier price limit per unit'], ['remainingHeadroomCents', 'Room above the target'], ['requiredQuoteCents', 'Hypothetical quote to retain target']];
+    const options = [['priceCeilingCents', 'Maximum supplier price / unit'], ['requiredQuoteCents', 'Minimum quote at this cost']];
     for (const [key, label] of options) {
       const value = preflight.recovery[key];
       if (value === undefined) continue;
@@ -202,10 +211,10 @@ function renderPending() {
   if (!pending) { shownPendingId = null; $('confirmation-input').value = ''; return; }
   if (pending.id !== shownPendingId) $('confirmation-input').value = '';
   shownPendingId = pending.id;
-  $('pending-title').textContent = pending.kind === 'init' ? 'Confirm your starting point' : 'Review the proposed revision';
+  $('pending-title').textContent = pending.kind === 'init' ? 'Review starting estimate' : 'Price change';
   $('pending-summary').textContent = pending.summary || '';
   $('confirmation-phrase').textContent = pending.confirmation || '';
-  $('confirm-pending').textContent = pending.kind === 'init' ? 'Confirm starting assumptions' : 'Adopt displayed revision';
+  $('confirm-pending').textContent = pending.kind === 'init' ? 'Save starting estimate' : 'Approve revision';
   $('pending-content').replaceChildren();
   for (const [label, value] of [['Draft', pending.document], ['Tracked sentences', pending.anchors], ['Calculation', pending.calculation]]) {
     if (value === undefined || value === null) continue;
@@ -218,25 +227,40 @@ function renderPending() {
 function render() {
   const project = state.project;
   $('project-badge').textContent = project ? 'Confirmed' : 'Not set up';
-  $('project-description').textContent = project ? [project.title || project.item || 'Your approved proposal', project.quantity ? `${project.quantity} ${project.unitBasis || 'units'}` : '', project.baseline?.version || project.baselineVersion ? `Version ${project.baseline?.version || project.baselineVersion}` : '', Number.isSafeInteger(project.baseline?.unitPriceCents) ? `${usd(project.baseline.unitPriceCents)} per unit · approved` : ''].filter(Boolean).join(' · ') : 'Start with a draft and the supplier price it depends on.';
+  $('project-description').textContent = project ? [project.title || project.item || 'Your approved proposal', project.quantity ? `${project.quantity} ${project.unitBasis || 'units'}` : '', project.baseline?.version || project.baselineVersion ? `Version ${project.baseline?.version || project.baselineVersion}` : '', Number.isSafeInteger(project.baseline?.unitPriceCents) ? `${usd(project.baseline.unitPriceCents)} per unit · approved` : ''].filter(Boolean).join(' · ') : 'Add a draft and its supplier price.';
   $('open-intake').hidden = Boolean(project);
   $('export-document').hidden = !project;
   const privacy = state.privacy || {};
-  $('privacy-description').textContent = privacy.mode === 'local' ? 'This workspace runs on this Mac for one owner. Proposal text, reference documents and AI processing stay local.' : 'This workspace stores its files on this Mac. Check the configured model and connectors before sharing private material.';
-  $('privacy-retrieval').textContent = privacy.publicRetrievalEnabled ? 'Public retrieval is available only when you explicitly allow a source check. That request sends the supplier URL to Tavily.' : 'Public retrieval is disabled. This workspace does not fetch supplier pages.';
+  $('privacy-description').textContent = privacy.mode === 'local' ? 'Documents and AI processing stay on this computer.' : 'Check your model settings before adding private documents.';
+  $('privacy-retrieval').textContent = privacy.publicRetrievalEnabled ? 'Optional source checks send the public URL to Tavily.' : 'Public source retrieval is off.';
   $('model-detail').textContent = `Local model: ${privacy.model || state.model?.name || 'not configured'}`;
   $('model-warning').hidden = state.model?.available !== false;
   $('model-warning').textContent = state.model?.error || 'The local model is unavailable. Start the configured local model to chat or prepare mappings. Saved records and deterministic checks remain available.';
   $('source-check-section').hidden = !privacy.publicRetrievalEnabled;
   const review = project?.latestReview;
-  $('latest-review').hidden = !review && !project?.latestObservation;
+  $('latest-review').hidden = Boolean(state.pending?.reviewUrl) || (!review && !project?.latestObservation);
   $('open-latest-report').hidden = !review;
   $('latest-headline').textContent = review?.headline || 'Source observation needs attention.';
-  const dispositions = { approved: 'Adopted', awaiting_applicability_review: 'Awaiting applicability review', informational_or_superseded: 'Informational or superseded' };
+  const dispositions = { approved: 'Adopted', awaiting_applicability_review: 'Needs review', informational_or_superseded: 'Saved report' };
   $('review-disposition').textContent = dispositions[review?.currentDisposition] || humanLabel(project?.latestObservation?.disposition || 'Observation recorded');
-  $('observation-status').textContent = project?.latestObservation ? `Latest observation: ${humanLabel(project.latestObservation.disposition || 'recorded')}. The saved report is a snapshot when generated.` : 'The saved report is a snapshot when generated.';
+  $('observation-status').textContent = !review && project?.latestObservation ? `Latest check: ${humanLabel(project.latestObservation.disposition || 'recorded')}.` : '';
   const replay = project?.mode === 'controlled_replay' || project?.mode === 'controlled-replay' || project?.mode === 'replay' || project?.project?.mode === 'controlled_replay';
   $('replay-label').hidden = !replay;
+  $('demo-badge').hidden = !replay;
+  const versions = project?.replayVersions || [];
+  const select = $('replay-version');
+  if (JSON.stringify(versions) !== select.dataset.versions) {
+    const previous = select.value;
+    select.replaceChildren(element('option', '', 'Choose a version'));
+    select.firstChild.value = '';
+    for (const version of versions) {
+      const option = element('option', '', version.name);
+      option.value = version.name;
+      select.append(option);
+    }
+    select.value = versions.some(version => version.name === previous) ? previous : '';
+    select.dataset.versions = JSON.stringify(versions);
+  }
   renderDocuments();
   renderMessages();
   renderPreflight();
@@ -260,7 +284,7 @@ $('chat-form').addEventListener('submit', (event) => {
   event.preventDefault();
   const message = $('chat-input').value.trim();
   if (!message || busy) return;
-  action('Local model is working… this can take a little while.', async () => {
+  action('Thinking locally…', async () => {
     acceptState(await api('/api/chat', { method: 'POST', body: { message } }));
     $('chat-input').value = '';
     $('chat-input').style.height = '';
@@ -300,7 +324,7 @@ $('draft-file').addEventListener('change', (event) => action('Reading your draft
 }, 'intake-error'));
 $('intake-form').addEventListener('submit', (event) => {
   event.preventDefault();
-  action('Local model is preparing the proposed mappings…', async () => {
+  action('Reading your proposal…', async () => {
     const document = $('draft-text').value;
     if (encoder.encode(document).length > MAX_FILE) throw new Error('The draft must be at most 20 KB.');
     const sourceUrl = $('source-url').value.trim();
@@ -311,16 +335,16 @@ $('intake-form').addEventListener('submit', (event) => {
   }, 'intake-error');
 });
 $('confirmation-input').addEventListener('input', () => setBusy(busy));
-$('confirm-pending').addEventListener('click', () => action('Validating and saving your confirmation…', async () => {
+$('confirm-pending').addEventListener('click', () => action('Saving approved revision…', async () => {
   const pending = state.pending;
   if (!pending || $('confirmation-input').value !== pending.confirmation) throw new Error('The confirmation must exactly match the displayed phrase.');
   acceptState(await api('/api/confirm', { method: 'POST', body: { id: pending.id, confirmation: $('confirmation-input').value } }));
 }));
-$('run-preflight').addEventListener('click', () => action('Checking the confirmed proposal inputs…', async () => {
+$('run-preflight').addEventListener('click', () => action('Checking estimate…', async () => {
   acceptState(await api('/api/preflight', { method: 'POST', body: {} }));
 }));
 $('retrieval-consent').addEventListener('change', () => setBusy(busy));
-$('check-source').addEventListener('click', () => action('Retrieving the public source, then reviewing the observed price…', async () => {
+$('check-source').addEventListener('click', () => action('Retrieving and checking price…', async () => {
   if (!$('retrieval-consent').checked) throw new Error('Allow this public source request before continuing.');
   const body = { allowPublicRetrieval: true };
   if (!$('replay-label').hidden) {

@@ -16,20 +16,20 @@
       <div class="workspace-label"><span class="status-dot"></span> Local workspace</div>
       <section class="project-section">
         <div class="section-heading"><h2>Your proposal</h2><span id="project-badge" class="badge">Not set up</span></div>
-        <p id="project-description" class="muted">Start with a draft and the supplier price it depends on.</p>
-        <button id="open-intake" class="button primary full">Set up a proposal <span aria-hidden="true">↗</span></button>
+        <p id="project-description" class="muted">Add a draft and its supplier price.</p>
+        <button id="open-intake" class="button primary full">Add proposal <span aria-hidden="true">↗</span></button>
         <button id="export-document" class="button subtle full" hidden>Download approved draft</button>
       </section>
       <section class="context-section">
-        <div class="section-heading"><h2>Reference documents</h2><span id="document-count" class="count">0</span></div>
-        <p class="muted small">Add delivery notes, terms or a brief. These provide context; they do not become approved price evidence.</p>
+        <div class="section-heading"><h2>Documents</h2><span id="document-count" class="count">0</span></div>
+
         <ul id="documents" class="document-list"></ul>
-        <button id="upload-context" class="button secondary full"><span aria-hidden="true">＋</span> Add context</button>
+        <button id="upload-context" class="button secondary full"><span aria-hidden="true">＋</span> Add document</button>
         <input id="context-file" type="file" accept=".md,.txt,.csv,text/plain,text/markdown,text/csv" hidden>
-        <p class="file-hint">MD, TXT or CSV · 20 KB each<br>Up to 10 files · 100 KB in total<br>Removing a file also clears chat.</p>
+        <details class="file-hint"><summary>File details</summary><p>MD, TXT or CSV · 20 KB each · 10 files maximum.<br>Removing a file also clears chat.</p></details>
       </section>
       <details class="privacy-card">
-        <summary><span aria-hidden="true">◈</span> Local by design</summary>
+        <summary><span aria-hidden="true">◈</span> Privacy & model</summary>
         <p id="privacy-description">This workspace runs on this Mac for one owner. Local AI reads your proposal and reference documents.</p>
         <p id="privacy-retrieval" class="small">A public source check is a separate, explicit action.</p>
         <p id="model-detail" class="small muted">Checking local model…</p><button id="refresh-model" class="button subtle compact" type="button">Recheck local model</button>
@@ -37,44 +37,44 @@
     </aside>
 
     <main id="conversation" class="conversation" tabindex="-1">
-      <header class="conversation-header"><div><p class="eyebrow">YOUR PROPOSAL, WITH CONTEXT</p><h1>Know what needs attention.</h1></div><button id="clear-chat" class="button subtle compact" title="Clear the saved conversation">Clear chat</button></header>
+      <header class="conversation-header"><div><h1>Proposal assistant</h1><p id="demo-badge" class="demo-badge" hidden>Controlled source replay · fictional data</p></div><button id="clear-chat" class="button subtle compact" title="Clear the saved conversation">Clear chat</button></header>
       <div id="error-banner" class="error-banner" role="alert" hidden></div>
       <div id="model-warning" class="notice" role="status" hidden></div>
       <div id="messages" class="messages" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions text">
-        <section id="welcome" class="welcome"><div class="welcome-mark" aria-hidden="true">↳</div><h2>A second look before you send.</h2><p>Bring your proposal and supporting notes. Ask what changed, what you promised, and what a different price would mean.</p><p class="small muted">Calculations use confirmed inputs. You decide whether a proposed revision is adopted.</p></section>
+        <section id="welcome" class="welcome"><h2>Ask about your proposal.</h2><p>Add a draft or supporting notes to get started.</p></section>
       </div>
       <div class="composer-area">
         <div id="suggestions" class="suggestions" aria-label="Suggested questions">
           <button type="button" data-prompt="What needs attention before I send this?">Check before sending</button>
           <button type="button" data-prompt="What if the unit price is $55?">Try a different price</button>
-          <button type="button" data-prompt="What did we promise about delivery?">Find a commitment</button>
+          <button type="button" data-prompt="What did we promise about delivery?">Check delivery</button>
         </div>
         <form id="chat-form" class="composer"><label class="sr-only" for="chat-input">Ask about your proposal</label><textarea id="chat-input" rows="2" placeholder="Ask about your proposal…" maxlength="4000" required></textarea><button id="send-chat" class="button primary send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↑</span></button></form>
-        <div class="composer-foot"><span id="activity" role="status">Your conversation stays in this workspace.</span><span>Enter to send · Shift + Enter for a new line</span></div>
+        <div class="composer-foot"><span id="activity" role="status"></span><span>Enter to send · Shift + Enter for a new line</span></div>
       </div>
     </main>
 
     <aside class="review-panel" aria-label="Proposal review">
-      <div class="section-heading"><h2>Before you send</h2><span class="badge">Owner review</span></div>
-      <p class="muted small">Check the tracked supplier cost against your confirmed target.</p>
-      <button id="run-preflight" class="button secondary full" disabled>Check proposal health <span aria-hidden="true">↗</span></button>
+      <div class="section-heading"><h2>Proposal check</h2></div>
+
+      <button id="run-preflight" class="button secondary full" disabled>Check estimate <span aria-hidden="true">↗</span></button>
       <section id="preflight" class="health-card"><p class="eyebrow">WAITING FOR A PROPOSAL</p><h3>The important numbers, together.</h3><p class="muted small">After setup, see the remaining amount, your price limit and any shortfall here.</p></section>
-      <section id="latest-review" class="latest-review" hidden><p class="eyebrow">LATEST SOURCE REVIEW</p><p id="review-disposition" class="badge"></p><p id="latest-headline" class="small"></p><button id="open-latest-report" class="button secondary full">Open saved evidence report</button><p id="observation-status" class="small muted"></p></section>
+      <section id="latest-review" class="latest-review" hidden><p class="eyebrow">LATEST SOURCE REVIEW</p><p id="review-disposition" class="badge"></p><p id="latest-headline" class="small"></p><button id="open-latest-report" class="button secondary full">View report</button><p id="observation-status" class="small muted"></p></section>
       <section id="pending-section" class="pending-card" hidden>
-        <p id="pending-kind" class="eyebrow">AWAITING YOUR CONFIRMATION</p><h3 id="pending-title">Review proposed changes</h3><p id="pending-summary"></p>
+        <p id="pending-kind" class="eyebrow">REVIEW</p><h3 id="pending-title">Review proposed changes</h3><p id="pending-summary"></p>
         <button id="open-report" class="button secondary full" hidden>View evidence report</button>
-        <details id="pending-detail"><summary>Inspect proposed content</summary><div id="pending-content"></div></details>
-        <label class="confirmation-label" for="confirmation-input">To confirm, type or paste this exact phrase:</label><p id="confirmation-phrase" class="confirmation-phrase"></p><textarea id="confirmation-input" rows="3" spellcheck="false" autocomplete="off" placeholder="Paste the confirmation here"></textarea><button id="confirm-pending" class="button primary full" disabled>Confirm displayed revision</button>
-        <p class="small muted">Preparing a revision does not approve it.</p>
+        <details id="pending-detail"><summary>Draft and calculation</summary><div id="pending-content"></div></details>
+        <label class="confirmation-label" for="confirmation-input">Paste this phrase to approve:</label><p id="confirmation-phrase" class="confirmation-phrase"></p><textarea id="confirmation-input" rows="3" spellcheck="false" autocomplete="off" placeholder="Paste the confirmation here"></textarea><button id="confirm-pending" class="button primary full" disabled>Confirm displayed revision</button>
+
       </section>
-      <section id="source-check-section" class="source-section" hidden><h3>Check the public source</h3><p class="muted small">This sends the approved supplier URL to Tavily. Your private proposal and reference files are not included in that request.</p><label class="check-label"><input id="retrieval-consent" type="checkbox"> Allow this public source request</label><label id="replay-label" class="small" hidden>Controlled replay version<input id="replay-version" type="text" placeholder="Explicit fixture version"></label><button id="check-source" class="button secondary full" disabled>Retrieve and check price</button></section>
-      <div class="scope-note"><strong>A focused review.</strong><p>This checks the approved assumptions and tracked sentences. It does not verify every claim or establish that a supplier contract changed.</p></div>
+      <section id="source-check-section" class="source-section" hidden><h3>Supplier price</h3><p class="muted small">Only the public URL is sent to Tavily.</p><label class="check-label"><input id="retrieval-consent" type="checkbox"> Allow public URL retrieval</label><label id="replay-label" class="small" hidden>Controlled replay version<select id="replay-version"><option value="">Choose a version</option></select></label><button id="check-source" class="button secondary full" disabled>Check price</button></section>
+      <details class="scope-note"><summary>What this checks</summary><p>One supplier cost and three proposal sentences. Other costs and supplier terms still need review. A public price is not a contract.</p></details>
     </aside>
   </div>
 
-  <dialog id="intake-dialog" class="modal intake-modal" aria-labelledby="intake-title"><form id="intake-form"><div class="modal-header"><div><p class="eyebrow">FIRST, CONFIRM THE ASSUMPTIONS</p><h2 id="intake-title">Set up your proposal</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close setup">×</button></div><p class="muted">The local model proposes the mappings. You inspect and confirm them before they become the baseline.</p><label for="draft-text">Draft proposal <span class="label-hint">Markdown or plain text, up to 20 KB</span></label><div class="upload-row"><button id="upload-draft" type="button" class="button secondary compact">Choose a draft file</button><span id="draft-file-name" class="small muted">Or paste below</span></div><input id="draft-file" type="file" accept=".md,.txt,text/plain,text/markdown" hidden><textarea id="draft-text" rows="9" required placeholder="Paste your draft, including quantity, unit price, customer quote and the minimum remaining amount…"></textarea><label for="source-url">Public supplier URL</label><input id="source-url" type="url" placeholder="https://supplier.example/item" required><label for="source-passage">Supporting supplier passage</label><textarea id="source-passage" rows="4" required placeholder="Paste the exact passage showing the item, unit price and applicable terms."></textarea><p class="small muted">This passage is provided by you for setup. Fetching public evidence is a separate opt-in action. Prices are estimates unless their applicability is confirmed.</p><div id="intake-error" class="error-banner" role="alert" hidden></div><div class="modal-footer"><button class="button secondary close-dialog" type="button">Cancel</button><button id="submit-intake" class="button primary" type="submit">Prepare mappings <span aria-hidden="true">→</span></button></div></form></dialog>
-  <dialog id="document-dialog" class="modal" aria-labelledby="document-title"><div class="modal-header"><h2 id="document-title">Reference document</h2><button class="icon-button close-dialog" aria-label="Close document">×</button></div><p class="small muted">Reference context · not approved supplier evidence</p><pre id="document-content" class="document-content"></pre></dialog>
-  <dialog id="report-dialog" class="modal report-modal" aria-labelledby="report-title"><div class="modal-header"><h2 id="report-title">Evidence report</h2><button class="icon-button close-dialog" aria-label="Close report">×</button></div><p class="small muted">A snapshot when generated. Confirm a revision in the workspace after reviewing.</p><iframe id="report-frame" title="Read-only evidence report" sandbox=""></iframe></dialog>
-  <dialog id="clear-dialog" class="modal small-modal" aria-labelledby="clear-title"><div class="modal-header"><h2 id="clear-title">Clear this conversation?</h2><button class="icon-button close-dialog" aria-label="Cancel clearing conversation">×</button></div><p>The saved chat will be removed. Your proposal, evidence, approvals and reference documents remain.</p><div class="modal-footer"><button class="button secondary close-dialog">Cancel</button><button id="confirm-clear" class="button primary">Clear conversation</button></div></dialog>
+  <dialog id="intake-dialog" class="modal intake-modal" aria-labelledby="intake-title"><form id="intake-form"><div class="modal-header"><div><h2 id="intake-title">Add your proposal</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close setup">×</button></div><p class="muted">Review the extracted details before saving.</p><label for="draft-text">Draft proposal <span class="label-hint">Markdown or plain text, up to 20 KB</span></label><div class="upload-row"><button id="upload-draft" type="button" class="button secondary compact">Choose a draft file</button><span id="draft-file-name" class="small muted">Or paste below</span></div><input id="draft-file" type="file" accept=".md,.txt,text/plain,text/markdown" hidden><textarea id="draft-text" rows="9" required placeholder="Paste your proposal…"></textarea><label for="source-url">Public supplier URL</label><input id="source-url" type="url" placeholder="https://supplier.example/item" required><label for="source-passage">Supporting supplier passage</label><textarea id="source-passage" rows="4" required placeholder="Paste the supplier’s item, USD price and terms."></textarea><p class="small muted">Use a public-price estimate, not a locked supplier quote.</p><div id="intake-error" class="error-banner" role="alert" hidden></div><div class="modal-footer"><button class="button secondary close-dialog" type="button">Cancel</button><button id="submit-intake" class="button primary" type="submit">Review details <span aria-hidden="true">→</span></button></div></form></dialog>
+  <dialog id="document-dialog" class="modal" aria-labelledby="document-title"><div class="modal-header"><h2 id="document-title">Reference document</h2><button class="icon-button close-dialog" aria-label="Close document">×</button></div><p class="small muted">Supporting document</p><pre id="document-content" class="document-content"></pre></dialog>
+  <dialog id="report-dialog" class="modal report-modal" aria-labelledby="report-title"><div class="modal-header"><h2 id="report-title">Evidence report</h2><button class="icon-button close-dialog" aria-label="Close report">×</button></div><p class="small muted">Saved report · approve changes in the workspace.</p><iframe id="report-frame" title="Read-only evidence report" sandbox=""></iframe></dialog>
+  <dialog id="clear-dialog" class="modal small-modal" aria-labelledby="clear-title"><div class="modal-header"><h2 id="clear-title">Clear this conversation?</h2><button class="icon-button close-dialog" aria-label="Cancel clearing conversation">×</button></div><p>Your proposal and documents will stay saved.</p><div class="modal-footer"><button class="button secondary close-dialog">Cancel</button><button id="confirm-clear" class="button primary">Clear conversation</button></div></dialog>
 </body>
 </html>

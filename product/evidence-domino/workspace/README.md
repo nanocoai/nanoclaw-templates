@@ -36,12 +36,12 @@ To open an existing NanoClaw group, point `--data-dir` at that group's **host** 
 
 ## A practical first run
 
-1. Choose **Set up a proposal**. Paste or upload a UTF-8 `.md`/`.txt` proposal (20 KB maximum), enter the supplier's public HTTPS URL, and paste its supporting price passage explicitly naming **USD**. A bare `$` is not enough. The model selects the three tracked sentences and money literals; code parses the amounts and validates them. A smaller local-model context may require a shorter input or a larger configured context.
+1. Choose **Add proposal**. Paste or upload a UTF-8 `.md`/`.txt` proposal (20 KB maximum), enter the supplier's public HTTPS URL, and paste its supporting price passage explicitly naming **USD**. A bare `$` is not enough. The model selects the three tracked sentences and money literals; code parses the amounts and validates them. A smaller local-model context may require a shorter input or a larger configured context.
 2. Inspect the item, unit, quantity, quote, target, passage and exact sentences. If anything is missing or unsupported, fix the input and prepare it again. Nothing is adopted yet. Confirm the displayed mapping using its exact phrase.
 3. Add `.md`, `.txt` or `.csv` reference files such as a venue brief or delivery note. These are supporting context, **not newly approved supplier evidence**. This version supports 10 files, 20 KB each, 100 KB total. PDF, Word and Excel binaries need to be exported to readable text first. CSV is treated as reference text, not an authoritative spreadsheet calculation.
 4. Ask **“What did we promise about delivery?”** The answer includes exact source quotations you can expand. Questions use a bounded selection of relevant excerpts and recent conversation, not unlimited company memory. An exact citation verifies that the quotation occurs in context; it does not prove the model's conclusion is correct.
 5. Ask **“What if the unit price is $55?”** The code calculates the consequences and supplier ceiling. Use this explicit question shape for authoritative scenarios; other natural-language questions are document Q&A. No hypothetical amount is adopted as evidence.
-6. Choose **Check proposal health** before sending. A pending or unresolved observation takes priority. The check covers the tracked supplier estimate; other costs, availability, delivery, taxes and commercial terms still need review. Download the currently approved draft when needed.
+6. Choose **Check estimate** before sending. A pending or unresolved observation takes priority. The check covers the tracked supplier estimate; other costs, availability, delivery, taxes and commercial terms still need review. Download the currently approved draft when needed.
 
 Removing a reference also clears the conversation, which may contain its quotations. It does not erase approved evidence or historical proposals. **Clear chat** removes only the conversation. There is no automatic scanning of folders or access to other applications.
 
@@ -53,7 +53,7 @@ Local-only mode makes no Tavily request. To enable the public-price workflow, re
 node workspace/server.mjs --data-dir "$HOME/.local/share/evidence-domino" --allow-public-retrieval
 ```
 
-Each check still requires the **Allow this public source request** checkbox and the retrieve button. The request sends the owner-approved **public supplier URL** and extraction parameters to Tavily. It does not send the proposal, references, conversation, or private customer context. Never use a private/shared-secret URL as a public supplier source.
+Each check still requires the **Allow public URL retrieval** checkbox and the retrieve button. The request sends the owner-approved **public supplier URL** and extraction parameters to Tavily. It does not send the proposal, references, conversation, or private customer context. Never use a private/shared-secret URL as a public supplier source.
 
 The local model interprets the saved Tavily extraction. A comparable observation creates the usual cited report; competing prices or changed terms must remain unresolved. Review the proposed document in its sandboxed report and confirm the exact revision phrase. The engine checks the current baseline, latest observation, document and review hashes before adopting anything. No customer quote is automatically raised and nothing is delivered to a customer.
 
@@ -86,3 +86,24 @@ node --test product/evidence-domino/skills/evidence-domino/scripts/*.test.mjs pr
 ```
 
 Automated model/network tests use explicit mocks. They do not establish real model interpretation quality or a live Tavily result. Test a real unfamiliar proposal with your installed local model, inspect its mapping and citations, and exercise a changed observation before relying on it for business decisions.
+
+## Live demonstration
+
+With Ollama running, start a separate fictional project:
+
+```sh
+node workspace/demo.mjs
+```
+
+The demo uses port 4319 and creates a new directory under `~/.local/share/evidence-domino-demos`. It never resets an existing project. The same `--model`, `--ollama`, `--gpu-layers` and `--context-size` options work here. Use `--data-dir <new-directory>` to choose the location; existing directories are refused.
+
+The starting USD 40 estimate is prepared from the bundled fictional proposal and price passage. It is **not** presented as live retrieval or live onboarding. The screen and reports say **Controlled source replay**.
+
+A short live walkthrough:
+
+1. Ask “What did we promise about delivery?” Show the answer and its source.
+2. Under **Supplier price**, allow the public request, select **v1**, and choose **Check price**. This retrieves the USD 40 public fixture through Tavily; the draft should remain unchanged.
+3. Select **v2**, allow the next request, and check again. This retrieves the USD 55 fixture; the local model interprets it and code calculates USD 500 remaining, a USD 1,000 shortfall.
+4. Open the report. Show the old and new evidence and proposed sentences. Paste the displayed approval phrase to adopt the revision, then download the draft. The event date remains October 18.
+
+Allow several minutes for a live walkthrough on a small local model. Do not describe edited waiting time as real-time execution. If retrieval or inference fails, show the failure and retain the approved draft; there is no automatic fixture fallback. Saved reports can be shown as previously generated results, labelled as such. Re-running this command creates another rehearsal project; stop the old server first or choose another port. Public checks still use Tavily's limits and the shared core attempt counter within each project.
