@@ -110,6 +110,56 @@ export function calculate(quantity, unitPriceCents, customerQuoteCents, minimumR
   return { trackedCostCents, remainingCents, meetsTarget, shortfallCents };
 }
 
+// These are conditional planning facts. They never amend the approved quote or quantity.
+export function recoveryAnalysis(project, unitPriceCents) {
+  requireObject(project, 'project');
+  const { quantity, customerQuoteCents, minimumRemainingCents } = project;
+  const calculation = calculate(quantity, unitPriceCents, customerQuoteCents, minimumRemainingCents);
+  const supplierBudgetCents = checkedSubtract(customerQuoteCents, minimumRemainingCents, 'supplier budget');
+  const feasibleAtZeroPrice = supplierBudgetCents >= 0;
+  // BigInt division avoids rounding a fractional cent up at the supported upper bound.
+  const priceCeilingCents = feasibleAtZeroPrice
+    ? Number(BigInt(supplierBudgetCents) / BigInt(quantity))
+    : null;
+  const remainingHeadroomCents = checkedSubtract(calculation.remainingCents, minimumRemainingCents, 'remaining headroom');
+  const requiredQuoteCents = checkedSubtract(calculation.trackedCostCents, -minimumRemainingCents, 'required quote');
+  return {
+    calculation,
+    feasibleAtZeroPrice,
+    supplierBudgetCents,
+    priceCeilingCents,
+    unitHeadroomCents: feasibleAtZeroPrice ? Math.max(0, priceCeilingCents - unitPriceCents) : null,
+    unitOverageCents: feasibleAtZeroPrice ? Math.max(0, unitPriceCents - priceCeilingCents) : null,
+    remainingHeadroomCents,
+    requiredQuoteCents,
+    quoteIncreaseNeededCents: Math.max(0, checkedSubtract(requiredQuoteCents, customerQuoteCents, 'quote increase needed')),
+  };
+}
+
+function recoveryForReview(project, unitPriceCents) {
+  try {
+    return { recovery: recoveryAnalysis(project, unitPriceCents), recoveryError: null };
+  } catch (error) {
+    // Optional planning arithmetic must not break a previously supported baseline or review.
+    if (!(error instanceof EvidenceDominoError) || error.code !== 'AMOUNT_OUT_OF_RANGE') throw error;
+    return { recovery: null, recoveryError: { code: error.code, message: error.message } };
+  }
+}
+
+function recoveryFacts(recovery, recoveryError) {
+  if (!recovery) return [`Planning options are unavailable: ${recoveryError?.message ?? 'No planning analysis is stored.'} The tracked-cost calculation above remains the review basis.`];
+  const ceiling = recovery.feasibleAtZeroPrice
+    ? `Supplier price limit: ${formatUsd(recovery.priceCeilingCents)} per unit at the fixed quantity and customer quote.`
+    : 'The customer quote is below the minimum remaining target, even if this supplier costs $0.';
+  const position = recovery.remainingHeadroomCents >= 0
+    ? `Room above the remaining target: ${formatUsd(recovery.remainingHeadroomCents)} before other costs.`
+    : `Shortfall against the remaining target: ${formatUsd(-recovery.remainingHeadroomCents)}.`;
+  const option = recovery.quoteIncreaseNeededCents > 0
+    ? `If this price applies, a hypothetical customer quote of ${formatUsd(recovery.requiredQuoteCents)} (${formatUsd(recovery.quoteIncreaseNeededCents)} higher) would retain the minimum remaining amount.`
+    : `At this price, the fixed customer quote already meets the minimum remaining target.`;
+  return [ceiling, position, option];
+}
+
 export function formatUsd(cents) {
   if (!Number.isSafeInteger(cents)) fail('INVALID_MONEY', 'Money must be represented as integer cents.');
   const negative = cents < 0;
@@ -1129,6 +1179,12 @@ function renderMarkdown(review, project, baseline, document, proposedDocument) {
     `- Minimum remaining amount: ${formatUsd(project.minimumRemainingCents)}`,
     `- Conditional shortfall: ${formatUsd(review.calculation.shortfallCents)}`,
     '',
+    '## Before sending: price limit and options',
+    '',
+    ...recoveryFacts(review.recovery, review.recoveryError).map((fact) => `- ${fact}`),
+    '',
+    'These are conditional planning facts for the one tracked supplier cost. The customer quote and quantity stay unchanged; a different quote requires a separate business decision.',
+    '',
     '## Affected sentences',
     '',
   ];
@@ -1236,6 +1292,7 @@ function renderHtml(review, project, baseline, document, proposedDocument) {
 <article class="panel"><h2>What the source now says</h2><blockquote id="source-excerpt">${h(excerptLabel)}</blockquote><p class="basis">${h(project.item)} · ${project.quantity.toLocaleString('en-US')} ${h(project.unitBasis)} · USD</p><p class="meta"><a href="${h(review.source.requestedUrl)}" target="_blank" rel="noopener noreferrer">Open new source</a> · retrieved ${h(review.source.retrievedAt)}</p><p class="meta warning">A public listing is not proof that a supplier contract changed.</p></article></section>
 ${unchangedDate ? `<p class="context"><strong>Unchanged context:</strong> ${h(unchangedDate)}</p>` : ''}
 <section class="approval" aria-label="Owner review"><p><strong>${review.revisionId ? 'What needs your approval' : 'No revision to approve'}</strong></p><p>${review.revisionId ? 'Confirm that the item, unit and listed terms apply to this draft before adopting the proposed document.' : 'The observed price does not require a document change.'}</p>${review.revisionId ? `<p class="phrase"><strong>Exact approval phrase:</strong> ${h(`Confirm that this observed price applies and adopt revision ${review.revisionId}.`)}</p>` : ''}</section>
+<details open><summary>Before sending: price limit and options</summary>${recoveryFacts(review.recovery, review.recoveryError).map((fact) => `<p>${h(fact)}</p>`).join('')}<p class="meta">Conditional planning facts for one tracked supplier cost. The customer quote and quantity stay unchanged; a different quote requires a separate business decision. This is not a complete proposal check.</p></details>
 <details><summary>Affected tracked sentences (${review.changes.length} changed)</summary>${changeCards}</details>
 <details><summary>Full evidence and source context</summary><h3>Previous owner-confirmed passage</h3><blockquote>${h(baseline.interpretation.supportingPassage)}</blockquote><p class="meta"><a href="${h(baseline.interpretation.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open previous source</a> · ${baseline.interpretation.retrievedAt ? `retrieved ${h(baseline.interpretation.retrievedAt)}` : `owner-confirmed ${h(baseline.interpretation.confirmedAt ?? 'Time not recorded')}`}</p><h3>New Tavily-returned passage</h3><blockquote>${h(passage)}</blockquote><p class="meta">${h(review.source.requestedUrl)}<br>Retrieved: ${h(review.source.retrievedAt)} · capture ${h(review.source.captureId)}</p><p>These are transformed extraction passages, not authenticated copies of the publisher’s website. Review the full passage and applicable offer terms.</p></details>
 <details><summary>Full original and proposed documents</summary><div class="documents"><section><h3>Original document v${baseline.version}</h3><pre>${h(document)}</pre></section><section><h3>Proposed document</h3><pre>${h(proposedDocument)}</pre></section></div></details>
@@ -1349,6 +1406,7 @@ export async function stageCommand(input, root) {
       };
     }
     const calculation = calculate(project.quantity, interpretation.unitPriceCents, project.customerQuoteCents, project.minimumRemainingCents);
+    const { recovery, recoveryError } = recoveryForReview(project, interpretation.unitPriceCents);
     const changed = interpretation.unitPriceCents !== baseline.unitPriceCents;
     const newSentences = buildSentences(project, interpretation.unitPriceCents, calculation);
     const changedRoles = changed
@@ -1390,6 +1448,8 @@ export async function stageCommand(input, root) {
       },
       interpretation,
       calculation,
+      recovery,
+      recoveryError,
       changed,
       changedRoles,
       changes: patch.changes.map(({ role, oldText, newText }) => ({ role, oldText, newText })),
@@ -1449,6 +1509,8 @@ export async function stageCommand(input, root) {
       baselineVersion: baseline.version,
       headline: review.headline,
       calculation,
+      recovery,
+      recoveryError,
       changedRoles,
       reportHtml: path.join(reviewDir(root, reviewId), 'report.html'),
       reportMarkdown: path.join(reviewDir(root, reviewId), 'report.md'),
@@ -1608,6 +1670,9 @@ export async function statusCommand(root) {
           ? 'awaiting_applicability_review'
           : 'informational_or_superseded',
       headline: review.headline,
+      // Older snapshots intentionally have no recovery field; never rewrite their hashes.
+      recovery: review.recovery ?? null,
+      recoveryError: review.recoveryError ?? null,
       reviewHash: review.reviewHash,
       reportHtml: path.join(reviewDir(root, review.reviewId), 'report.html'),
     };
@@ -1629,6 +1694,7 @@ export async function statusCommand(root) {
       documentHash: baseline.documentHash,
       unitPriceCents: baseline.unitPriceCents,
       calculation: baseline.calculation,
+      ...recoveryForReview(project, baseline.unitPriceCents),
       conditionStatus: baseline.conditionStatus,
       documentPath: path.join(baselineDir(root, baseline.version), 'document.md'),
     },
