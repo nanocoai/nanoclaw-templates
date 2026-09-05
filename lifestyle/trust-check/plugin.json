@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "trust-check",
+  "author": { "url": "https://github.com/NoahSA11" },
+  "version": "1.0.0",
+  "description": "Scam-and-red-flag check agent: before you commit to an online listing, seller, rental, or job offer, cross-checks it against the live web and gives you a scored verdict with sources"
+}

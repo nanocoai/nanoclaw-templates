@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/trust-check",
+        "name": "trust-check",
+        "version": "1.0.0",
+        "description": "Scam-and-red-flag check agent: before you commit to an online listing, seller, rental, or job offer, cross-checks it against the live web and gives you a scored verdict with sources"
       }
     ],
     "media": [
