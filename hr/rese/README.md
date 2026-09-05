@@ -40,7 +40,7 @@ Most references agree a time first. Put it in the request, or in the confirmatio
 
 > Reference check for Maya Chen, set: engineer. Reference: Jordan Lee +14155550123, former manager at Acme 2022 to 2025. Maya confirmed Jordan expects a call. Call Jordan on Tuesday at 3pm.
 
-Rese creates a one-shot NanoClaw task for that time, confirms it in one line, and places the call when the task fires (within about a minute of the time). "Move Jordan's call to Wednesday 10am" and "cancel Jordan's call" update or cancel it. Times are read in the install's timezone, or the agent group's override (`ncl groups config update <group> --timezone Europe/Berlin`), so set that to the recruiter's zone.
+Rese creates a one-shot NanoClaw task for that time, confirms it in one line, and places the call when the task fires (within about a minute of the time). "Move Jordan's call to Wednesday 10am" and "cancel Jordan's call" update or cancel it. If the reference answers and says it is not a good time, the voice agent asks when would suit them, and Rese reschedules from the transcript and tells the recruiter. Times are read in the install's timezone, or the agent group's override (`ncl groups config update <group> --timezone Europe/Berlin`), so set that to the recruiter's zone.
 
 ## Consent
 
