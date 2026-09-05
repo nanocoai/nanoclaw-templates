@@ -17,7 +17,7 @@ Parse the recruiter's message into:
 - question set name (fall back to `default_set` from `plugin-data/rese/company.md`)
 - for each reference: name, phone number in E.164, relationship to the candidate (manager, peer, report, client), organisation, and the dates the candidate claims they worked together
 - whether the candidate attested that the references expect a call (any wording like "Maya confirmed both references expect a call" counts; record it verbatim)
-- an optional time for the call ("Tuesday at 3pm", "tomorrow 10:00", "on 9 September at 15:00"). Resolve it to a local timestamp in the group's timezone (the one NanoClaw was installed with, or the group override) and store it as `scheduled_for` in ISO form, for example `2026-09-09T15:00:00`. If the time is in the past or ambiguous (no day, or a day that could be this week or next), ask in the same message as any other missing item.
+- an optional time for the call ("Tuesday at 3pm", "tomorrow 10:00", "on 9 September at 15:00"). Resolve it to a local timestamp in the group's timezone (the one NanoClaw was installed with, or the group override) and store it as `scheduled_for` as a naive local timestamp with no offset and no `Z`, for example `2026-09-09T15:00:00`; that is the form `ncl tasks create --process-after` reads in the group's timezone. If the time is in the past or ambiguous (no day, or a day that could be this week or next), ask in the same message as any other missing item.
 - where the request came from: store the destination name of the chat as `requested_via`, so a scheduled call placed later from a task session still delivers its summary to the right place
 
 Example trigger:
