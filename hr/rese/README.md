@@ -46,7 +46,7 @@ On every call, regardless of path, the voice agent says it is an AI, says the ca
 ## Field notes from testing
 
 - **The voice agent hangs up when the line does.** A callee number that drops the call a few seconds after answering (one US test line on a roaming SIM did this every time) shows up in Dial as a short "completed" call with no answers in the transcript. Rese treats it as a failed attempt, parks the record, and tells the recruiter. Test your own line first with one call.
-- **The call script is plain prose on purpose.** Every agent turn ends with a question, question numbers are never read aloud, and hang-up conditions are listed last and exhaustively. See `skills/run-reference-check/references/call-script.md` before editing it.
+- **The call script is short on purpose.** Dial's voice agent hangs up when its instruction is long and full of rules, especially rules about ending the call. The shipped script is the shortest version that carries the disclosure, the consent question, and the question filter, and it ran clean in every test. Do not add rules to it; see the field note in `skills/run-reference-check/references/call-script.md`.
 - **Rese checks numbers before dialling.** It refuses to call a number already tied to another reference for the same candidate, and it flags a number that matches the line owner's phone, until the recruiter confirms. Both are deliberate: dialling the wrong person voids the consent record.
 - **After editing a shipped file, tell Rese to re-read it.** Within a long session the agent may reuse the script it built earlier.
 
