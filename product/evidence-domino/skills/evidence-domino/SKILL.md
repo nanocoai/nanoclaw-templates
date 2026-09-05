@@ -82,6 +82,10 @@ existing issue, not a newly detected change.
    correction using the exact validation errors. Otherwise return
    `needs_review`; do not search for a convenient interpretation.
 
+A successfully staged comparable observation produces a report even when its
+price is unchanged. Describe that as a saved no-change check with no revision
+to approve; do not say reports exist only for price changes.
+
 Do not call a Tavily retrieval an authenticated publisher snapshot. Say
 “Tavily-returned passage,” show the URL and retrieval time, and avoid claiming a
 publisher modification time or guaranteed freshness.
