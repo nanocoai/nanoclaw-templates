@@ -31,6 +31,12 @@
         "name": "competitor-analysis",
         "version": "1.0.0",
         "description": "Competitor research agent producing structured docs, news logs, and a tracking spreadsheet"
+      },
+      {
+        "ref": "product/evidence-domino",
+        "name": "evidence-domino",
+        "version": "1.0.0",
+        "description": "Trace a changed public supplier price into the exact draft-proposal sentences and calculations it affects"
       }
     ],
     "sales": [
