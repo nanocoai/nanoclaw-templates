@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "rese",
+  "version": "0.1.0",
+  "description": "Consent-first AI reference checks by phone over Dial: one message in, a neutral structured summary out, no scoring.",
+  "author": { "name": "Eva Spexard", "url": "https://github.com/intentionaleva" },
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Rese" }
+  }
+}

@@ -9,6 +9,14 @@
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
       }
     ],
+    "hr": [
+      {
+        "ref": "hr/rese",
+        "name": "rese",
+        "version": "0.1.0",
+        "description": "Consent-first AI reference checks by phone over Dial: one message in, a neutral structured summary out, no scoring."
+      }
+    ],
     "lifestyle": [
       {
         "ref": "lifestyle/family-assistant",
