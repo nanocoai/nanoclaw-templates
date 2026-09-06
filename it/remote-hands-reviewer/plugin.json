@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "remote-hands-reviewer",
+  "version": "1.0.0",
+  "description": "Check hardware work orders against returned images, track missing evidence, and prepare a precise follow-up.",
+  "author": {"name": "Ahmed Rahimi", "url": "https://github.com/Arag0n1421"}
+}
