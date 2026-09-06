@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ci-sentinel",
+  "version": "1.0.0",
+  "description": "Investigates overnight GitHub Actions failures and files evidence-cited, deduplicated triage issues by morning.",
+  "license": "MIT",
+  "keywords": [
+    "ci",
+    "github-actions",
+    "triage",
+    "on-call",
+    "engineering"
+  ],
+  "author": {
+    "name": "Ben"
+  },
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "CI Sentinel"
+    }
+  }
+}
