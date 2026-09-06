@@ -13,8 +13,9 @@ Account Executive.
 1. Confirm the pre-flight checklist from `references/outbound-sequencing.md` is complete.
 2. Show the user: contact name, email, sequence name, send-from address.
 3. Wait for an explicit "yes" / "confirmed" in chat.
-4. `hubspot_enroll_sequence` only after confirmation.
-5. Log: "Enrolled in [sequence name] by SDR agent on [date]. Approved by user."
+4. The pinned HubSpot MCP server exposes no sequence-enrolment tool — after
+   confirmation, ask the user to enrol the contact in HubSpot directly.
+5. Log: "Enrolled in [sequence name] on [date]. Approved by user."
 
 ## Handoff to AE
 When a prospect replies positively:
