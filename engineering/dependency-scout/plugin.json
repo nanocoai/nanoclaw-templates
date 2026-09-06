@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "dependency-scout",
+  "author": { "url": "https://github.com/NoahSA11" },
+  "version": "1.0.0",
+  "description": "Due-diligence agent for an OSS package or GitHub dependency: maintenance health, known vulnerabilities, community sentiment, and comparable alternatives, from public registries and search — no API keys required"
+}
