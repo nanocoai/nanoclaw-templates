@@ -299,7 +299,7 @@ test('F1 a legacy rich minimum baseline cannot be staged after upgrade', async (
   assert.equal(JSON.parse(await readFile(path.join(root, 'active.json'))).currentBaselineVersion, 1);
 });
 
-test('F4 UTF-8 diagnostic prefix is bounded even at a split character', async (t) => {
+test('F4 oversized UTF-8 retains the exact bounded byte prefix even at a split character', async (t) => {
   const root = await fixture(t);
   const binary = path.join(root, 'unicode-curl.mjs');
   await writeFile(binary, '#!/usr/bin/env node\nprocess.stdout.write("€".repeat(350000) + "\\n__ED_HTTP_STATUS__:200");\n', { mode: 0o700 });
@@ -309,8 +309,11 @@ test('F4 UTF-8 diagnostic prefix is bounded even at a split character', async (t
   assert.equal(captured.attempts, 1);
   const raw = await readFile(captured.rawResponsePaths[0]);
   assert.ok(raw.length <= 1048576 && raw.length > 1048500);
+  assert.deepEqual(raw, Buffer.from('€'.repeat(350000)).subarray(0, 1048576));
   const record = JSON.parse(await readFile(captured.captureRecord));
   assert.equal(record.attempts[0].responseComplete, false);
+  assert.equal(record.attempts[0].responseBytes, raw.length);
+  assert.equal(record.attempts[0].responseHash, createHash('sha256').update(raw).digest('hex'));
 });
 
 test('legacy reviews without baseline hashes fail approval and regenerate on identical evidence', async (t) => {

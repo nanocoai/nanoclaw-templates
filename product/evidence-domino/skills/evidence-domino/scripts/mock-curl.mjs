@@ -35,6 +35,7 @@ if (!response) {
 }
 
 if (response.stderr) process.stderr.write(response.stderr);
-const raw = typeof response.raw === 'string' ? response.raw : JSON.stringify(response.body ?? {});
-process.stdout.write(`${raw}\n__ED_HTTP_STATUS__:${response.httpStatus ?? 200}`);
+const raw = typeof response.rawBase64 === 'string' ? Buffer.from(response.rawBase64, 'base64')
+  : Buffer.from(typeof response.raw === 'string' ? response.raw : JSON.stringify(response.body ?? {}), 'utf8');
+process.stdout.write(Buffer.concat([raw, Buffer.from(`\n__ED_HTTP_STATUS__:${response.httpStatus ?? 200}`)]));
 process.exit(response.exitCode ?? 0);

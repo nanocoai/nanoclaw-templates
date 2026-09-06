@@ -1,15 +1,17 @@
 # Evidence Domino
 
-**New: [private conversational workspace](workspace/README.md).** Run a local browser chat with Ollama, add proposal context, ask for cited commitments, and test supplier-price scenarios. The companion shares this template's calculation and approval engine; it runs on the host and does not require changing NanoClaw's provider. Local-only is the default, with public Tavily checks available by explicit opt-in. It is a single-owner pilot, with text/Markdown/CSV support and no live Slack connector.
-
 **A public price changed. See the exact draft-proposal sentences it affects.**
 
-Evidence Domino is a NanoClaw template for one owner who prepares a fixed-price
-proposal using one public USD list price as an estimate. It retrieves the
-approved source through Tavily, calculates the conditional effect, creates an
-immutable visual review, and prepares a narrowly edited Markdown revision.
-Nothing is adopted until the owner explicitly confirms that the observed price
-applies and accepts the displayed revision.
+Evidence Domino helps event operators and small agencies review supplier-price
+changes before sending a proposal. It retrieves the approved source through
+Tavily, calculates the remaining amount before other costs, and prepares a
+cited repair. The owner confirms that the observed price applies before
+adopting the displayed revision.
+
+The optional [local workspace](workspace/README.md) adds chat over proposal
+notes and supplier-price scenarios using an installed Ollama model. It shares
+the template's calculation and approval engine. Public retrieval is optional;
+local inference does not require changing NanoClaw's provider.
 
 ## What it supports
 
@@ -330,7 +332,7 @@ the corrected document. Preserve the original group's history.
 Run the deterministic suite with Node 22:
 
 ```sh
-node --test product/evidence-domino/skills/evidence-domino/scripts/*.test.mjs
+node --test product/evidence-domino/skills/evidence-domino/scripts/*.test.mjs product/evidence-domino/workspace/*.test.mjs
 ```
 
 Then run the registry checks from the repository root:
@@ -349,6 +351,16 @@ integration.
 The registry scripts in the examined snapshot have a path-decoding bug when
 the checkout contains spaces. Run those scripts from a checkout at a path
 without spaces. This does not affect the template helper or its Node tests.
+
+## Components and attribution
+
+This template uses [NanoClaw](https://github.com/nanocoai/nanoclaw), Node.js
+built-ins and the container's curl executable. Public-source extraction is
+provided by [Tavily](https://tavily.com/). The optional workspace calls an
+operator-installed [Ollama](https://github.com/ollama/ollama) runtime (MIT);
+the documented model is [Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B)
+(Apache-2.0). These runtimes and model weights are installed separately and
+are not bundled. Follow the license of any substitute model you install.
 
 ## License and stewardship
 

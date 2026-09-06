@@ -884,11 +884,11 @@ function chooseCaptureSource(project, input) {
 }
 
 function parseCurlEnvelope(stdout) {
-  const marker = '\n__ED_HTTP_STATUS__:';
+  const marker = Buffer.from('\n__ED_HTTP_STATUS__:');
   const index = stdout.lastIndexOf(marker);
   if (index < 0) fail('RETRIEVAL_FAILED', 'curl did not return an HTTP status marker.');
-  const raw = stdout.slice(0, index);
-  const statusText = stdout.slice(index + marker.length).trim();
+  const raw = stdout.subarray(0, index);
+  const statusText = stdout.subarray(index + marker.length).toString('ascii').trim();
   const httpStatus = Number(statusText);
   if (!Number.isInteger(httpStatus) || httpStatus < 0 || httpStatus > 599) {
     fail('RETRIEVAL_FAILED', 'curl returned an invalid HTTP status marker.', { statusText });
@@ -923,19 +923,21 @@ async function invokeCurl(sourceUrl) {
   let result;
   try {
     const { stdout, stderr } = await execFile(binary, args, {
-      encoding: 'utf8',
+      // Preserve response bytes before decoding. Invalid UTF-8 must never be
+      // silently replaced in the evidence retained for the owner.
+      encoding: 'buffer',
       maxBuffer: MAX_RESPONSE_BYTES + 16_384,
       timeout: 25_000,
       env: childEnv,
       windowsHide: true,
     });
-    result = { raw: stdout, stderr, exitCode: 0, httpStatus: 0 };
+    result = { raw: stdout, stderr: stderr.toString('utf8'), exitCode: 0, httpStatus: 0 };
   } catch (error) {
-    const stdout = typeof error.stdout === 'string' ? error.stdout : '';
+    const stdout = Buffer.isBuffer(error.stdout) ? error.stdout : Buffer.alloc(0);
     result = {
       raw: stdout,
       httpStatus: 0,
-      stderr: typeof error.stderr === 'string' ? error.stderr : error.message,
+      stderr: Buffer.isBuffer(error.stderr) ? error.stderr.toString('utf8') : error.message,
       exitCode: Number.isInteger(error.code) ? error.code : null,
       signal: error.signal ?? null,
       executionCode: typeof error.code === 'string' ? error.code : null,
@@ -950,10 +952,9 @@ async function invokeCurl(sourceUrl) {
     // The bounded stdout is retained even when no complete envelope was received.
     result.responseComplete = false;
   }
-  const observedBytes = Buffer.byteLength(result.raw, 'utf8');
+  const observedBytes = result.raw.length;
   if (observedBytes > MAX_RESPONSE_BYTES || result.executionCode === 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER') {
-    let retained = Buffer.from(result.raw, 'utf8').subarray(0, MAX_RESPONSE_BYTES).toString('utf8');
-    while (Buffer.byteLength(retained, 'utf8') > MAX_RESPONSE_BYTES) retained = retained.slice(0, -1);
+    const retained = result.raw.subarray(0, MAX_RESPONSE_BYTES);
     return { ...result, raw: retained, errorCode: 'RESPONSE_TOO_LARGE', responseComplete: false,
       responseTruncated: true, observedResponseBytes: observedBytes,
       responseSizeKnown: envelopeComplete && result.executionCode !== 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER' };
@@ -972,9 +973,16 @@ function parseTavilySuccess(attempt, source) {
   if (attempt.httpStatus !== 200) {
     return { ok: false, code: `HTTP_${attempt.httpStatus || 'ERROR'}`, message: 'Tavily did not return HTTP 200.' };
   }
+  let responseText;
+  try {
+    // captureCommand has already saved the original bytes at this point.
+    responseText = new TextDecoder('utf-8', { fatal: true }).decode(attempt.raw);
+  } catch {
+    return { ok: false, code: 'INVALID_UTF8_RESPONSE', message: 'Tavily returned invalid UTF-8. The original response bytes were retained without interpreting them.' };
+  }
   let body;
   try {
-    body = JSON.parse(attempt.raw);
+    body = JSON.parse(responseText);
   } catch (error) {
     return { ok: false, code: 'MALFORMED_RESPONSE', message: error.message };
   }
@@ -1031,7 +1039,7 @@ export async function captureCommand(input, root) {
     }
     const attemptedAt = nowIso();
     const result = await invokeCurl(source.url);
-    const raw = result.raw ?? '';
+    const raw = result.raw ?? Buffer.alloc(0);
     // Evidence ordering invariant: fsync the exact response body before any JSON,
     // URL, marker, or content parsing. An interrupted staged directory is retained.
     await writeNewFile(path.join(stagedDir, `attempt-${String(index + 1).padStart(2, '0')}.raw`), raw);
@@ -1043,7 +1051,7 @@ export async function captureCommand(input, root) {
       signal: result.signal ?? null,
       executionCode: result.executionCode ?? null,
       stderr: result.stderr?.slice(0, 4_096) ?? '',
-      responseBytes: Buffer.byteLength(raw, 'utf8'),
+      responseBytes: raw.length,
       responseHash: sha256(raw),
       responseComplete: result.responseComplete,
       responseTruncated: result.responseTruncated,

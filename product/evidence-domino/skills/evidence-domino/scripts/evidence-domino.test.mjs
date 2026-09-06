@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { mkdtemp, readFile, rm, writeFile, mkdir, rename } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -426,6 +427,48 @@ test('capture records non-retriable quota and malformed failures without changin
   const status = await runCommand('status', {}, { dataDir: root });
   assert.equal(status.baseline.version, 1);
   assert.equal(status.baseline.unitPriceCents, 4_000);
+});
+
+test('capture retains invalid UTF-8 bytes exactly and fails before evidence interpretation', async (t) => {
+  const root = await fixture(t);
+  const baselineBefore = (await runCommand('status', {}, { dataDir: root })).baseline;
+  const body = JSON.stringify(tavilyBody(5_500, 'v2', ' BYTE_MARKER'));
+  const [before, after] = body.split('BYTE_MARKER');
+  const invalidSequences = [Buffer.from([0xff]), Buffer.from([0xc0, 0xaf]), Buffer.from([0xe2, 0x82])];
+  for (const invalid of invalidSequences) {
+    const raw = Buffer.concat([Buffer.from(before), invalid, Buffer.from(after)]);
+    await setScenario(root, { default: { rawBase64: raw.toString('base64'), httpStatus: 200 } });
+    const captured = await runCommand('capture', { replayVersion: 'v2' }, { dataDir: root });
+    assert.equal(captured.status, 'failed');
+    assert.equal(captured.error.code, 'INVALID_UTF8_RESPONSE');
+    assert.equal(captured.attempts, 1);
+    assert.equal(captured.contentPath, null);
+    assert.deepEqual(await readFile(captured.rawResponsePaths[0]), raw);
+    const record = JSON.parse(await readFile(captured.captureRecord, 'utf8'));
+    assert.equal(record.attempts[0].responseBytes, raw.length);
+    assert.equal(record.attempts[0].responseHash, createHash('sha256').update(raw).digest('hex'));
+    assert.equal(record.attempts[0].responseComplete, true, 'the transport completed even though its encoding was invalid');
+    assert.equal(record.attempts[0].responseTruncated, false);
+    const status = await runCommand('status', {}, { dataDir: root });
+    assert.deepEqual(status.baseline, baselineBefore);
+    assert.equal(status.latestObservation.disposition, 'capture_failed');
+    assert.equal(status.pendingApplicabilityReviewId, null);
+  }
+  assert.equal((await runCommand('status', {}, { dataDir: root })).requestBudget.used, invalidSequences.length);
+});
+
+test('capture preserves complete valid UTF-8 bodies and decodes their content without changing bytes', async (t) => {
+  const root = await fixture(t);
+  const body = tavilyBody(5_500, 'v2', ' Rīga — café, 中文.');
+  const raw = Buffer.from(JSON.stringify(body), 'utf8');
+  await setScenario(root, { default: { rawBase64: raw.toString('base64'), httpStatus: 200 } });
+  const captured = await runCommand('capture', { replayVersion: 'v2' }, { dataDir: root });
+  assert.equal(captured.status, 'captured');
+  assert.deepEqual(await readFile(captured.rawResponsePaths[0]), raw);
+  assert.equal(await readFile(captured.contentPath, 'utf8'), body.results[0].raw_content);
+  const record = JSON.parse(await readFile(captured.captureRecord, 'utf8'));
+  assert.equal(record.attempts[0].responseBytes, raw.length);
+  assert.equal(record.attempts[0].responseHash, createHash('sha256').update(raw).digest('hex'));
 });
 
 test('capture never follows redirects and records a 3xx as one failed transmission', async (t) => {
