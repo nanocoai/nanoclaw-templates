@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/paper-trail",
+        "name": "paper-trail",
+        "version": "1.0.0",
+        "description": "Turns scattered receipts, screenshots, messages, and documents into a validated evidence packet with cited facts, conflicts, missing proof, and a review-ready draft."
       }
     ],
     "media": [

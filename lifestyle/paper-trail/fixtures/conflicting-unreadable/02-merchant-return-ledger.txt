@@ -1,0 +1,7 @@
+Synthetic merchant return ledger
+
+Order: BK-7714
+Amount recorded: USD 749.00
+Return reference: RET-4408
+Warehouse status as of 2026-09-03: no parcel received.
+Refund status: not approved.
