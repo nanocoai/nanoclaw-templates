@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "npx",
+      "args": ["-y", "google-workspace-mcp"]
+    },
+    "microsoft-365": {
+      "command": "npx",
+      "args": ["-y", "@softeria/ms-365-mcp-server"]
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"]
+    }
+  }
+}
