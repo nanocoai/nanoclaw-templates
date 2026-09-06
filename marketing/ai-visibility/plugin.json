@@ -2,6 +2,6 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ai-visibility",
   "version": "1.0.0",
-  "description": "AI visibility agent on GeoMaestros: tracks how AI assistants recommend a brand, drafts the fixes (content, structured data), and reports each fix back so its impact gets measured",
+  "description": "AI visibility agent on GeoMaestros: free AI-readiness scan of any domain, tracks how AI assistants recommend a brand, drafts the fixes (content, structured data), and reports each fix back so its impact gets measured",
   "author": { "name": "Vincent Sider", "url": "https://github.com/vincentsider" }
 }

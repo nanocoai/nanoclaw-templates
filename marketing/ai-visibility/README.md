@@ -26,6 +26,11 @@ over remote MCP — nothing runs locally.
 - **Works the citation sources**: maps the domains AI engines actually
   cite in your category, finds the heavy hitters you're absent from,
   and writes the listing or pitch that gets you on them.
+- **Free scan for anyone**: even with no GeoMaestros account, the agent
+  can run the free AI-readiness scan (the one behind
+  [geomaestros.com/areyouready](https://www.geomaestros.com/areyouready))
+  on any domain over a public endpoint, read back the grade and failed
+  checks, and draft the fixes. No token needed for this part.
 
 ## Layout
 
@@ -42,6 +47,7 @@ ai-visibility/
 │   ├── ai-visibility/              # the operating system (auto-triggers on visibility tasks)
 │   │   ├── SKILL.md                #   routing + tool map + memory conventions
 │   │   └── references/
+│   │       ├── free-scan.md
 │   │       ├── visibility-review.md
 │   │       ├── apply-fixes.md
 │   │       ├── sources-and-citations.md
@@ -64,23 +70,26 @@ unpause it once the workspace is connected.
 
 **GeoMaestros is a paid SaaS** (the author of this template is its
 founder — disclosed up front). See
-[geomaestros.com](https://geomaestros.com) for plans. MCP access is
-included from the **Professional** plan up. You supply **your own**
-workspace token; the template ships no credential and no shared key.
+[geomaestros.com](https://geomaestros.com) for plans. The MCP workspace
+connection is included with the **Recovery Subscription** plan. You
+supply **your own** workspace token; the template ships no credential
+and no shared key. The free readiness scan needs no plan and no token
+at all — only the workspace loop is paid.
 
 | Service | API host | Auth style | Where to get the key |
 |---|---|---|---|
-| GeoMaestros MCP | `geotravel-production.up.railway.app` | `Authorization: Bearer` | dashboard → Settings → MCP tokens → Mint new token |
+| GeoMaestros MCP | `geotravel-production.up.railway.app` | `Authorization: Bearer` | your workspace → Workspace Settings → AI Assistant → Create token |
 
 - Endpoint: `https://geotravel-production.up.railway.app/v1/mcp`
   (remote streamable HTTP; `mcp.json` declares no credential — the
   OneCLI vault injects the token per request, so never edit a key into
   `mcp.json`).
-- Scopes: mint **read + write** (`mcp:tools` + `mcp:write`). Read-only
-  works for digests, but the impact loop needs `mcp:write` to report
-  executed fixes via `update_recovery_action`.
-- Tokens show once at mint time, default lifetime 90 days, revocable
-  from the same settings page.
+- Scopes: keep **"Allow my assistant to report executed fixes"** ticked
+  when creating the token — that grants `mcp:write` on top of read
+  (`mcp:tools`). Read-only works for digests, but the impact loop needs
+  the write scope for `update_recovery_action`.
+- Tokens show once at creation time, are scoped to one workspace,
+  default lifetime 90 days, revocable from the same settings page.
 
 Register the token in the OneCLI vault for the host above, or just run
 the agent: on the first unauthenticated call it hands you a prefilled

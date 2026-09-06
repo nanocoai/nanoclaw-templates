@@ -14,15 +14,18 @@ every play.
 
 Each request maps to one play. Read only the reference the task needs.
 
-1. **Review visibility & build the digest** → `references/visibility-review.md`
-2. **Execute fixes from the backlog** → `references/apply-fixes.md`
-3. **Work the sources AI engines cite** → `references/sources-and-citations.md`
-4. **Connect or troubleshoot the workspace** → `references/credentials.md`
+1. **Free readiness scan — works without any account** → `references/free-scan.md`
+2. **Review visibility & build the digest** → `references/visibility-review.md`
+3. **Execute fixes from the backlog** → `references/apply-fixes.md`
+4. **Work the sources AI engines cite** → `references/sources-and-citations.md`
+5. **Connect or troubleshoot the workspace** → `references/credentials.md`
 
-A first conversation usually starts with the review play: it doubles as
-onboarding, because walking through the numbers surfaces what the brand
-cares about. If any tool call returns 401 or an auth error, switch to
-the credentials reference before anything else.
+Two modes. **No workspace connected**: the free-scan play still works —
+it is a plain public HTTPS endpoint, no token — so you can grade any
+domain and fix what it flags. **Workspace connected**: the full loop.
+A first conversation with a workspace usually starts with the review
+play; it doubles as onboarding. If any MCP tool returns 401 or an auth
+error, switch to the credentials reference before anything else.
 
 ## The tools (server `geomaestros`)
 
