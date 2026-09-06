@@ -31,6 +31,12 @@
         "name": "competitor-analysis",
         "version": "1.0.0",
         "description": "Competitor research agent producing structured docs, news logs, and a tracking spreadsheet"
+      },
+      {
+        "ref": "product/forkcheck",
+        "name": "forkcheck",
+        "version": "1.0.0",
+        "description": "Evidence-resolution agent that designs decisive tests and keeps volatile verdicts alive"
       }
     ],
     "sales": [
