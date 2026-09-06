@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/trip-planner",
+        "name": "trip-planner",
+        "version": "1.0.0",
+        "description": "Trip planner agent: restaurants with ratings and menu links, must-see sights, entry prices and menu links, and a day-by-day itinerary tuned to where you stay, your dates, and your tastes"
       }
     ],
     "media": [

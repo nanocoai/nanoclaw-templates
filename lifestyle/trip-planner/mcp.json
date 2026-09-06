@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "apify": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server@0.11.5",
+        "--tools",
+        "compass/crawler-google-places,compass/google-maps-reviews-scraper,maxcopell/tripadvisor"
+      ],
+      "env": { "APIFY_TOKEN": "placeholder" }
+    }
+  }
+}

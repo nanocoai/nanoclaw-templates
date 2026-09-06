@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "trip-planner",
+  "author": { "name": "Amit Yanay", "url": "https://github.com/CrAzyScreamx" },
+  "version": "1.0.0",
+  "description": "Trip planner agent: restaurants with ratings and menu links, must-see sights, entry prices and menu links, and a day-by-day itinerary tuned to where you stay, your dates, and your tastes"
+}
