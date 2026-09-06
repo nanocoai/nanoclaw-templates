@@ -1,6 +1,6 @@
 # Evidence Domino
 
-**A public price changed. See the exact draft-proposal sentences it affects.**
+**Catch supplier price changes before you send a proposal.**
 
 Evidence Domino helps event operators and small agencies review supplier-price
 changes before sending a proposal. It retrieves the approved source through
@@ -40,12 +40,8 @@ A controlled source replay observes $55. The review says:
 
 The report shows the old and observed passages, $2,000 → $500, the affected
 sentences, an unchanged event date, the calculation, and the proposed revision.
-It never says a supplier contract changed.
 
-See `fixtures/` for the fictional proposal and replay sources. Offline fixtures
-exercise deterministic behavior only. A live contest demonstration must fetch
-the published immutable fixture URLs through Tavily and keep the **Controlled
-source replay** label visible.
+The example uses fictional supplier pages in `fixtures/`, retrieved through Tavily.
 
 ## Install
 
@@ -120,10 +116,8 @@ is not proof that the operation finished.
 
 ## Run the controlled example through chat
 
-Use a fresh group with no active project. This example is fictional and must
-stay labelled **Controlled source replay**. The manifest's public fixture URLs
-must be available; if a URL fails, stop and report the failed live gate rather
-than substituting a local response.
+Use a fresh group with no active project. This example retrieves its fictional
+supplier pages through Tavily.
 
 Send this from the NanoClaw checkout:
 

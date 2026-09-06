@@ -75,7 +75,7 @@ The core retains `project.json`, `active.json`, `baselines/`, `captures/` and `r
 
 The workspace takes `.workspace/server.lock` to prevent two instances writing its chat state. An interrupted process can leave the lock behind. Inspect `owner.json`, verify that the specific PID is no longer running this workspace, and only then remove **that lock directory**. Do not delete the core `.lock` or a lock owned by a live process. The app does not guess whether a lock is stale. Preserve corrupt files for inspection rather than resetting them automatically.
 
-To use another proposal, start another instance with a different `--data-dir` and port. Multi-user permissions, multi-project navigation, encrypted storage, arbitrary attachments, cloud connectors and local notifications are not implemented in this slice.
+To use another proposal, start another instance with a different `--data-dir` and port. Multi-user permissions, multi-project navigation, encrypted storage, arbitrary attachments, cloud connectors and local notifications are not supported.
 
 ## Verification
 
@@ -97,7 +97,7 @@ node workspace/demo.mjs
 
 The demo uses port 4319 and creates a new directory under `~/.local/share/evidence-domino-demos`. It never resets an existing project. The same `--model`, `--ollama`, `--gpu-layers` and `--context-size` options work here. Use `--data-dir <new-directory>` to choose the location; existing directories are refused.
 
-The starting USD 40 estimate is prepared from the bundled fictional proposal and price passage. It is **not** presented as live retrieval or live onboarding. The screen and reports say **Controlled source replay**.
+The starting USD 40 estimate comes from the bundled fictional proposal and price passage. Subsequent checks retrieve the published supplier pages through Tavily.
 
 A short live walkthrough:
 
@@ -106,7 +106,7 @@ A short live walkthrough:
 3. Select **v2**, allow the next request, and check again. This retrieves the USD 55 fixture; the local model interprets it and code calculates USD 500 remaining, a USD 1,000 shortfall.
 4. Open the report. Show the old and new evidence and proposed sentences. Paste the displayed approval phrase to adopt the revision, then download the draft. The event date remains October 18.
 
-Allow several minutes for a live walkthrough on a small local model. Do not describe edited waiting time as real-time execution. If retrieval or inference fails, show the failure and retain the approved draft; there is no automatic fixture fallback. Saved reports can be shown as previously generated results, labelled as such. Re-running this command creates another rehearsal project; stop the old server first or choose another port. Public checks still use Tavily's limits and the shared core attempt counter within each project.
+Allow several minutes on a small local model. A failed check leaves the approved draft unchanged. Re-running the command creates a new demo project; stop the old server first or choose another port. Public checks use Tavily's limits and the project's shared request budget.
 
 ### Local response speed
 
