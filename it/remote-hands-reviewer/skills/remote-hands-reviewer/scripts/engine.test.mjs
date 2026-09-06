@@ -342,3 +342,51 @@ test('maximum permitted intake sizes remain readable through review and recordin
     assert.equal((await restarted.status({ jobId: input.jobId })).status, 'review_recorded');
   }
 });
+
+test('file intake retains full original bytes, metadata, BOM and CRLF through a restart and report', async t => {
+  let view;
+  const f = await fixture(t, { renderReport: v => { view = v; return render(v); } });
+  const workOrder = '\ufeff# Job heading\r\nSite: Rīga\r\n\r\nBefore closing the ticket, check this request.\r\nPhotograph existing device SN-4821 in rack R7.\r\nDo not operate or disconnect equipment.\r\n';
+  const source = path.join(f.dir, 'full-original.md'); await fs.writeFile(source, Buffer.from(workOrder));
+  const input = initInput(); delete input.workOrder; input.workOrderPath = source;
+  await f.engine.init(input);
+  const jobDir = path.join(f.dataDir, 'jobs/rack-check');
+  const pointer = JSON.parse(await fs.readFile(path.join(jobDir, 'active.json')));
+  const versionDir = path.join(jobDir, 'versions', pointer.transactionId);
+  const retained = await fs.readFile(path.join(versionDir, 'original.md'));
+  assert.deepEqual(retained, Buffer.from(workOrder));
+  const intake = JSON.parse(await fs.readFile(path.join(versionDir, 'intake.json')));
+  assert.equal(intake.workOrder, workOrder); assert.equal(intake.workOrderPath, undefined);
+  assert.equal(JSON.stringify(intake).includes(source), false);
+  await fs.writeFile(source, 'The source changed after intake.');
+  assert.equal((await createEngine({ dataDir: f.dataDir }).status({ jobId: input.jobId })).version, 1);
+  const ing = await f.engine.ingest({ jobId: input.jobId, expectedVersion: 1, files: [{ path: f.files[0], label: 'Label' }] });
+  await f.engine.review({ jobId: input.jobId, expectedVersion: 2, observations: [observation(ing.evidence[0].evidenceId)] });
+  assert.equal(view.job.workOrder, workOrder);
+});
+
+test('file intake rejects invalid UTF-8, oversize, symlinks and absent original quotations', async t => {
+  const f = await fixture(t); const source = path.join(f.dir, 'original.md');
+  const input = initInput(); delete input.workOrder; input.workOrderPath = source;
+  await fs.writeFile(source, Buffer.from([0xc3, 0x28]));
+  await code(f.engine.init(input), 'invalid_utf8');
+  await fs.writeFile(source, Buffer.alloc(20481, 0x41));
+  await code(f.engine.init(input), 'file_too_large');
+  await fs.writeFile(source, 'The actual file does not contain the supplied quote.');
+  await code(f.engine.init(input), 'source_absent');
+  await fs.writeFile(source, initInput().workOrder);
+  const linked = path.join(f.dir, 'linked-order.md'); await fs.symlink(source, linked);
+  await code(f.engine.init({ ...input, workOrderPath: linked }), 'invalid_file');
+  const linkedDir = path.join(f.dir, 'linked-orders'); await fs.symlink(f.dir, linkedDir);
+  await code(f.engine.init({ ...input, workOrderPath: path.join(linkedDir, 'original.md') }), 'invalid_file');
+  assert.equal((await f.engine.status({})).totalJobs, 0);
+});
+
+test('intake requires exactly one original source, retaining pasted-chat compatibility', async t => {
+  const f = await fixture(t); const input = initInput();
+  await code(f.engine.init({ ...input, workOrderPath: f.files[0] }), 'invalid_input');
+  const missing = { ...input }; delete missing.workOrder;
+  await code(f.engine.init(missing), 'invalid_input');
+  await f.engine.init(input);
+  assert.equal((await f.engine.status({ jobId: input.jobId })).version, 1);
+});

@@ -52,7 +52,7 @@ The helper runs on Node 22 with no package dependencies. It stores separate jobs
 /workspace/agent/plugin-data/remote-hands-reviewer/jobs/
 ```
 
-Each job retains its original request, copied images, immutable review versions and local recording. SHA-256 checks detect changed stored content. Atomic publication keeps the preceding complete version readable after an interrupted write. These checks are not tamper-proof authorization against an agent with the same filesystem access.
+File-based intake reads and retains the original work order directly, including context outside the tracked identifiers. Each job keeps that request, copied images, immutable review versions and local recording. SHA-256 checks detect changed stored content. Atomic publication keeps the preceding complete version readable after an interrupted write. These checks are not tamper-proof authorization against an agent with the same filesystem access.
 
 The HTML report is self-contained: no JavaScript, remote fonts, external images or approval buttons. It shows its version and status when generated. Ask the agent for current status; an old report remains a snapshot.
 

@@ -199,8 +199,24 @@ export function createEngine(options = {}) {
     return transactionId;
   }
   async function init(input) {
-    fields(input, ['jobId', 'title', 'workOrder', 'requirements', 'confirmation'], 'init');
-    identifier(input.jobId, 'jobId'); string(input.title, 'title', 240); string(input.workOrder, 'workOrder', 20 * 1024);
+    fields(input, ['jobId', 'title', 'workOrder', 'workOrderPath', 'requirements', 'confirmation'], 'init');
+    identifier(input.jobId, 'jobId'); string(input.title, 'title', 240);
+    const fromFile = Object.hasOwn(input, 'workOrderPath');
+    check(fromFile !== Object.hasOwn(input, 'workOrder'), 'invalid_input', 'Provide exactly one of workOrderPath (original file) or workOrder (pasted chat text).');
+    let workOrder;
+    let originalBytes;
+    if (fromFile) {
+      string(input.workOrderPath, 'workOrderPath', 4096);
+      originalBytes = await readRegular(input.workOrderPath, 20 * 1024);
+      try {
+        // Preserve a leading UTF-8 BOM as text, along with all original newlines.
+        workOrder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(originalBytes);
+      } catch { fail('invalid_utf8', 'The original work-order file must contain valid UTF-8 bytes.'); }
+      string(workOrder, 'workOrder', 20 * 1024);
+    } else {
+      workOrder = string(input.workOrder, 'workOrder', 20 * 1024);
+      originalBytes = Buffer.from(workOrder);
+    }
     check(input.confirmation === `Start job ${input.jobId}`, 'confirmation_required', `Confirm the mappings with: Start job ${input.jobId}`);
     check(Array.isArray(input.requirements) && input.requirements.length >= 1 && input.requirements.length <= 12, 'invalid_input', 'Provide 1–12 requirements.');
     const seen = new Set();
@@ -209,15 +225,15 @@ export function createEngine(options = {}) {
       identifier(req.id, 'requirement id'); check(!seen.has(req.id), 'duplicate_requirement', 'Requirement IDs must be unique.'); seen.add(req.id);
       string(req.label, 'requirement label', 240); string(req.expectedValue, 'expectedValue', 256); string(req.sourceQuote, 'sourceQuote', 4096);
       check(['existing', 'replacement', 'asset'].includes(req.role), 'invalid_input', 'Requirement role must be existing, replacement or asset.');
-      check(input.workOrder.includes(req.sourceQuote) && req.sourceQuote.includes(req.expectedValue), 'source_absent', 'Each sourceQuote must appear exactly in the work order and contain the exact expectedValue.', { requirementId: req.id });
+      check(workOrder.includes(req.sourceQuote) && req.sourceQuote.includes(req.expectedValue), 'source_absent', 'Each sourceQuote must appear exactly in the work order and contain the exact expectedValue.', { requirementId: req.id });
       return { ...req };
     });
     const dir = await jobDir(input.jobId, true);
     return lock(dir, async () => {
       try { await fs.lstat(path.join(dir, 'active.json')); fail('job_exists', 'This job already exists. Its original request cannot be replaced.'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
       const createdAt = clock();
-      const job = { jobId: input.jobId, title: input.title, workOrder: input.workOrder, requirements, createdAt, confirmation: input.confirmation };
-      const intakeBytes = jsonBytes(job); const originalBytes = Buffer.from(input.workOrder);
+      const job = { jobId: input.jobId, title: input.title, workOrder, requirements, createdAt, confirmation: input.confirmation };
+      const intakeBytes = jsonBytes(job);
       const id = `v000001-${randomUUID()}`;
       const state = { schemaVersion: 1, version: 1, updatedAt: createdAt, intake: { path: `versions/${id}/intake.json`, hash: sha(intakeBytes), originalPath: `versions/${id}/original.md`, originalHash: sha(originalBytes) }, evidence: [], history: [], latestReview: null, recorded: null };
       await publish(dir, state, { 'intake.json': intakeBytes, 'original.md': originalBytes }, id);
