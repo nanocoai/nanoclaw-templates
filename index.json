@@ -35,6 +35,12 @@
     ],
     "sales": [
       {
+        "ref": "sales/answer-desk",
+        "name": "answer-desk",
+        "version": "1.0.0",
+        "description": "Answer desk agent: answers inbound questionnaires and press queries only from your own corpus, one citation per answer, and interviews you to close the gaps"
+      },
+      {
         "ref": "sales/sdr",
         "name": "sdr",
         "version": "1.0.0",

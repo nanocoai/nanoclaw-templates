@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "answer-desk",
+  "version": "1.0.0",
+  "description": "Answer desk agent: answers inbound questionnaires and press queries only from your own corpus, one citation per answer, and interviews you to close the gaps",
+  "license": "MIT",
+  "author": {
+    "name": "Nick Sawinyh",
+    "url": "https://github.com/sneg55"
+  },
+  "keywords": [
+    "security-questionnaire",
+    "due-diligence",
+    "rfp",
+    "press",
+    "grounded-answers",
+    "no-credentials"
+  ],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Answer Desk"
+    }
+  }
+}
