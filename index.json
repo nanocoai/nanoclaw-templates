@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/phone-booker",
+        "name": "phone-booker",
+        "version": "1.0.0",
+        "description": "Books things by phone: finds a slot that fits your calendar, calls the place, books it, and puts the event back with the address and the name it's under"
       }
     ],
     "media": [
