@@ -52,7 +52,7 @@ Before sending, check every line; fix the line rather than dropping the field:
 
 - Each slot is its own line starting with the slot name. Two stops in one slot become two lines.
 - Every sight line has today's hours (re-checked in step 3), price or "free", and a ticket or
-  place-page link (`/maps/place/...`, never a search URL).
+  Google Maps link.
 - Every restaurant line has a menu link (else "menu: check on site") and the walk from the
   previous stop (the brief is a route, so unlike the other capabilities it is not measured from
   the stay).

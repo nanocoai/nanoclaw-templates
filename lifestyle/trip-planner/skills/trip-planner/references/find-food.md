@@ -19,10 +19,9 @@ is the whole answer; the reviews actor is an extra you offer afterwards.
 
 2. **Web search** for candidates: "best <cuisine> <neighborhood>", local food blogs and papers,
    the venues' own sites. Then **one lookup per candidate** to fill the output line: the venue's
-   own Google Maps place page (search "<name> <city> google maps"; the URL contains `/maps/place/`)
-   for rating, review count, price level, hours and address.
-   A `google.com/maps/search?q=...` URL is not a source and never goes in the output. Drop anything
-   that hits a dislike or dietary rule. For a single pick, skip steps 3 and 4.
+   own Google Maps page (search "<name> <city> google maps") for rating, review count, price
+   level, hours and address. Drop anything that hits a dislike or dietary rule. For a single
+   pick, skip steps 3 and 4.
 
 3. **Shortlist sweep (Apify, only when asked for a shortlist or a ranked list).** This one run is
    the whole default answer. Run `compass/crawler-google-places` **once** with:
@@ -72,8 +71,7 @@ Also good
 
 Before sending, check every line; fix the line rather than dropping the field:
 
-- `<maps link>` is the venue's own place page (`/maps/place/...`), never a search URL. If you
-  couldn't find one, use the venue's website and say so on the line.
+- `<maps link>` is a Google Maps link for the venue, else its website with a note on the line.
 - `menu:` is the venue's menu page, else its website, else "menu: check on site".
 - Rating and count come from the place page or the actor. If neither confirmed them, write the
   line without them; never invent a number.
