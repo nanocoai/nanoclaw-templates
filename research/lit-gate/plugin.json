@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "lit-gate",
+  "version": "1.0.0",
+  "description": "Literature attention gate: SKIP/SKIM/READ today's arXiv against your seeds, with citation hygiene and like/dislike memory. Zero credentials.",
+  "author": {
+    "name": "Senthil Kumar N",
+    "url": "https://github.com/Senthi1Kumar"
+  },
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Lit Gate" }
+  }
+}

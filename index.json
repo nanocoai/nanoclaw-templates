@@ -33,6 +33,14 @@
         "description": "Competitor research agent producing structured docs, news logs, and a tracking spreadsheet"
       }
     ],
+    "research": [
+      {
+        "ref": "research/lit-gate",
+        "name": "lit-gate",
+        "version": "1.0.0",
+        "description": "Literature attention gate: SKIP/SKIM/READ today's arXiv against your seeds, with citation hygiene and like/dislike memory. Zero credentials."
+      }
+    ],
     "sales": [
       {
         "ref": "sales/sdr",
