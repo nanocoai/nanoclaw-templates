@@ -1,0 +1,581 @@
+{
+  "run_at": "2026-09-05T20:00:00Z",
+  "candidates": [
+    {
+      "name": "Midwest Fence Corporation",
+      "url": "https://www.mwfence.com/",
+      "location": "Chicago, IL",
+      "segments": {
+        "geography": "Illinois"
+      },
+      "sources": [
+        "Ironworkers Local 63 fence roster",
+        "company website"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "commercial and industrial fence and gate contractor"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "HQ 900 N Kedzie Ave, Chicago"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "family-owned since 1947"
+        },
+        "Commercial orientation": {
+          "outcome": "pass",
+          "evidence": "portfolio predominantly commercial and institutional"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": 100,
+          "confidence": "high",
+          "why": "named on Local 63 signatory fence roster"
+        },
+        "Commercial orientation strength": {
+          "score": 90,
+          "confidence": "high",
+          "why": "residential incidental in portfolio"
+        },
+        "Ownership and acquirability": {
+          "score": 70,
+          "confidence": "medium",
+          "why": "third-generation family ownership"
+        },
+        "Capability breadth": {
+          "score": 100,
+          "confidence": "high",
+          "why": "fence plus access control and gate operators in-house"
+        },
+        "Scale": {
+          "score": 80,
+          "confidence": "medium",
+          "why": "multiple crews, large public projects"
+        },
+        "End-market attractiveness": {
+          "score": 80,
+          "confidence": "medium",
+          "why": "repeat municipal and transit work"
+        },
+        "Growth indicators": {
+          "score": 50,
+          "confidence": "low",
+          "why": "stable; no expansion signals found"
+        },
+        "Market reputation": {
+          "score": 100,
+          "confidence": "high",
+          "why": "79 years operating"
+        }
+      },
+      "findings": [
+        {
+          "question": "Union status - trade and local",
+          "answer": "Ironworkers, Local 63 (Chicago)",
+          "confidence": "high",
+          "facts": [
+            {
+              "claim": "listed by name on the Local 63 fence contractor roster",
+              "url": "https://www.mwfence.com/"
+            }
+          ],
+          "inferences": []
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Revenue band",
+          "what_would_settle_it": "Form 5500 participant count or bonding capacity from a bid tab"
+        }
+      ]
+    },
+    {
+      "name": "Century Fence Company",
+      "url": "https://centuryfence.com",
+      "location": "Pewaukee, WI",
+      "segments": {
+        "geography": "Wisconsin"
+      },
+      "sources": [
+        "nwibt.org Ironworkers-fencing roster",
+        "company website"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "commercial fence and pavement marking contractor"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "Pewaukee / Waukesha, WI"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "independent, family-owned"
+        },
+        "Commercial orientation": {
+          "outcome": "pass",
+          "evidence": "commercial, highway and institutional work"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": 100,
+          "confidence": "high",
+          "why": "listed on the nwibt.org IRONWORKERS-FENCING roster for fence erection"
+        },
+        "Commercial orientation strength": {
+          "score": 85,
+          "confidence": "high",
+          "why": "highway, commercial and institutional; no residential line"
+        },
+        "Ownership and acquirability": {
+          "score": 60,
+          "confidence": "low",
+          "why": "independent/family; no succession signals found"
+        },
+        "Capability breadth": {
+          "score": 50,
+          "confidence": "medium",
+          "why": "fence and highway safety; access control not evidenced"
+        },
+        "Scale": {
+          "score": 85,
+          "confidence": "medium",
+          "why": "multi-state highway contracts"
+        },
+        "End-market attractiveness": {
+          "score": 90,
+          "confidence": "high",
+          "why": "sustained state DOT and municipal work"
+        },
+        "Growth indicators": {
+          "score": 50,
+          "confidence": "low",
+          "why": "stable"
+        },
+        "Market reputation": {
+          "score": 90,
+          "confidence": "high",
+          "why": "long operating history in the region"
+        }
+      },
+      "findings": [
+        {
+          "question": "Union status - trade and local",
+          "answer": "Ironworkers (fence erection), per the regional building trades roster",
+          "confidence": "high",
+          "facts": [
+            {
+              "claim": "appears on the nwibt.org IRONWORKERS-FENCING contractor roster",
+              "url": "https://centuryfence.com"
+            }
+          ],
+          "inferences": []
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Whether a separate Laborers agreement exists in other states",
+          "what_would_settle_it": "state-by-state signatory check; union status is trade- and state-specific"
+        }
+      ]
+    },
+    {
+      "name": "Century Fence Company (absent-evidence variant)",
+      "url": "https://centuryfence.com",
+      "location": "Pewaukee, WI",
+      "segments": {
+        "geography": "Wisconsin"
+      },
+      "sources": [
+        "company website"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "commercial fence and pavement marking contractor"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "Pewaukee / Waukesha, WI"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "independent, family-owned"
+        },
+        "Commercial orientation": {
+          "outcome": "pass",
+          "evidence": "commercial, highway and institutional work"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": null
+        },
+        "Commercial orientation strength": {
+          "score": 85,
+          "confidence": "high",
+          "why": "highway, commercial and institutional"
+        },
+        "Ownership and acquirability": {
+          "score": 60,
+          "confidence": "low",
+          "why": "independent/family"
+        },
+        "Capability breadth": {
+          "score": 50,
+          "confidence": "medium",
+          "why": "fence and highway safety"
+        },
+        "Scale": {
+          "score": 85,
+          "confidence": "medium",
+          "why": "multi-state highway contracts"
+        },
+        "End-market attractiveness": {
+          "score": 90,
+          "confidence": "high",
+          "why": "sustained state DOT work"
+        },
+        "Growth indicators": {
+          "score": 50,
+          "confidence": "low",
+          "why": "stable"
+        },
+        "Market reputation": {
+          "score": 90,
+          "confidence": "high",
+          "why": "long operating history"
+        }
+      },
+      "findings": [
+        {
+          "question": "Union status - trade and local",
+          "answer": null,
+          "confidence": "low",
+          "facts": [],
+          "inferences": []
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Union affiliation",
+          "what_would_settle_it": "signatory roster, CBA reference, or an explicit company statement"
+        }
+      ]
+    },
+    {
+      "name": "Diversified Construction Services",
+      "url": "https://dcsscaffold.com",
+      "location": "Warrenville, IL",
+      "segments": {
+        "geography": "Illinois"
+      },
+      "sources": [
+        "Ironworkers Local 63 fence roster"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "architectural and ornamental ironwork including fence"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "Warrenville, IL"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "founder-owned; MBE"
+        },
+        "Commercial orientation": {
+          "outcome": "unresolved",
+          "evidence": "site is scaffold-led; fence share of work not stated",
+          "what_would_settle_it": "confirm fence is a meaningful line of business, not incidental to scaffolding"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": 100,
+          "confidence": "high",
+          "why": "Local 63 signatory"
+        },
+        "Commercial orientation strength": {
+          "score": null
+        },
+        "Ownership and acquirability": {
+          "score": 60,
+          "confidence": "low",
+          "why": "founder-owned; no succession signals"
+        },
+        "Capability breadth": {
+          "score": 0,
+          "confidence": "medium",
+          "why": "fence only; primary trade is scaffolding"
+        },
+        "Scale": {
+          "score": 50,
+          "confidence": "low",
+          "why": "single location"
+        },
+        "End-market attractiveness": {
+          "score": 60,
+          "confidence": "low",
+          "why": "commercial construction exposure via scaffold"
+        },
+        "Growth indicators": {
+          "score": null
+        },
+        "Market reputation": {
+          "score": 50,
+          "confidence": "low",
+          "why": "thin third-party evidence"
+        }
+      },
+      "findings": [],
+      "open_questions": []
+    },
+    {
+      "name": "Priority Grading & Excavating, Inc",
+      "url": "https://newbt.org",
+      "location": "Stoughton, WI",
+      "segments": {
+        "geography": "Wisconsin"
+      },
+      "sources": [
+        "Northeast WI Building & Construction Trades Council roster"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "site work with gate and access installation"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "Stoughton, Dane County, WI"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "privately held small firm"
+        },
+        "Commercial orientation": {
+          "outcome": "unresolved",
+          "evidence": "access work evidenced; no commercial fence portfolio found",
+          "what_would_settle_it": "confirm perimeter or fence scope beyond excavation and grading"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": 50,
+          "confidence": "low",
+          "why": "listed under a council roster but not individually named by trade or local"
+        },
+        "Commercial orientation strength": {
+          "score": null
+        },
+        "Ownership and acquirability": {
+          "score": 50,
+          "confidence": "low",
+          "why": "no ownership records found"
+        },
+        "Capability breadth": {
+          "score": 0,
+          "confidence": "low",
+          "why": "access/site work only"
+        },
+        "Scale": {
+          "score": 40,
+          "confidence": "low",
+          "why": "small regional operator"
+        },
+        "End-market attractiveness": {
+          "score": 50,
+          "confidence": "low",
+          "why": "public works exposure via council membership"
+        },
+        "Growth indicators": {
+          "score": null
+        },
+        "Market reputation": {
+          "score": 50,
+          "confidence": "low",
+          "why": "thin evidence"
+        }
+      },
+      "findings": [],
+      "open_questions": []
+    },
+    {
+      "name": "Rommel Fence, LLC",
+      "url": "https://rommelfence.com",
+      "location": "Poland, NY",
+      "segments": {
+        "geography": "New York"
+      },
+      "sources": [
+        "web search"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass",
+          "evidence": "fence and access control"
+        },
+        "geography": {
+          "outcome": "pass",
+          "evidence": "Poland, NY"
+        },
+        "ownership": {
+          "outcome": "pass",
+          "evidence": "family-owned across three generations"
+        },
+        "Commercial orientation": {
+          "outcome": "pass",
+          "evidence": "commercial and agricultural work shown"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": 0,
+          "confidence": "medium",
+          "why": "describes itself as open-shop capable; no signatory evidence"
+        },
+        "Commercial orientation strength": {
+          "score": 60,
+          "confidence": "medium",
+          "why": "mixed commercial and agricultural"
+        },
+        "Ownership and acquirability": {
+          "score": 80,
+          "confidence": "medium",
+          "why": "third generation, plausible succession"
+        },
+        "Capability breadth": {
+          "score": 100,
+          "confidence": "high",
+          "why": "fence plus access control"
+        },
+        "Scale": {
+          "score": 40,
+          "confidence": "low",
+          "why": "small operator"
+        },
+        "End-market attractiveness": {
+          "score": 40,
+          "confidence": "low",
+          "why": "limited public work"
+        },
+        "Growth indicators": {
+          "score": 50,
+          "confidence": "low",
+          "why": "stable"
+        },
+        "Market reputation": {
+          "score": 80,
+          "confidence": "medium",
+          "why": "long family history"
+        }
+      },
+      "findings": [],
+      "open_questions": []
+    },
+    {
+      "name": "PE Platform Fence Holdings",
+      "url": "",
+      "location": "Milwaukee, WI",
+      "segments": {
+        "geography": "Wisconsin"
+      },
+      "sources": [
+        "press"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass"
+        },
+        "geography": {
+          "outcome": "pass"
+        },
+        "ownership": {
+          "outcome": "fail",
+          "evidence": "acquired by a private equity sponsor 2024",
+          "url": "https://example.invalid/press"
+        },
+        "Commercial orientation": {
+          "outcome": "pass"
+        }
+      },
+      "scores": {},
+      "findings": [],
+      "open_questions": []
+    },
+    {
+      "name": "Residential Only Fence Co",
+      "url": "",
+      "location": "Springfield, IL",
+      "segments": {
+        "geography": "Illinois"
+      },
+      "sources": [
+        "web search"
+      ],
+      "filters": {
+        "industry": {
+          "outcome": "pass"
+        },
+        "geography": {
+          "outcome": "pass"
+        },
+        "ownership": {
+          "outcome": "pass"
+        },
+        "Commercial orientation": {
+          "outcome": "fail",
+          "evidence": "residential-only service pages",
+          "what_would_settle_it": "any evidence of a commercial division"
+        }
+      },
+      "scores": {
+        "Union tier": {
+          "score": null
+        },
+        "Commercial orientation strength": {
+          "score": null
+        },
+        "Ownership and acquirability": {
+          "score": 50,
+          "confidence": "low",
+          "why": "no records found"
+        },
+        "Capability breadth": {
+          "score": 0,
+          "confidence": "medium",
+          "why": "residential fence only"
+        },
+        "Scale": {
+          "score": 20,
+          "confidence": "low",
+          "why": "owner-operator"
+        },
+        "End-market attractiveness": {
+          "score": 0,
+          "confidence": "medium",
+          "why": "no commercial or public work"
+        },
+        "Growth indicators": {
+          "score": null
+        },
+        "Market reputation": {
+          "score": 50,
+          "confidence": "low",
+          "why": "thin evidence"
+        }
+      },
+      "findings": [],
+      "open_questions": []
+    }
+  ]
+}

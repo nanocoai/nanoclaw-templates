@@ -1,0 +1,7 @@
+{
+  "name": "winnow-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic half of the winnow screening pipeline. Zero dependencies.",
+  "scripts": { "test": "node --test test/*.test.mjs" }
+}
