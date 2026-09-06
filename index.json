@@ -15,6 +15,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/personal-manager",
+        "name": "personal-manager",
+        "version": "1.0.0",
+        "description": "An assistant you hire that already knows you: one conversation gathers who you are and what you want it to hold, reads what you connect and what you give, and hands you one page of how it sees you; from then on it remembers everything you tell it and answers from it."
       }
     ],
     "media": [
