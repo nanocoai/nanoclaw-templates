@@ -15,8 +15,8 @@ already have settled this. Look in `memory/index.md` for a core fact starting `A
 - **No fact**: offer it, as follows.
 
 In plain words: planning works on web search alone; connecting their own Apify key (a paid
-service) adds review-backed restaurant and sights shortlists with ratings and review counts. Do
-they want to connect it now?
+service) adds review-backed restaurant and sights shortlists with ratings and review counts, and
+hotel shortlists with real nightly rates for their dates. Do they want to connect it now?
 
 - **No / later**: say it's fine and available any time. Go to step 2.
 - **Yes**: follow [credentials.md](credentials.md#apify-connect-it) ("Apify: connect it"). When

@@ -1,6 +1,6 @@
 # Credentials & connection errors
 
-The Apify actors (Google Maps, Google Maps Reviews, TripAdvisor) are authenticated by the OneCLI
+The Apify actors (Google Maps, Google Maps Reviews, TripAdvisor, Booking.com) are authenticated by the OneCLI
 proxy, which injects the credential into each outbound call. You never see or handle keys. Read
 this when the traveler opts into Apify at first contact ([onboarding.md](onboarding.md)) or when a call fails
 to authenticate.
@@ -53,6 +53,7 @@ placeholder is not the credential and must never be replaced with a real token; 
 lives only in the OneCLI vault.
 
 Plan limits: the Google Maps scraper runs on Apify's free plan at the small caps this skill uses.
-The Reviews and TripAdvisor actors are pay-per-result and may refuse to run on the free plan (the
-token authenticates, the actor declines). If that happens, say it plainly, point to
-https://apify.com/pricing, and carry on with the web-search answer instead of retrying.
+The Reviews, TripAdvisor and Booking.com actors are pay-per-result and may refuse to run on the
+free plan (the token authenticates, the actor declines). If that happens, say it plainly, point to
+https://apify.com/pricing, and carry on with the web-search answer instead of retrying (for
+stays, that means links and unconfirmed ranges, never browsing booking calendars).

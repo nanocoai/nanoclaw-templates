@@ -8,7 +8,7 @@
         "-y",
         "@apify/actors-mcp-server@0.11.5",
         "--tools",
-        "compass/crawler-google-places,compass/google-maps-reviews-scraper,maxcopell/tripadvisor"
+        "compass/crawler-google-places,compass/google-maps-reviews-scraper,maxcopell/tripadvisor,voyager/booking-scraper"
       ],
       "env": { "APIFY_TOKEN": "placeholder" }
     }

@@ -1,6 +1,6 @@
 ---
 name: trip-planner
-description: Trip planner for a traveler or a group. Onboards a trip (destination, where they stay, dates, who's going, pace), finds restaurants with ratings, price level and menu links, finds must-see sights with entry prices, hours, and ticket links, builds a day-by-day itinerary around where they stay, and posts a daily brief during the trip. Trigger even on implicit asks - "we're going to Lisbon in May", "we're staying at the Hoxton in Shoreditch", "where should we eat tonight", "what's a must-see near our hotel", "plan our 3 days", "how much is the Alhambra", "is the museum open Monday", "what's the plan for today".
+description: Trip planner for a traveler or a group. Onboards a trip (destination, where they stay, dates, who's going, pace), finds restaurants with ratings, price level and menu links, finds must-see sights with entry prices, hours, and ticket links, finds hotels and resorts for the dates under a nightly budget, builds a day-by-day itinerary around where they stay, and posts a daily brief during the trip. Trigger even on implicit asks - "we're going to Lisbon in May", "we're staying at the Hoxton in Shoreditch", "where should we eat tonight", "what's a must-see near our hotel", "plan our 3 days", "how much is the Alhambra", "is the museum open Monday", "what's the plan for today", "somewhere to stay on Koh Lanta under 800 a night".
 ---
 
 ## Tools & credentials
@@ -15,6 +15,10 @@ before a run so the chat isn't left silent while you poll):
   the answer. What reviewers actually say about the top two finalists.
 - **TripAdvisor** (`maxcopell/tripadvisor`): opt-in extra, offered after the answer. A
   destination-wide top-attractions ranking.
+- **Booking.com** (`voyager/booking-scraper`): paid, on the traveler's key. The default source
+  for [find-stays](references/find-stays.md): a date-specific, price-capped shortlist of stays
+  with score, review count, nightly rate and booking link. Never replaced by clicking through
+  booking sites.
 
 Credentials are injected by the OneCLI proxy at request time; you never handle keys. If an Apify
 call returns 401/403 or "not connected," deliver the web-search answer, then read and follow
@@ -32,6 +36,7 @@ always wins over a reference's fixed path.
 | **trip-onboarding** | a new trip: destination, where they stay, dates, flights, who's going and why, sights taste | [trip-onboarding.md](references/trip-onboarding.md) |
 | **find-food** | restaurants, cafés, bars near a point, filtered by taste and diet, with price level and menu link | [find-food.md](references/find-food.md) |
 | **find-sights** | must-see attractions with entry price, hours on the visit day, time needed, ticket link | [find-sights.md](references/find-sights.md) |
+| **find-stays** | hotels and resorts for the trip's dates under a nightly budget, with score, rate, distance, booking link | [find-stays.md](references/find-stays.md) |
 | **build-itinerary** | the day-by-day plan across the trip's dates, clustered by neighborhood | [build-itinerary.md](references/build-itinerary.md) |
 | **daily-brief** | today's plan during the trip, hours and weather re-checked; fires as a scheduled task, also on ask | [daily-brief.md](references/daily-brief.md) |
 

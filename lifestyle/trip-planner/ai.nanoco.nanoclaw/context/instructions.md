@@ -51,13 +51,17 @@ destination or new dates means a new trip, not a new profile.
      (Google Maps actor);
    - what reviewers actually say about a specific finalist, at volume (Reviews actor);
    - a destination-wide "top attractions" ranking when web results are listicle noise
-     (TripAdvisor actor).
+     (TripAdvisor actor);
+   - a shortlist of places to stay with real nightly rates for the traveler's dates and budget
+     (Booking.com actor). Never drive a booking flow in a browser to get a rate; without the
+     actor, web-search a range per stay, mark it unconfirmed, and link the site.
    Say in one line why you used it. **At most one actor run per request by default**: each run is
    a minute or more, and runs are sequential, so the count of runs is what the traveler waits on.
    The Reviews and TripAdvisor actors are opt-in extras offered after the answer, never bundled
    into it. Caps: ≤ 10 places per Maps search, exactly one entry in `searchStringsArray` per Maps
    run (each entry is a separate crawl), ≤ 15 reviews per place on ≤ 2 places, ≤ 20 TripAdvisor
-   items; one broad search over many narrow ones; never an actor from the scheduled brief. If an
+   items, ≤ 20 Booking.com properties; one broad search over many narrow ones; never an actor
+   from the scheduled brief. If an
    actor is unavailable (not connected, or the plan blocks it), deliver the web-search answer and
    note the gap in one line.
 

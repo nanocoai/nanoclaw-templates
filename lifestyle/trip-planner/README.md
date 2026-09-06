@@ -13,7 +13,7 @@ extra for review-backed shortlists; see the cost note below.
 ```
 trip-planner/
 ├── plugin.json                     # Agent Plugins manifest (marks the folder as a plugin)
-├── mcp.json                        # MCP server (Apify: Google Maps, Reviews, TripAdvisor): placeholder env value, no secrets
+├── mcp.json                        # MCP server (Apify: Google Maps, Reviews, TripAdvisor, Booking.com): placeholder env value, no secrets
 ├── ai.nanoco.nanoclaw/
 │   └── context/
 │       └── instructions.md         # the agent's standing brief (NanoClaw extension dir)
@@ -27,6 +27,7 @@ trip-planner/
 │           ├── trip-onboarding.md  #   one concept per trip: stay, dates, flights, party, occasion
 │           ├── find-food.md        #   restaurants near a point: reviews, price level, menu link
 │           ├── find-sights.md      #   must-sees: entry price, hours, time needed, ticket link
+│           ├── find-stays.md       #   hotels for the dates under a nightly budget: score, rate, booking link
 │           ├── build-itinerary.md  #   day-by-day plan clustered by neighborhood
 │           ├── daily-brief.md      #   today's plan, hours and weather re-checked
 │           └── credentials.md      #   connecting the Apify key via OneCLI (read on auth errors)
@@ -54,6 +55,7 @@ dislikes are learned from your reactions, not a questionnaire.
 | Onboard a trip | "We're in Lisbon 12–16 May, staying at the Hoxton in Baixa" |
 | Find food | "Where should we eat tonight, walking distance, no seafood" |
 | Find sights | "What's a must-see near us? How much is the Alhambra, and is it open Monday?" |
+| Find stays | "Somewhere on Koh Lanta for Jan 12–18, under 800 ILS a night, two adults" |
 | Build the itinerary | "Plan our three days, slow mornings" |
 | Daily brief | Fires each morning of the trip; or "what's the plan today" |
 
@@ -113,9 +115,11 @@ brief never calls an actor.
 
 - **Google Maps Scraper** (`compass/crawler-google-places`) runs on Apify's **free tier** at
   these caps.
-- **Google Maps Reviews Scraper** (`compass/google-maps-reviews-scraper`) and **TripAdvisor
-  Scraper** (`maxcopell/tripadvisor`) are **pay-per-result**; on the free plan the token
-  authenticates but the actor may decline to run, so expect to need a **paid Apify plan**.
+- **Google Maps Reviews Scraper** (`compass/google-maps-reviews-scraper`), **TripAdvisor
+  Scraper** (`maxcopell/tripadvisor`) and **Booking Scraper** (`voyager/booking-scraper`, the
+  source for stays with real nightly rates, ≤ 20 properties per run) are **pay-per-result**; on
+  the free plan the token authenticates but the actor may decline to run, so expect to need a
+  **paid Apify plan**.
 
 Without Apify connected at all, every capability still works on web search; you lose only the
 review-count rankings. Run one shortlist, check the run cost in the Apify console, then decide.
