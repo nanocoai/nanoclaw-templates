@@ -1,0 +1,44 @@
+{
+  "thesis": "example-fencing.yaml",
+  "judgments": "example-fencing.eval.judgments.json",
+  "description": "Screening-logic eval against known-correct calls from a real 48-target screen.",
+  "expect": {
+    "counts": { "PASS": 4, "NEAR MISS": 3, "FAIL": 1 },
+    "companies": [
+      { "name": "Midwest Fence Corporation", "band": "PASS", "priority": true,
+        "criterion": "Union tier", "score": 100,
+        "why": "Known-good rank 1: confirmed signatory, family-owned since 1947, commercial portfolio." },
+
+      { "name": "Century Fence Company", "band": "PASS",
+        "criterion": "Union tier", "score": 100,
+        "why": "Positive roster evidence must score as a confirmed signatory." },
+
+      { "name": "Century Fence Company (absent-evidence variant)", "band": "PASS",
+        "criterion": "Union tier", "score": 50, "policy": "neutral",
+        "scoreNotBelow": 60,
+        "why": "THE headline assertion. Same company, union evidence absent. Must score the neutral default and stay in PASS -- never 0, never excluded. A real screen once called this company nonunion by inferring from absence." },
+
+      { "name": "Diversified Construction Services", "band": "NEAR MISS",
+        "why": "Marked Tier Out in the source screen: fence share unconfirmed. Unresolved revisitable filter quarantines rather than drops." },
+
+      { "name": "Priority Grading & Excavating, Inc", "band": "NEAR MISS",
+        "why": "Marked Tier Out in the source screen: access work only." },
+
+      { "name": "Residential Only Fence Co", "band": "NEAR MISS",
+        "why": "Fails a revisitable filter outright -- still researched and reported, not discarded." },
+
+      { "name": "Rommel Fence, LLC", "band": "PASS", "priority": false,
+        "criterion": "Union tier", "score": 0,
+        "why": "Open-shop capable. Ranks below signatories but is NOT excluded -- union status is scored, never filtered." },
+
+      { "name": "PE Platform Fence Holdings", "band": "FAIL", "unscored": true,
+        "why": "Firm ownership filter. Dropped before research; never scored." }
+    ],
+    "invariants": [
+      "no NEAR MISS outranks a PASS",
+      "every FAIL is unscored",
+      "absent-evidence variant scores strictly below its evidenced twin",
+      "coverage flags every declared segment that returned nothing"
+    ]
+  }
+}

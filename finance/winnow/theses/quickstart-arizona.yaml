@@ -1,0 +1,205 @@
+# QUICKSTART — the fastest way to see winnow work.
+#
+# One state, five metro segments, small caps. Runs in a few minutes on the
+# keyless Tavily tier, so it needs no API key and no setup beyond stamping
+# the template.
+#
+# It is deliberately the segment the full example thesis
+# (example-fencing.yaml) reported as EMPTY. That screen searched Arizona and
+# found nothing, and recorded it as a coverage gap rather than as evidence
+# the state had no candidates. A narrow run finds candidates in every metro.
+# That is the template's whole argument, reproducible in one command.
+#
+# Coverage reports by metro rather than by state, so single-source dominance
+# and empty segments stay visible inside a single geography.
+
+acquisition_thesis:
+  name: Arizona Perimeter Security — quickstart
+  description: >
+    Commercial and industrial fence and access-control contractors across
+    Arizona metros, screened for an independent acquirer. A small, fast,
+    zero-setup demonstration of the full pipeline.
+
+  hard_filters:
+    industry:
+      include:
+        - commercial fencing contractor
+        - industrial fencing contractor
+        - perimeter security contractor
+        - access control and automated gate contractor
+      exclude:
+        - DIY fence supply retail
+        - landscaping contractor
+    geography:
+      include:
+        - Phoenix metro
+        - Tucson
+        - Flagstaff
+        - Yuma
+        - Prescott
+      # Metros, not states. A single-state thesis segmented by state has one
+      # coverage row and tells you nothing. Segmenting by metro keeps
+      # single-source dominance and empty-segment flags meaningful.
+    ownership:
+      include:
+        - founder owned
+        - family owned
+        - privately held
+      exclude:
+        - publicly traded
+        - private equity controlled
+    other:
+      - name: Commercial orientation
+        condition: >
+          Company must have meaningful commercial, industrial, government, or
+          institutional project activity. Residential-only contractors fail.
+        rationale: >
+          Residential work carries different margins and crew structure and
+          does not fit the buyer's operating model.
+        revisitable: true
+
+  scored_preferences:
+    criteria:
+      - name: Commercial orientation strength
+        weight: 30
+        desired_condition: Predominantly commercial and industrial revenue mix
+        scoring_guidance:
+          100: Overwhelmingly commercial/industrial; residential incidental
+          50: Meaningful mixed exposure with a real commercial division
+          0: Barely clears the commercial-orientation filter
+        evidence_required: Project portfolio, service pages, named customers
+
+      - name: Capability breadth
+        weight: 25
+        desired_condition: Fence AND access control / automated gate capability
+        scoring_guidance:
+          100: Both, delivered in-house
+          50: Fence with some gate or operator work
+          0: Fence erection only
+        evidence_required: Service pages, certifications, dealer or partner listings
+
+      - name: Ownership and acquirability
+        weight: 20
+        desired_condition: Founder or family ownership with a plausible succession need
+        scoring_guidance:
+          100: Strong succession or exit signals
+          50: Neutral
+          0: Clearly institutionalised or an unlikely seller
+        evidence_required: Ownership history, leadership tenure, succession signals
+
+      - name: Scale
+        weight: 15
+        desired_condition: Multiple crews and evidence of meaningful project capacity
+        scoring_guidance:
+          100: Strong scale indicators across several signals
+          50: Moderate scale
+          0: Owner-operator or single crew
+        evidence_required: Employees, locations, fleet, licence class, project size
+
+      - name: End-market attractiveness
+        weight: 10
+        desired_condition: Government, utility, institutional, or infrastructure exposure
+        scoring_guidance:
+          100: Repeat public or institutional work
+          50: Mixed
+          0: Weak fit
+        evidence_required: Project records, procurement listings, customer evidence
+
+  research_questions:
+    standard:
+      - company_overview
+      - ownership
+      - geography
+      - products_services
+      - customer_markets
+      - size_indicators
+    custom:
+      - question: Estimate commercial versus residential revenue mix.
+        importance: high
+        evidence_guidance: >
+          Use service pages, project portfolio, and named customers. Give a
+          range and say what it rests on.
+
+      - question: >
+          Identify access-control, automated gate, or perimeter security
+          capability delivered in-house rather than subcontracted.
+        importance: medium
+        evidence_guidance: >
+          Use service pages, manufacturer certifications, and dealer listings.
+
+research_settings:
+  research_depth:
+    mode: fast
+  execution:
+    mode: fast
+    # Research is farmed out to subagents, a few candidates at a time, so
+    # the run finishes in minutes rather than a quarter of an hour. It costs
+    # more tokens. Set standard for an unattended run where spend matters
+    # more than the clock.
+  target_limits:
+    initial_universe: 12
+    deep_research_limit: 5
+    # Deliberately small. These are a RUNTIME DIAL, not a screening
+    # criterion -- they bound how long the run takes and nothing else. A
+    # candidate dropped by a cap was not judged and did not fail. Raise both
+    # for a real screen; the brief reports the gap either way.
+  evidence:
+    minimum_confidence: low
+    require_citations: true
+    allow_inference: true
+    distinguish_fact_from_inference: true
+  coverage:
+    report_by:
+      - geography
+    single_source_threshold: 0.5
+    flag_empty_segments: true
+  source_preferences:
+    preferred:
+      - state contractor licence records
+      - company websites
+      - public procurement and bid records
+      - local and trade press
+    excluded:
+      - content-farm business directories with no primary sourcing
+    domains:
+      include: []
+      exclude:
+        - buzzfile.com
+        - manta.com
+        - dnb.com
+        - zoominfo.com
+        - bizapedia.com
+    registries:
+      - name: Arizona Registrar of Contractors licence search
+        url: https://roc.az.gov
+        covers: [Phoenix metro, Tucson, Flagstaff, Yuma, Prescott]
+        instructions: >
+          Find licensed contractors under fencing and ornamental iron
+          classifications. Capture company name, licence class, and city.
+        # Needs the keyed tier. Its live interface is a name-search form
+        # rather than a browsable roster, so even a keyed crawl may need
+        # per-name queries. Left declared on purpose: an unenumerated
+        # registry is reported as an open coverage gap, which is more honest
+        # than deleting it and showing a clean table.
+
+scoring_settings:
+  scale: { min: 0, max: 100 }
+  normalization: weighted
+  missing_data_policy:
+    mode: neutral
+    notes: >
+      Thin public evidence is normal for private contractors of this size.
+      Penalising it would rank by web presence rather than by fit.
+  minimum_score_for_priority: 60
+
+output:
+  ranked_table: true
+  target_briefs: true
+  show_filter_failures: true
+  show_near_miss_band: true
+  show_coverage_report: true
+  show_score_breakdown: true
+  show_confidence: true
+  show_citations: true
+  export:
+    formats: [csv, json]

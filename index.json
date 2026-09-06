@@ -9,6 +9,14 @@
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
       }
     ],
+    "finance": [
+      {
+        "ref": "finance/winnow",
+        "name": "winnow",
+        "version": "1.0.0",
+        "description": "Screening agent: turns a written thesis into a ranked, cited shortlist of companies — reporting the near-misses that failed one negotiable rule, and the segments the search never reached. Runs with no API key."
+      }
+    ],
     "lifestyle": [
       {
         "ref": "lifestyle/family-assistant",

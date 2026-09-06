@@ -1,0 +1,320 @@
+# Worked example — an ESOP acquirer screening commercial and industrial
+# perimeter-security contractors for union field labour.
+#
+# This is a real screen, not an illustration. It is reproduced from a live
+# v2 target list of 48 priority targets so the template can be validated
+# against known-good and known-bad calls.
+#
+# Nothing in the winnow plugin refers to fencing, union labour, access
+# control, or these states. All of it lives in this file.
+
+acquisition_thesis:
+  name: Union Perimeter Security Platform — Eastern U.S. + Arizona
+  description: >
+    Identify independently held commercial and industrial fence and
+    access-control contractors with union field labour, as platform
+    acquisition candidates for an ESOP acquirer.
+
+  hard_filters:
+    industry:
+      include:
+        - commercial fencing contractor
+        - industrial fencing contractor
+        - perimeter security contractor
+        - access control and automated gate contractor
+      exclude:
+        - DIY fence supply retail
+        - landscaping contractor
+        - fence product manufacturing only
+    geography:
+      include:
+        - Illinois
+        - Indiana
+        - Massachusetts
+        - Michigan
+        - Missouri
+        - New York
+        - Ohio
+        - Wisconsin
+        - Arizona
+      # The buyer states this scope as "eastern U.S. + Arizona". It is
+      # enumerated by state so coverage can be reported per segment -- see
+      # research_settings.coverage.
+      #
+      # Arizona stays in this list even though the v2 screen returned ZERO
+      # candidates there. Removing it would convert a coverage gap into a
+      # silent absence, which is the exact failure this thesis is written
+      # to expose. A declared segment that returns nothing is a finding.
+    ownership:
+      include:
+        - founder owned
+        - family owned
+        - privately held
+      exclude:
+        - publicly traded
+        - private equity controlled
+        - already ESOP-owned
+    other:
+      - name: Commercial orientation
+        condition: >
+          Company must have meaningful commercial, industrial, government, or
+          institutional project activity. Residential-only contractors fail.
+        rationale: >
+          Residential work carries different margins, crew structure, and
+          bonding profile, and does not fit the buyer's operating model.
+        revisitable: true
+        # Revisitable because a predominantly residential contractor with a
+        # real commercial division, or one in a market the buyer wants, is a
+        # conversation worth having. Firm enough to keep out of the ranked
+        # list; not firm enough to discard unseen.
+
+  scored_preferences:
+    criteria:
+      - name: Union tier
+        weight: 20
+        desired_condition: Confirmed signatory to a relevant trade and local
+        scoring_guidance:
+          100: Confirmed signatory — named on a union roster, CBA, or PLA
+          50: Union-crewed, but trade or local not confirmed
+          0: Open-shop capable
+        evidence_required: >
+          Union signatory roster, CBA or PLA reference, or an explicit
+          company statement. Name the trade AND the local where known.
+        # Scored, never filtered. Union evidence is asymmetric -- affiliation
+        # is sometimes published, its absence never is -- so filtering on it
+        # would discard companies for thin web presence. Scoring it under a
+        # neutral missing-data policy ranks the confirmed ones up without
+        # punishing the unknown. An unknown scores 50, ABOVE a confirmed
+        # open shop at 0, which is the correct ordering for this buyer.
+
+      - name: Commercial orientation strength
+        weight: 15
+        desired_condition: Predominantly commercial and industrial revenue mix
+        scoring_guidance:
+          100: Overwhelmingly commercial/industrial; residential incidental
+          50: Meaningful mixed exposure with a real commercial division
+          0: Barely clears the commercial-orientation filter
+        evidence_required: Project portfolio, service pages, named customers
+        # Ranks only companies that already cleared the revisitable filter
+        # above. The filter decides the band; this decides the order.
+
+      - name: Ownership and acquirability
+        weight: 15
+        desired_condition: Founder or family ownership with a plausible succession need
+        scoring_guidance:
+          100: Strong succession or exit signals
+          50: Neutral
+          0: Clearly institutionalised or an unlikely seller
+        evidence_required: Ownership history, leadership tenure, succession signals
+
+      - name: Capability breadth
+        weight: 10
+        desired_condition: Fence AND access control / automated gate capability
+        scoring_guidance:
+          100: Both fence and electronic access control, delivered in-house
+          50: Fence with some gate or operator work
+          0: Fence erection only
+        evidence_required: Service pages, certifications, dealer or partner listings
+
+      - name: Scale
+        weight: 10
+        desired_condition: Multiple crews and evidence of meaningful project capacity
+        scoring_guidance:
+          100: Strong scale indicators across several signals
+          50: Moderate scale
+          0: Owner-operator or single crew
+        evidence_required: Employees, locations, fleet, bonding capacity, project size
+
+      - name: End-market attractiveness
+        weight: 10
+        desired_condition: Government, infrastructure, utility, or institutional exposure
+        scoring_guidance:
+          100: Highly attractive mix with repeat public work
+          50: Mixed
+          0: Weak fit
+        evidence_required: Project records, procurement listings, customer evidence
+
+      - name: Growth indicators
+        weight: 10
+        desired_condition: Expansion, hiring, larger projects, or new capabilities
+        scoring_guidance:
+          100: Strong recent growth across several signals
+          50: Stable
+          0: Weak or declining
+        evidence_required: Hiring activity, new locations, project announcements, fleet growth
+
+      - name: Market reputation
+        weight: 10
+        desired_condition: Established reputation and operating longevity
+        scoring_guidance:
+          100: Long operating history and strong third-party evidence
+          50: Adequate
+          0: Thin or negative evidence
+        evidence_required: Company history, project record, third-party sources, safety record
+
+  research_questions:
+    standard:
+      - company_overview
+      - ownership
+      - management
+      - geography
+      - products_services
+      - customer_markets
+      - size_indicators
+      - growth_signals
+      - acquisition_signals
+    custom:
+      - question: >
+          Determine whether field labour is union, nonunion, mixed, or
+          unknown. Name the specific trade(s) and local number(s).
+        importance: high
+        evidence_guidance: >
+          Prefer union signatory lists, local union rosters, district council
+          agreements, company careers pages, job postings, and project labour
+          agreements.
+
+          Union status is TRADE- and STATE-specific. A company may be
+          signatory to Ironworkers for fence erection in one state and have
+          no agreement elsewhere, or be signatory to Laborers rather than
+          Ironworkers. Never generalise one trade or one state to the whole
+          company -- a real screen wrongly called Century Fence nonunion on
+          the strength of a Laborers matter in Minnesota, when it was in fact
+          Ironworkers-signatory for fence work.
+
+          Do NOT infer nonunion status from the absence of union evidence.
+          Report "unknown".
+
+      - question: Estimate commercial versus residential revenue mix.
+        importance: high
+        evidence_guidance: >
+          Use service pages, project portfolio, named customers, and public
+          references. Give a range and say what it rests on.
+
+      - question: Identify government, utility, or infrastructure project experience.
+        importance: medium
+        evidence_guidance: >
+          Use company project pages, public contract records, bid tabulations,
+          and procurement sources.
+
+      - question: >
+          Identify access-control, automated gate, perimeter security, or
+          related electronic capabilities.
+        importance: medium
+        evidence_guidance: >
+          Use service pages, project descriptions, manufacturer certifications,
+          and partner or dealer listings.
+
+research_settings:
+  research_depth:
+    mode: standard
+  target_limits:
+    initial_universe: 40
+    deep_research_limit: 20
+  evidence:
+    minimum_confidence: low
+    require_citations: true
+    allow_inference: true
+    distinguish_fact_from_inference: true
+
+  coverage:
+    report_by:
+      - geography
+    single_source_threshold: 0.5
+    flag_empty_segments: true
+    # Why this exists. The v2 screen returned 48 priority targets, of which
+    # 26 (54%) were in Illinois -- and 25 of those 26 arrived through ONE
+    # source, the Ironworkers Local 63 fence contractor roster. Local 63
+    # accounts for 27 of all 48 targets (56%), including two Indiana firms
+    # inside its jurisdiction.
+    #
+    # Illinois does not contain half of the union C&I fence contractors in
+    # the eastern United States. What the funnel actually mapped was the
+    # jurisdiction of the one local that publishes a machine-readable
+    # signatory roster. Meanwhile Arizona, a declared segment, returned zero
+    # and said nothing about it.
+    #
+    # That is "never infer from absence" one level up: not finding companies
+    # in a segment is not evidence that the segment is empty. Coverage
+    # reporting makes the shape of the search visible next to the shape of
+    # the results.
+
+  source_preferences:
+    preferred:
+      - union signatory rosters and district council agreements
+      - company websites
+      - state contractor and licensing records
+      - public procurement and bid records
+      - local and trade press
+    excluded:
+      - content-farm business directories with no primary sourcing
+
+    domains:
+      include: []
+      # Left empty deliberately. include_domains is a hard restriction, and a
+      # broad sweep with it set would return only these domains -- exactly the
+      # single-source funnel this thesis exists to expose. Targeted passes set
+      # it per-call instead, scoped to one registry at a time.
+      exclude:
+        - buzzfile.com
+        - manta.com
+        - dnb.com
+        - zoominfo.com
+        - bizapedia.com
+      # Aggregators that restate other sources without attribution. They rank
+      # well, add no evidence, and pollute the coverage tally with a "source"
+      # that is really a mirror of one.
+
+    registries:
+      - name: Ironworkers Local 63 fence contractor roster
+        url: https://iwlocal63.com
+        covers: [Illinois, Indiana]
+        instructions: >
+          Find pages listing signatory or member fence contractors. Capture
+          every company name and any address given.
+        # The source that supplied 27 of 48 targets in the v2 screen. Naming
+        # it explicitly is what turns an accidental concentration into a
+        # deliberate, reportable one.
+
+      - name: North Central States Regional Council of Carpenters signatory list
+        url: https://northcountrycarpenter.org
+        covers: [Wisconsin, Minnesota]
+        instructions: Find signatory contractor listings; capture company names and trades.
+
+      - name: Arizona Registrar of Contractors licence search
+        url: https://roc.az.gov
+        covers: [Arizona]
+        instructions: >
+          Find licensed contractors under fencing and ornamental iron
+          classifications. Capture company name, licence class, and city.
+        # Arizona returned zero candidates in the v2 screen because it was
+        # searched, not enumerated. Every licensed contractor in the state is
+        # in this database. This is the concrete fix for that coverage gap.
+
+scoring_settings:
+  scale:
+    min: 0
+    max: 100
+  normalization: weighted
+  missing_data_policy:
+    mode: neutral
+    notes: >
+      Thin public evidence is the norm for private contractors of this size,
+      and union evidence is asymmetric. Penalising missing data would rank by
+      web presence rather than by fit, and would quietly convert "no union
+      evidence found" into a scoring penalty -- the exact inference this
+      thesis forbids.
+  minimum_score_for_priority: 65
+
+output:
+  ranked_table: true
+  target_briefs: true
+  show_filter_failures: true
+  show_near_miss_band: true
+  show_coverage_report: true
+  show_score_breakdown: true
+  show_confidence: true
+  show_citations: true
+  export:
+    formats:
+      - csv
+      - json

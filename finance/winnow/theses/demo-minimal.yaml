@@ -1,0 +1,112 @@
+# DEMO-MINIMAL — the whole pipeline in about three minutes.
+#
+# One metro, two criteria, no custom questions, caps of 2 and 1, standard
+# execution. Every setting here is chosen for the clock, not for the screen:
+# it shows sourcing, the cap reported as a coverage event, one researched
+# candidate with cited evidence, the bands, and the brief. For a screen you
+# would act on, run quickstart-arizona.yaml or example-fencing.yaml.
+
+acquisition_thesis:
+  name: Phoenix Perimeter Security — three-minute demo
+  description: >
+    Commercial fence and gate contractors in the Phoenix metro, screened for
+    an independent acquirer. A deliberately tiny run.
+
+  hard_filters:
+    industry:
+      include:
+        - commercial fencing contractor
+        - access control and automated gate contractor
+      exclude:
+        - DIY fence supply retail
+        - landscaping contractor
+    geography:
+      include:
+        - Phoenix metro
+    ownership:
+      include:
+        - founder owned
+        - family owned
+        - privately held
+      exclude:
+        - publicly traded
+        - private equity controlled
+
+  scored_preferences:
+    criteria:
+      - name: Commercial orientation strength
+        weight: 60
+        desired_condition: Predominantly commercial and industrial revenue mix
+        scoring_guidance:
+          100: Overwhelmingly commercial/industrial; residential incidental
+          50: Meaningful mixed exposure with a real commercial division
+          0: Residential-led
+        evidence_required: Project portfolio, service pages, named customers
+
+      - name: Capability breadth
+        weight: 40
+        desired_condition: Fence AND access control / automated gate capability
+        scoring_guidance:
+          100: Both, delivered in-house
+          50: Fence with some gate or operator work
+          0: Fence erection only
+        evidence_required: Service pages, certifications, dealer listings
+
+  research_questions:
+    standard:
+      - company_overview
+      - ownership
+      - products_services
+
+research_settings:
+  research_depth:
+    mode: fast
+  execution:
+    mode: standard
+    # Three searches and one candidate: the subagent launch-and-return
+    # overhead of fast mode would cost more than it saves here.
+  target_limits:
+    initial_universe: 2
+    deep_research_limit: 1
+  evidence:
+    minimum_confidence: low
+    require_citations: true
+    allow_inference: true
+    distinguish_fact_from_inference: true
+  coverage:
+    report_by:
+      - geography
+    single_source_threshold: 0.5
+    flag_empty_segments: true
+  source_preferences:
+    preferred:
+      - company websites
+    excluded:
+      - content-farm business directories with no primary sourcing
+    domains:
+      include: []
+      exclude:
+        - buzzfile.com
+        - manta.com
+        - dnb.com
+        - zoominfo.com
+        - bizapedia.com
+
+scoring_settings:
+  scale: { min: 0, max: 100 }
+  normalization: weighted
+  missing_data_policy:
+    mode: neutral
+  minimum_score_for_priority: 60
+
+output:
+  ranked_table: true
+  target_briefs: true
+  show_filter_failures: true
+  show_near_miss_band: true
+  show_coverage_report: true
+  show_score_breakdown: true
+  show_confidence: true
+  show_citations: true
+  export:
+    formats: [csv, json]

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "winnow",
+  "version": "1.0.0",
+  "description": "Screening agent: turns a written thesis into a ranked, cited shortlist of companies — reporting the near-misses that failed one negotiable rule, and the segments the search never reached. Runs with no API key.",
+  "author": {
+    "url": "https://github.com/BuckG71"
+  },
+  "keywords": [
+    "screening",
+    "research",
+    "due-diligence",
+    "sourcing",
+    "m-and-a",
+    "tavily"
+  ],
+  "license": "MIT",
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Winnow"
+    }
+  }
+}
