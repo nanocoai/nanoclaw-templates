@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "aws-cost-explorer": {
+      "type": "streamable-http",
+      "url": "https://finops.realcy.app",
+      "headers": {
+        "Authorization": "placeholder"
+      }
+    },
+    "tavily": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./scripts/tavily-search.mjs"],
+      "env": {
+        "TAVILY_API_KEY": "placeholder"
+      }
+    },
+    "dial-alert": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./scripts/dial-call.mjs"],
+      "env": {
+        "DIAL_API_KEY": "placeholder",
+        "DIAL_ALERT_PHONE_NUMBER": "placeholder",
+        "DIAL_FROM_NUMBER": "placeholder"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+name = "finops-cost-sentinel-proxy"
+main = "src/worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = false
+
+routes = [
+  { pattern = "finops.realcy.app", custom_domain = true }
+]
+
+# Secrets (never put these here - set via `wrangler secret put`):
+#   AWS_ACCESS_KEY_ID
+#   AWS_SECRET_ACCESS_KEY
+#   PROXY_AUTH_TOKEN   (a token you generate yourself, e.g. `openssl rand -hex 32`)
