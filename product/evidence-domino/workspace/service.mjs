@@ -241,7 +241,7 @@ export async function createWorkspace({ dataDir, model = createLocalModel(), all
       const budget = model.inputByteLimit ?? 6480;
       while (data.excerpts.length && Buffer.byteLength(ANSWER_PROMPT) + Buffer.byteLength(JSON.stringify(data)) + Buffer.byteLength(JSON.stringify(answerSchema(data.excerpts))) > budget) data.excerpts.pop();
       if (!data.excerpts.length) throw new WorkspaceError('MODEL_CONTEXT_LIMIT', 'The question and its relevant passages do not fit safely. Ask a shorter, more specific question.');
-      const response = await model.ask(ANSWER_PROMPT, data, { schema: answerSchema(data.excerpts) });
+      const response = await model.ask(ANSWER_PROMPT, data, { schema: answerSchema(data.excerpts), task: 'answer' });
       modelHealth = { available: true, model: model.name };
       const answer = text(response.answer, 'Model answer', 8000);
       if (!Array.isArray(response.citations) || response.citations.length > 8) throw new WorkspaceError('UNGROUNDED_ANSWER', 'The model returned invalid citations. No answer was accepted.');
@@ -312,7 +312,7 @@ export async function createWorkspace({ dataDir, model = createLocalModel(), all
       if (!capture.contentPath) { await append('assistant', `Source check recorded: ${capture.status ?? capture.outcome ?? 'retrieval failed'}. The approved draft is unchanged.`); return state(); }
       const source = await readFile(capture.contentPath, 'utf8');
       if (source.length > 16000) throw new WorkspaceError('SOURCE_TOO_LONG', 'The saved supplier extraction is too long for this local interpreter. The observation remains unresolved; use NanoClaw for a careful review.');
-      const interpretation = await model.ask(INTERPRET_PROMPT, { mode: current.project.mode, approved: { item: current.project.item, unitBasis: current.project.unitBasis, quantity: current.project.quantity, currency: 'USD', historicalPassage: current.baseline.interpretation.supportingPassage }, currentSource: source }, { schema: interpretationSchema(source, current.project) });
+      const interpretation = await model.ask(INTERPRET_PROMPT, { mode: current.project.mode, approved: { item: current.project.item, unitBasis: current.project.unitBasis, quantity: current.project.quantity, currency: 'USD', historicalPassage: current.baseline.interpretation.supportingPassage }, currentSource: source }, { schema: interpretationSchema(source, current.project), task: 'interpret' });
       if (interpretation.priceLiteral) interpretation.unitPriceCents = core.parseUsdLiteral(interpretation.priceLiteral);
       const result = await core.runCommand('stage', { captureId: capture.captureId, interpretation }, { dataDir: root });
       const reviewId = result.reviewId ?? result.existingReviewId;

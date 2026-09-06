@@ -1,8 +1,8 @@
 import http from 'node:http';
+import { compactRequest } from './local-wire.mjs';
 
-export class WorkspaceError extends Error {
-  constructor(code, message) { super(message); this.code = code; }
-}
+import { WorkspaceError } from './errors.mjs';
+export { WorkspaceError } from './errors.mjs';
 
 // Direct loopback HTTP deliberately avoids environment proxy dispatchers, redirects,
 // remote endpoints, arbitrary tools, and automatic cloud fallback.
@@ -62,22 +62,28 @@ export function createLocalModel({ endpoint = 'http://127.0.0.1:11434', model = 
     }
     return { available: true, model };
   }
+  let lastTiming = null;
   return {
     name: model, ready, inputByteLimit,
-    async ask(system, data, { schema } = {}) {
+    get lastTiming() { return lastTiming && { ...lastTiming }; },
+    async ask(system, data, { schema, task } = {}) {
+      const started = performance.now();
+      const wire = compactRequest(system, data, schema, task);
+      system = wire.system; data = wire.data; schema = wire.schema;
       if (Buffer.byteLength(system) + Buffer.byteLength(JSON.stringify(data)) + Buffer.byteLength(JSON.stringify(schema ?? {})) > inputByteLimit) throw new WorkspaceError('MODEL_CONTEXT_LIMIT', 'This input cannot safely fit the selected local model context. Shorten it or restart with a larger --context-size if your computer has enough memory. No input was silently truncated.');
       await ready();
       const result = await localJson(endpoint, '/api/chat', {
-        model, stream: false, think: false, format: schema ?? 'json', keep_alive: '5m',
+        model, stream: false, think: false, format: schema ?? 'json', keep_alive: '10m',
         options: { temperature: 0, num_ctx: contextSize, num_predict: outputTokens, ...(gpuLayers === undefined ? {} : { num_gpu: gpuLayers }) },
         messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(data) }],
       });
+      lastTiming = { elapsedMs: Math.round(performance.now() - started), promptTokens: result.prompt_eval_count ?? null, outputTokens: result.eval_count ?? null, loadMs: typeof result.load_duration === 'number' ? Math.round(result.load_duration / 1e6) : null };
       if (result.done_reason === 'length') throw new WorkspaceError('MODEL_TRUNCATED', 'The model response was incomplete. Use a shorter input.');
       try {
         const value = JSON.parse(result.message?.content);
         if (!value || Array.isArray(value) || typeof value !== 'object') throw new Error();
-        return value;
-      } catch { throw new WorkspaceError('MODEL_INVALID_RESPONSE', 'The local model did not return a valid structured answer. Nothing was approved or changed.'); }
+        return wire.decode(value);
+      } catch (error) { if (error instanceof WorkspaceError) throw error; throw new WorkspaceError('MODEL_INVALID_RESPONSE', 'The local model did not return a valid structured answer. Nothing was approved or changed.'); }
     },
   };
 }

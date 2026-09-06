@@ -107,3 +107,9 @@ A short live walkthrough:
 4. Open the report. Show the old and new evidence and proposed sentences. Paste the displayed approval phrase to adopt the revision, then download the draft. The event date remains October 18.
 
 Allow several minutes for a live walkthrough on a small local model. Do not describe edited waiting time as real-time execution. If retrieval or inference fails, show the failure and retain the approved draft; there is no automatic fixture fallback. Saved reports can be shown as previously generated results, labelled as such. Re-running this command creates another rehearsal project; stop the old server first or choose another port. Public checks still use Tavily's limits and the shared core attempt counter within each project.
+
+### Local response speed
+
+For document answers and supported supplier passages, the model selects numbered evidence references instead of repeating the quoted text. Code restores the exact supplied passage and runs the same validation. The model still sees the full supplied source and assesses item, unit, currency, terms and competing offers. Unsupported supplier shapes retain the original text protocol. No saved answer substitutes for a new check.
+
+Ollama keeps the model loaded for up to ten minutes after inference to reduce reloads during a demo. This uses local memory; there is no cloud fallback. The first response can still be slower. Reference selection reduces generated text, but speed depends on the computer and other workloads.
