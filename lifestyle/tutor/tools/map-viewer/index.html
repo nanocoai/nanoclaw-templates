@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tutor · learning map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/dist/vis-network.min.js"></script>
+<style>
+  :root { --bg:#0f1115; --panel:#161a22; --line:#262c38; --fg:#e8ebf0; --dim:#8b93a3;
+          --untouched:#4b5563; --forming:#e0a52a; --shaky:#e5533d; --solid:#3ec27a; --subject:#5b8def; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, "SF Pro Text", Inter, system-ui, sans-serif; height:100vh; display:grid; grid-template-rows:auto 1fr; }
+  header { display:flex; align-items:center; gap:22px; padding:12px 18px; border-bottom:1px solid var(--line); background:var(--panel); }
+  header h1 { font-size:17px; margin:0; font-weight:600; letter-spacing:.2px }
+  header h1 span { color:var(--dim); font-weight:400 }
+  #where { color:var(--fg); font-size:14px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  #where b { color:var(--dim); font-weight:500; margin-right:6px }
+  .legend { display:flex; gap:14px; font-size:13px; color:var(--dim) }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px }
+  .legend b { color:var(--fg); font-weight:600 }
+  main { display:grid; grid-template-columns:1fr 380px; min-height:0 }
+  #graph { min-height:0 }
+  aside { border-left:1px solid var(--line); background:var(--panel); padding:18px 20px; overflow:auto }
+  aside h2 { margin:0 0 4px; font-size:20px }
+  .pill { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:600; color:#0f1115; margin-right:8px }
+  .meta { color:var(--dim); font-size:13px; margin:6px 0 14px }
+  aside h3 { font-size:12px; text-transform:uppercase; letter-spacing:.8px; color:var(--dim); margin:18px 0 6px }
+  aside ul { margin:0; padding-left:18px } aside li { margin:4px 0 }
+  aside li.thread { color:#f1b7ab } aside a { color:#8fb4ff; word-break:break-all; text-decoration:none } aside a:hover { text-decoration:underline }
+  .empty { color:var(--dim); font-style:italic }
+  #hint { color:var(--dim) }
+  .toast { position:fixed; left:18px; bottom:18px; background:#1f2633; border:1px solid var(--line); padding:8px 12px; border-radius:8px; font-size:13px; opacity:0; transition:opacity .3s }
+  .toast.on { opacity:1 }
+</style>
+</head>
+<body>
+<header>
+  <h1>Tutor <span>· learning map</span></h1>
+  <div id="where"><b>Where we are</b><span id="where-text">…</span></div>
+  <div class="legend">
+    <span><i style="background:var(--solid)"></i>solid <b id="c-solid">0</b></span>
+    <span><i style="background:var(--shaky)"></i>shaky <b id="c-shaky">0</b></span>
+    <span><i style="background:var(--forming)"></i>forming <b id="c-forming">0</b></span>
+    <span><i style="background:var(--untouched)"></i>untouched <b id="c-untouched">0</b></span>
+  </div>
+</header>
+<main>
+  <div id="graph"></div>
+  <aside id="side"><p id="hint">Click a concept. The map is read live from the agent's memory folder: one Markdown file per concept, links between them, statuses that move on evidence or on the learner's word.</p></aside>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const COLORS = { untouched:'#4b5563', forming:'#e0a52a', shaky:'#e5533d', solid:'#3ec27a', subject:'#5b8def' };
+const nodes = new vis.DataSet(), edges = new vis.DataSet();
+const net = new vis.Network(document.getElementById('graph'), {nodes, edges}, {
+  physics: { solver:'forceAtlas2Based', forceAtlas2Based:{ gravitationalConstant:-60, springLength:120, springConstant:0.06, avoidOverlap:0.8 }, stabilization:{ iterations:150 } },
+  interaction: { hover:true, tooltipDelay:120 },
+  nodes: { shape:'dot', font:{ color:'#e8ebf0', size:15, face:'-apple-system, Inter, system-ui' }, borderWidth:2, shadow:false },
+  edges: { color:{ color:'#3a4354', highlight:'#8fb4ff' }, smooth:{ type:'continuous' }, width:1.5 },
+});
+let prev = {}, selected = null, first = true;
+
+function nodeSpec(n) {
+  return { id:n.id, label:n.title, color:{ background:COLORS[n.status]||COLORS.untouched, border:'#0f1115', highlight:{ background:COLORS[n.status], border:'#fff' } },
+           size: n.status==='solid'?18: n.status==='shaky'?17: n.status==='forming'?15:12, title:`${n.title} · ${n.status}${n.threads.length?` · ${n.threads.length} open thread${n.threads.length>1?'s':''}`:''}`, kind:'concept' };
+}
+function subjectSpec(s) {
+  return { id:'subject:'+s.slug, label:s.title, shape:'box', color:{ background:'#1c2740', border:COLORS.subject, highlight:{ background:'#22304f', border:'#fff' } },
+           font:{ color:'#cfe0ff', size:16, bold:{ color:'#cfe0ff' } }, margin:10, kind:'subject', title:s.description||s.title };
+}
+function edgeSpec(e) {
+  const dashed = e.kind==='related';
+  return { id:`${e.kind}|${e.from}|${e.to}`, from:e.from, to:e.to, dashes:dashed, arrows: dashed?'':'to', color:{ color: dashed?'#4a5568':'#3a4354' }, title:e.kind };
+}
+function toast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'), 2600); }
+
+async function refresh() {
+  let m; try { m = await (await fetch('/api/map')).json(); } catch { return; }
+  document.getElementById('where-text').textContent = m.where || 'nothing yet';
+  const counts = { solid:0, shaky:0, forming:0, untouched:0 };
+  const want = new Set();
+  for (const s of m.subjects) { const spec = subjectSpec(s); want.add(spec.id); nodes.get(spec.id) ? nodes.update(spec) : nodes.add(spec); }
+  for (const n of m.nodes) {
+    counts[n.status] = (counts[n.status]||0)+1; want.add(n.id);
+    const spec = nodeSpec(n);
+    if (nodes.get(n.id)) { nodes.update(spec); if (prev[n.id] && prev[n.id] !== n.status) toast(`${n.title}: ${prev[n.id]} → ${n.status}`); }
+    else { nodes.add(spec); if (!first) toast(`New concept: ${n.title}`); }
+    prev[n.id] = n.status;
+    const hub = `hub|${n.subject}|${n.id}`; want.add(hub);
+    if (!edges.get(hub)) edges.add({ id:hub, from:'subject:'+n.subject, to:n.id, color:{ color:'#232a37' }, width:1, dashes:[2,6] });
+  }
+  for (const e of m.edges) { const spec = edgeSpec(e); want.add(spec.id); edges.get(spec.id) ? edges.update(spec) : edges.add(spec); }
+  for (const id of nodes.getIds()) if (!want.has(id)) nodes.remove(id);
+  for (const id of edges.getIds()) if (!want.has(id)) edges.remove(id);
+  for (const k in counts) { const el = document.getElementById('c-'+k); if (el) el.textContent = counts[k]; }
+  if (selected) renderSide(m.nodes.find(n => n.id===selected));
+  if (first && m.nodes.length) { first=false; setTimeout(()=>net.fit({ animation:true }), 400); }
+}
+function md(s) { return s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\([^)]*\)/g,'$1'); }
+function renderSide(n) {
+  const side = document.getElementById('side');
+  if (!n) { side.innerHTML = '<p id="hint">Click a concept.</p>'; return; }
+  const li = (arr, cls='') => arr.length ? '<ul>'+arr.map(x=>`<li class="${cls}">${md(x)}</li>`).join('')+'</ul>' : '<p class="empty">nothing yet</p>';
+  side.innerHTML = `
+    <h2>${n.title}</h2>
+    <div><span class="pill" style="background:${COLORS[n.status]}">${n.status}</span><span class="meta">${n.subject}${n.last_touched?' · last touched '+n.last_touched:''}</span></div>
+    <h3>What they've got</h3>${li(n.got)}
+    <h3>Open threads</h3>${li(n.threads,'thread')}
+    ${n.notes.length?'<h3>Notes</h3>'+li(n.notes):''}
+    <h3>Sources</h3>${n.sources.length?'<ul>'+n.sources.map(u=>{const url=u.split(' ')[0];return `<li><a href="${url}" target="_blank">${url.replace(/^https?:\/\//,'')}</a>${u.includes('(digest)')?' <span class="meta">digest</span>':''}</li>`}).join('')+'</ul>':'<p class="empty">none saved</p>'}
+    <p class="meta"><a href="/api/file?p=${encodeURIComponent(n.id)}" target="_blank">open the Markdown file</a></p>`;
+}
+net.on('click', p => {
+  const id = p.nodes[0]; if (!id || id.startsWith('subject:')) { selected=null; renderSide(null); return; }
+  selected = id; fetch('/api/map').then(r=>r.json()).then(m=>renderSide(m.nodes.find(n=>n.id===id)));
+});
+refresh(); setInterval(refresh, 2500);
+</script>
+</body>
+</html>

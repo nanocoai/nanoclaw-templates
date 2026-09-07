@@ -23,6 +23,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/tutor",
+        "name": "tutor",
+        "version": "1.0.0",
+        "description": "Learning partner for adults: teaches any subject from current sources (Tavily), keeps a linked map of what you know and where the gaps are, and picks up every session where you left off"
       }
     ],
     "media": [
