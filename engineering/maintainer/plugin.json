@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "maintainer",
+  "version": "1.0.0",
+  "description": "Triages incoming GitHub issues end to end: classifies, checks for duplicates, drafts a reply, and publishes only after you approve.",
+  "author": {
+    "name": "Pablo Lerner",
+    "url": "https://github.com/pabloler21"
+  },
+  "keywords": ["github", "issues", "triage", "open-source", "maintainer"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Maintainer"
+    }
+  }
+}
