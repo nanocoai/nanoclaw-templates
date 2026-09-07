@@ -1,0 +1,8 @@
+SYNTHETIC INVOICE
+
+Invoice: INV-2400
+Amount: USD 2,400.00
+Issued: 2026-08-11
+Due: 2026-08-25
+Status: Unpaid as of 2026-09-03
+

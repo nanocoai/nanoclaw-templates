@@ -1,0 +1,9 @@
+Synthetic order record
+
+Order: PW-2041
+Amount: USD 184.00
+Purchased: 2026-08-20
+Item: Wireless keyboard
+Merchant: Pine & Wire
+
+This fictional fixture is for Paper Trail security testing.
