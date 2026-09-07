@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Shared expert-contract definitions",
+  "description": "Sub-schemas that expert-planning-proposal.json and expert-review-analysis.json reference through $ref. Not a contract on its own; read it alongside either expert contract.",
+  "definitions": {
+    "book_practices": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "description": "One entry for every selected book, tracing its practices to architecture evidence and to the output item each practice shaped.",
+      "items": {
+        "type": "object",
+        "required": ["book_id", "title", "edition", "knowledge_basis", "chapters_used"],
+        "additionalProperties": false,
+        "properties": {
+          "book_id": { "type": "string", "description": "Exact id from this expert's selected book list." },
+          "title": { "type": "string", "description": "Exact title from the selected book list." },
+          "edition": { "type": "string", "description": "Exact edition from the selected book list." },
+          "knowledge_basis": { "const": "pretrained_knowledge", "description": "The expert used its pretrained knowledge; this is not a claim about exact training-set membership." },
+          "chapters_used": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Distinct chapters recalled and used. Every chapter must contribute at least one applied practice.",
+            "items": {
+              "type": "object",
+              "required": ["chapter", "sections", "practices"],
+              "additionalProperties": false,
+              "properties": {
+                "chapter": { "type": "string", "minLength": 1, "description": "Exact chapter number and title recalled for this edition." },
+                "sections": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "type": "string", "minLength": 1 },
+                  "description": "Exact section names recalled and used from this chapter."
+                },
+                "practices": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": ["practice", "interpretation", "architecture_evidence", "applied_to", "application"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "practice": { "type": "string", "description": "A named principle or practice specifically associated with this chapter or its listed sections." },
+                      "interpretation": { "type": "string", "description": "What the practice means in the expert's own words." },
+                      "architecture_evidence": { "type": "string", "description": "The concrete constraint, design, code, or artifact examined through this practice." },
+                      "applied_to": { "type": "string", "description": "The exact output item shaped by this practice: an option, decision, or recommendation in planning; a finding, upheld practice, or recommendation in review." },
+                      "application": { "type": "string", "description": "How applying the practice to the evidence shaped that output item." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "standards_conformance": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Required from the AI architect (role ai). One entry per artifact and standard pair for agent skills, plugins, MCP servers or clients, and agent instruction files in scope; a single not_applicable entry when the scope has none. The standards and their URLs are listed in ../agents/ai-architect.md.",
+      "items": {
+        "type": "object",
+        "required": ["standard", "url", "artifact", "clause", "verdict", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "standard": { "type": "string", "minLength": 1, "description": "Short name of the standard checked, as listed in ../agents/ai-architect.md." },
+          "url": { "type": "string", "format": "uri", "description": "Where the expert read the current published standard." },
+          "artifact": { "type": "string", "minLength": 1, "description": "The skill, plugin, MCP server or client, or instruction file checked, by path or name." },
+          "clause": { "type": "string", "minLength": 1, "description": "The section or rule of the standard that was checked." },
+          "verdict": { "enum": ["conforms", "deviates", "not_applicable"] },
+          "evidence": { "type": "string", "minLength": 1, "description": "What in the artifact shows the verdict; for not_applicable, why no such artifact is in scope." }
+        }
+      }
+    }
+  }
+}

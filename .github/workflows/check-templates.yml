@@ -18,7 +18,15 @@ jobs:
       - uses: actions/checkout@v4
       - run: node scripts/build-index.mjs
       - name: index.json is up to date
-        run: git diff --exit-code index.json
+        run: |
+          status=0
+          git diff --exit-code index.json || status=$?
+          # Only claim staleness on git's "differences found" exit code. Any
+          # other failure is a real git error and keeps its own message.
+          if [ "$status" -eq 1 ]; then
+            echo "::error::index.json is stale. Run 'node scripts/build-index.mjs' and commit the result."
+          fi
+          exit "$status"
 
   version-bump:
     if: github.event_name == 'pull_request'

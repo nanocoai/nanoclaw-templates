@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "code-architect",
+  "version": "1.0.0",
+  "description": "Architecture planning and review through a small expert panel guided by problem-matched books, plus a standing Tech lead with verified current web research.",
+  "author": {
+    "name": "zvi-fried",
+    "url": "https://github.com/zvi-fried"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/nanocoai/nanoclaw-templates",
+  "keywords": [
+    "architecture",
+    "expert-panel"
+  ],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "The Code Architect"
+    }
+  }
+}

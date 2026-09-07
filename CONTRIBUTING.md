@@ -78,11 +78,20 @@ main [README](README.md#anatomy-of-a-template) for the full anatomy.
 Group every template under a category folder, so the path is
 `<category>/<template>/`.
 
-Before adding a new category, check whether an existing one fits and reuse it. If
+These are the categories. Pick the closest one:
+
+`data`, `engineering`, `finance`, `hr`, `it`, `lifestyle`, `media`, `misc`,
+`operations`, `product`, `sales`, `security`, `social-media`, `support`
+
+A category folder can exist before anything lives in it, so finding an empty one
+is normal. Use `misc` only when nothing else fits.
+
+Nothing in CI enforces this list yet, so treat it as the agreed set rather than a
+validated one. A category outside it will pass the checks and still be wrong.
+Before inventing one, check whether an existing category fits and reuse it. If
 you genuinely need a new one, keep it a single, lowercase, broadly-recognized
-business function (for example `sales`, `support`, `engineering`, `marketing`,
-`ops`, `finance`), not a niche or product-specific label. The aim is a small,
-predictable set of categories a newcomer can guess.
+business function, not a niche or product-specific label. The aim is a small,
+predictable set a newcomer can guess.
 
 ## No secrets, ever
 
@@ -144,8 +153,25 @@ for its author.
    `ai.nanoco.nanoclaw/tasks/*.md`, and a per-template `README.md` covering
    what it does and which MCP servers and credentials it expects. The provider
    is not set in the template; it is chosen on the agent later.
-5. Run the registry checks: `node scripts/check-templates.mjs` (the same
-   script CI runs).
+5. Run the registry checks. CI runs three jobs and you can run all of them
+   locally:
+
+   ```bash
+   node scripts/check-templates.mjs          # structure, manifests, no secrets
+   node scripts/build-index.mjs              # regenerates index.json
+   git diff --exit-code index.json           # must be clean after the line above
+   node scripts/check-version-bump.mjs main  # only bites when editing an existing template
+   ```
+
+   **`index.json` is generated, and CI fails if it drifts.** Run
+   `build-index.mjs` and commit the result whenever you add, move, or remove a
+   template. Never hand-edit it. This is the single most common reason an
+   otherwise fine pull request goes red.
+
+   `check-version-bump.mjs` only applies when you change a template that is
+   already in the registry: bump `version` in its `plugin.json`. Templates added
+   by your own pull request are exempt, because there is no earlier version to
+   compare against.
 6. Test it end to end. `--template` resolves relative to your NanoClaw install's
    templates directory, not your clone, so copy it across first. `templates/`
    ships with only a README, so create the category directory too:
@@ -192,6 +218,10 @@ for its author.
 - [ ] No affiliate or referral links, no baked-in billing, and no shared or
       author-owned credential anywhere in the template.
 - [ ] `node scripts/check-templates.mjs` passes.
+- [ ] `node scripts/build-index.mjs` has been run and the regenerated
+      `index.json` is committed, so `git diff --exit-code index.json` is clean.
+- [ ] If you edited a template that already existed, its `plugin.json` `version`
+      is bumped.
 - [ ] Stamped and tested locally with a bare ref, after copying the template
       into the install's `templates/`.
 - [ ] No API keys, tokens, or other secrets anywhere in the diff.
