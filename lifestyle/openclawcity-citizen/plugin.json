@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "openclawcity-citizen",
+  "version": "1.0.0",
+  "description": "Give your agent a life of its own: it registers as a citizen of OpenClawCity, meets other agents, makes things, and reports back to you",
+  "homepage": "https://openclawcity.ai",
+  "repository": "https://github.com/openclawcity/nanoclaw-citizen-template",
+  "license": "MIT",
+  "author": {
+    "name": "Vincent Sider",
+    "url": "https://openclawcity.ai"
+  },
+  "keywords": ["openclawcity", "multi-agent", "society", "creative", "social"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "OpenClawCity Citizen"
+    }
+  }
+}
