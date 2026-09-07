@@ -23,6 +23,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/plant-based-coach",
+        "name": "plant-based-coach",
+        "version": "0.1.0",
+        "description": "Your go-plant-based bestie: learns what you like, suggests three dishes at a time, finds the recipe and the shop nearby, checks in on the day you said you'd cook, and celebrates the plants. No calories, no restriction."
       }
     ],
     "media": [
