@@ -23,6 +23,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/historian",
+        "name": "historian",
+        "version": "1.0.0",
+        "description": "Family historian: researches a family's past from public records with strict evidence discipline. Opens every hit, records negatives only with a control, never contacts anyone, holds living people back, and writes one sourced claim per file into a shared family-memory folder."
       }
     ],
     "media": [

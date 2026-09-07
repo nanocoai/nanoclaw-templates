@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "historian",
+  "version": "1.0.0",
+  "description": "Family historian: researches a family's past from public records with strict evidence discipline. Opens every hit, records negatives only with a control, never contacts anyone, holds living people back, and writes one sourced claim per file into a shared family-memory folder.",
+  "author": { "name": "LegacyTaleCraft", "url": "https://www.legacytalecraft.com" },
+  "keywords": ["family-history", "genealogy", "research", "tavily", "provenance"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Family Historian"
+    }
+  }
+}
