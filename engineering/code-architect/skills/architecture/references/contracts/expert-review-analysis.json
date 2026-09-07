@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Expert review analysis",
+  "description": "Returned by each book-guided expert to the coordinator in review mode. book_practices and standards_conformance are defined in shared-definitions.json.",
+  "type": "object",
+  "required": ["role", "book_practices", "assessment", "practices_upheld", "findings", "recommendations", "assumptions"],
+  "additionalProperties": false,
+  "if": { "properties": { "role": { "const": "ai" } } },
+  "then": { "required": ["standards_conformance"] },
+  "properties": {
+    "role": { "type": "string", "description": "Role id from ../agents/index.md; equals the assignment's role." },
+    "book_practices": { "$ref": "shared-definitions.json#/definitions/book_practices" },
+    "assessment": { "enum": ["aligned", "mixed", "at_risk"] },
+    "assessment_note": {
+      "type": "string",
+      "description": "Optional one-line nuance, e.g. aligned on preserved behavior, at_risk on the new surface."
+    },
+    "practices_upheld": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["practice", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "practice": { "type": "string", "description": "Concrete choice worth preserving that a future change could plausibly regress; praise without evidence is dropped." },
+          "evidence": { "type": "string", "description": "file:line, diff hunk, or artifact." }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "claim", "evidence", "risk", "smallest_fix"],
+        "additionalProperties": false,
+        "properties": {
+          "severity": {
+            "enum": ["P0", "P1", "P2", "P3"],
+            "description": "P0: demonstrated main-path failure, data loss, or security break — blocks release; a check that safely blocks release is a gate working, not a P0 by itself. P1: a concrete failure scenario that a user, an operator, or the next dependent change will plausibly hit. P2: a real cost that accumulates (latent defect, performance, maintenance) with no near-term failure path. P3: small but real and cheap to fix. The risk field alone must justify the grade."
+          },
+          "claim": { "type": "string", "description": "One-sentence statement of the gap or risk." },
+          "evidence": { "type": "string", "description": "file:line, diff hunk, or artifact." },
+          "risk": { "type": "string", "description": "Concrete failure, security, compatibility, performance, operational, or maintenance cost." },
+          "smallest_fix": { "type": "string" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "description": "Structural or panel-level improvements beyond any single finding; each finding's smallest_fix already covers itself.",
+      "items": {
+        "type": "object",
+        "required": ["action", "tradeoff"],
+        "additionalProperties": false,
+        "properties": {
+          "action": { "type": "string" },
+          "tradeoff": { "type": "string" }
+        }
+      }
+    },
+    "standards_conformance": { "$ref": "shared-definitions.json#/definitions/standards_conformance" },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Missing facts that could change the assessment."
+    }
+  }
+}

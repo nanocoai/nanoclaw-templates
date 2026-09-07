@@ -9,6 +9,14 @@
         "description": "Data analyst agent: pipeline checks, query writing, and recurring report integrity"
       }
     ],
+    "engineering": [
+      {
+        "ref": "engineering/code-architect",
+        "name": "code-architect",
+        "version": "1.0.0",
+        "description": "Architecture planning and review through a small expert panel guided by problem-matched books, plus a standing Tech lead with verified current web research."
+      }
+    ],
     "lifestyle": [
       {
         "ref": "lifestyle/family-assistant",
