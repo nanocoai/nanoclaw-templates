@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "personal-manager",
+  "version": "1.0.0",
+  "description": "An assistant you hire that already knows you: one conversation gathers who you are and what you want it to hold, reads what you connect and what you give, and hands you one page of how it sees you; from then on it remembers everything you tell it and answers from it.",
+  "author": {
+    "name": "Liran Friedman",
+    "url": "https://github.com/Fritzzzz1"
+  },
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Personal Manager"
+    }
+  }
+}
