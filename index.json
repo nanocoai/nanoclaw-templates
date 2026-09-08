@@ -39,6 +39,12 @@
         "name": "competitor-analysis",
         "version": "1.0.0",
         "description": "Competitor research agent producing structured docs, news logs, and a tracking spreadsheet"
+      },
+      {
+        "ref": "product/source-backed-decision-team",
+        "name": "source-backed-decision-team",
+        "version": "1.0.0",
+        "description": "Turns a current product decision into a concise, source-backed brief with a recommendation, tradeoffs, uncertainty, and next action."
       }
     ],
     "sales": [

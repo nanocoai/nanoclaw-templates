@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "tavily": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote@0.1.38",
+        "https://mcp.tavily.com/mcp/",
+        "--transport", "http-only",
+        "--enable-proxy",
+        "--header", "X-Tavily-Access-Mode:keyless",
+        "--header", "X-Client-Name:nanoclaw",
+        "--ignore-tool", "tavily_crawl",
+        "--ignore-tool", "tavily_map",
+        "--ignore-tool", "tavily_research"
+      ]
+    }
+  }
+}
