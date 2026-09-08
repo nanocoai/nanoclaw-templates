@@ -1,0 +1,37 @@
+{
+  "question": "Does a current NanoClaw Agent Template use plugin.json at the template root as its discovery marker?",
+  "hypotheses": {
+    "h1": "Current NanoClaw templates use plugin.json at the template root.",
+    "h2": "Current NanoClaw templates require .codex-plugin/plugin.json instead."
+  },
+  "decisiveTest": {
+    "name": "Inspect the current ForkCheck template root and official NanoClaw template contract",
+    "method": "Read the root manifest and compare its schema/path to the current template parser contract.",
+    "expectedByHypothesis": {
+      "h1": "A root plugin.json is present and accepted as the discovery marker.",
+      "h2": "The root file is absent or rejected in favor of .codex-plugin/plugin.json."
+    },
+    "executed": false,
+    "safety": "read-only"
+  },
+  "evidence": [
+    {
+      "classification": "OBSERVED",
+      "title": "ForkCheck Agent Plugins 1.0.0 manifest",
+      "source": "../../plugin.json",
+      "retrievedAt": "2026-09-01T00:00:00.000Z",
+      "finding": "The conformant manifest is plugin.json at the template root and declares the Agent Plugins 1.0.0 schema.",
+      "supports": ["h1"],
+      "contradicts": ["h2"],
+      "limitations": ["This fixture demonstrates the checked-in current template; registry rules should be rechecked if the standard changes."]
+    }
+  ],
+  "observation": "A root plugin.json exists and is the discovery manifest used by the current template.",
+  "status": "SUPPORTED",
+  "supportedHypotheses": ["h1"],
+  "confidence": "HIGH",
+  "limitations": ["Agent Plugins clients outside NanoClaw may also support product-specific installation layouts."],
+  "volatility": "MEDIUM",
+  "recheckIntervalDays": 30
+}
+
