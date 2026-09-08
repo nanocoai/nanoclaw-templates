@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "evidence-domino",
+  "version": "1.1.3",
+  "description": "Review supplier-price changes, calculate recovery options, and discuss proposal context in an optional private local workspace",
+  "author": {
+    "name": "Arag0n1421",
+    "url": "https://github.com/Arag0n1421"
+  }
+}
