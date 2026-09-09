@@ -23,6 +23,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/story-keeper",
+        "name": "story-keeper",
+        "version": "1.0.0",
+        "description": "Memoir interviewer for a family: draws out a parent's or grandparent's stories one question at a time, keeps a sourced family memory, and drafts chapters on request"
       }
     ],
     "media": [

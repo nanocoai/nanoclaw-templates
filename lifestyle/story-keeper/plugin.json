@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "story-keeper",
+  "version": "1.0.0",
+  "description": "Memoir interviewer for a family: draws out a parent's or grandparent's stories one question at a time, keeps a sourced family memory, and drafts chapters on request",
+  "author": { "name": "LegacyTaleCraft", "url": "https://www.legacytalecraft.com" },
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Story Keeper"
+    }
+  }
+}
