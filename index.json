@@ -48,6 +48,14 @@
         "version": "1.0.0",
         "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
       }
+    ],
+    "social-media": [
+      {
+        "ref": "social-media/postonce",
+        "name": "postonce",
+        "version": "0.1.0",
+        "description": "Publish and schedule social posts, inspect delivery, and manage PostOnce crossposting workflows."
+      }
     ]
   }
 }
