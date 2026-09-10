@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "postonce",
+  "version": "0.1.0",
+  "description": "Publish and schedule social posts, inspect delivery, and manage PostOnce crossposting workflows.",
+  "author": {
+    "name": "PostOnce",
+    "url": "https://postonce.to"
+  },
+  "homepage": "https://postonce.to/integrations"
+}

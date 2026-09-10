@@ -2,5 +2,6 @@
 
 Templates for social media: drafting posts, scheduling, monitoring mentions, and community replies.
 
-No templates yet. Add one at `social-media/<template>/` and read
-[CONTRIBUTING.md](../CONTRIBUTING.md) first.
+- [PostOnce](postonce/): inspect connected accounts, review drafts, and publish or schedule explicitly approved social posts through your own PostOnce account.
+
+To contribute another template, read [CONTRIBUTING.md](../CONTRIBUTING.md).
