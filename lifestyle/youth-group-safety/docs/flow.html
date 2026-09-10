@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youth group safety — how the review flow works</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20342f;
+      --muted: #60736d;
+      --paper: #f6f3ec;
+      --card: #fffdf8;
+      --sage: #dce9e1;
+      --sage-deep: #3d695b;
+      --sand: #eee4d2;
+      --gold: #a9782f;
+      --line: #d6ddd8;
+      --shadow: 0 18px 45px rgba(43, 61, 54, .09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 9% 0%, rgba(220, 233, 225, .92), transparent 29rem),
+        radial-gradient(circle at 96% 26%, rgba(238, 228, 210, .72), transparent 24rem),
+        var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 80px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 760px; margin-bottom: 18px; font-size: clamp(2.35rem, 6vw, 4.6rem); line-height: .98; letter-spacing: -.055em; }
+    h2 { margin-bottom: 20px; font-size: clamp(1.55rem, 3vw, 2.15rem); letter-spacing: -.03em; }
+    h3 { margin-bottom: 8px; font-size: 1.02rem; }
+    .eyebrow { margin-bottom: 18px; color: var(--sage-deep); font-size: .78rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+    .lede { max-width: 720px; color: var(--muted); font-size: 1.12rem; }
+    .notice { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 9px 13px; border: 1px solid #c8d8cf; border-radius: 999px; background: rgba(255,255,255,.62); color: var(--sage-deep); font-size: .88rem; font-weight: 650; }
+    .notice::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #62917f; }
+
+    section { margin-top: 72px; }
+    .flow { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; align-items: stretch; }
+    .flow-card, .panel, .message-card { border: 1px solid var(--line); border-radius: 22px; background: rgba(255,253,248,.92); box-shadow: var(--shadow); }
+    .flow-card { min-height: 210px; padding: 24px; }
+    .flow-card .number { display: grid; width: 34px; height: 34px; margin-bottom: 22px; place-items: center; border-radius: 50%; background: var(--sage); color: var(--sage-deep); font-weight: 800; }
+    .flow-card p { margin-bottom: 0; color: var(--muted); font-size: .94rem; }
+    .arrow { display: grid; place-items: center; color: #7c968c; font-size: 1.45rem; }
+    .outcomes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 18px; }
+    .outcome { display: flex; gap: 13px; align-items: flex-start; padding: 17px 18px; border-radius: 17px; background: var(--sage); }
+    .outcome:last-child { background: var(--sand); }
+    .symbol { display: grid; flex: 0 0 auto; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.66); font-weight: 800; }
+    .outcome p { margin: 2px 0 0; color: #52635e; font-size: .91rem; }
+
+    .two-col { display: grid; grid-template-columns: .88fr 1.12fr; gap: 22px; }
+    .panel { padding: 28px; }
+    .scope-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .scope-item { padding: 16px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+    .scope-item span { display: block; margin-top: 3px; color: var(--muted); font-size: .82rem; }
+    .yes { color: var(--sage-deep); }
+    .limited { color: var(--gold); }
+
+    .message-card { overflow: hidden; }
+    .message-head { padding: 15px 20px; background: var(--sage); color: var(--sage-deep); font-size: .86rem; font-weight: 760; letter-spacing: .02em; }
+    .message-body { padding: 22px; }
+    .message-body p { margin-bottom: 10px; }
+    .message-body p:last-child { margin-bottom: 0; }
+    .message-body .context { padding-left: 14px; border-left: 3px solid #c4d6cb; color: #485c55; }
+    .message-body .small { color: var(--muted); font-size: .86rem; }
+    .tone-scale { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+    .tone-scale span { padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: .83rem; font-weight: 650; }
+
+    .privacy-line { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 32px; }
+    .privacy-line::before { content: ""; position: absolute; z-index: -1; top: 18px; right: 10%; left: 10%; height: 2px; background: #c9d5ce; }
+    .privacy-step { text-align: center; }
+    .dot { width: 38px; height: 38px; margin: 0 auto 15px; border: 8px solid var(--paper); border-radius: 50%; background: var(--sage-deep); box-shadow: 0 0 0 1px #b9c8c0; }
+    .privacy-step p { max-width: 260px; margin: 0 auto; color: var(--muted); font-size: .88rem; }
+
+    .boundary { margin-top: 72px; padding: 26px 28px; border: 1px solid #d2c5ae; border-radius: 20px; background: rgba(238,228,210,.72); }
+    .boundary h2 { margin-bottom: 8px; font-size: 1.25rem; }
+    .boundary p { max-width: 870px; margin-bottom: 0; color: #665c4d; }
+    footer { margin-top: 42px; color: var(--muted); font-size: .82rem; }
+
+    @media (max-width: 780px) {
+      main { padding-top: 42px; }
+      section { margin-top: 54px; }
+      .flow { grid-template-columns: 1fr; }
+      .arrow { min-height: 40px; transform: rotate(90deg); }
+      .two-col, .outcomes { grid-template-columns: 1fr; }
+      .privacy-line { grid-template-columns: 1fr; gap: 22px; }
+      .privacy-line::before { top: 10%; bottom: 10%; left: 50%; width: 2px; height: auto; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      main { width: 100%; padding: 20px; }
+      section, .boundary { break-inside: avoid; }
+      .flow-card, .panel, .message-card { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Youth group safety · review flow</p>
+      <h1>A quiet second pair of eyes for a youth WhatsApp group.</h1>
+      <p class="lede">A dedicated, visible bot reviews the group and privately brings possible concerns to designated adults. It does not judge children, reply in their group, or contact parents.</p>
+      <div class="notice">Adults remain responsible for every decision and response</div>
+    </header>
+
+    <section aria-labelledby="flow-title">
+      <h2 id="flow-title">What happens to a message</h2>
+      <div class="flow">
+        <article class="flow-card">
+          <div class="number">1</div>
+          <h3>A message appears</h3>
+          <p>The bot receives a text, image, sticker, or voice note from the monitored youth group.</p>
+        </article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="flow-card">
+          <div class="number">2</div>
+          <h3>It reviews for concern</h3>
+          <p>It looks for context that may need an adult’s attention—such as exclusion, humiliation, coercion, threats, or signs someone may be unsafe.</p>
+        </article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="flow-card">
+          <div class="number">3</div>
+          <h3>Adults decide</h3>
+          <p>If review may be helpful, one brief, neutral note goes only to the private moderator group.</p>
+        </article>
+      </div>
+      <div class="outcomes">
+        <div class="outcome">
+          <div class="symbol">✓</div>
+          <div><strong>No concern found</strong><p>The bot stays completely silent.</p></div>
+        </div>
+        <div class="outcome">
+          <div class="symbol">→</div>
+          <div><strong>Review may help</strong><p>Moderators receive context and choose what—if anything—to do next.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="two-col" aria-labelledby="media-title">
+      <article class="panel">
+        <h2 id="media-title">What it can review</h2>
+        <div class="scope-grid">
+          <div class="scope-item"><strong class="yes">Text</strong><span>Message text and captions</span></div>
+          <div class="scope-item"><strong class="yes">Images</strong><span>Local vision review</span></div>
+          <div class="scope-item"><strong class="yes">Stickers</strong><span>Converted locally for vision</span></div>
+          <div class="scope-item"><strong class="yes">Voice notes</strong><span>Local transcription</span></div>
+          <div class="scope-item"><strong class="limited">Video</strong><span>Caption and nearby text only</span></div>
+          <div class="scope-item"><strong class="limited">Documents</strong><span>Caption and nearby text only</span></div>
+        </div>
+        <p style="margin:18px 0 0;color:var(--muted);font-size:.86rem">If local media review is temporarily unavailable, moderators get a calm, rate-limited availability note—not a confident guess.</p>
+      </article>
+
+      <article aria-labelledby="example-title">
+        <h2 id="example-title">What moderators see</h2>
+        <div class="message-card">
+          <div class="message-head">Please review soon</div>
+          <div class="message-body">
+            <p>A conversation may be becoming hurtful toward one child.</p>
+            <p class="context">“Nobody wants you here. Stop joining our calls.”</p>
+            <p class="small">Shared for adult context. Please read the surrounding conversation before deciding how to respond.</p>
+          </div>
+        </div>
+        <div class="tone-scale" aria-label="Available review headings">
+          <span>For review</span>
+          <span>Please review soon</span>
+          <span>Please review now</span>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="privacy-title">
+      <h2 id="privacy-title">A deliberately short data trail</h2>
+      <p class="lede">Only the minimum context needed for adult review is retained by this template.</p>
+      <div class="privacy-line">
+        <div class="privacy-step">
+          <div class="dot"></div>
+          <h3>Media arrives</h3>
+          <p>The local session copy is used only for review.</p>
+        </div>
+        <div class="privacy-step">
+          <div class="dot"></div>
+          <h3>Deleted after processing</h3>
+          <p>Raw downloaded media is removed after review; operators should configure a one-hour fallback for crash leftovers.</p>
+        </div>
+        <div class="privacy-step">
+          <div class="dot"></div>
+          <h3>Review notes expire</h3>
+          <p>Minimal derived notes are removed after seven days.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="boundary">
+      <h2>Important boundary</h2>
+      <p>This is a support tool, not a safeguarding authority or emergency service. It can miss context and make mistakes. The school’s safeguarding process and local emergency channels remain the correct path when a child may be in immediate danger.</p>
+    </aside>
+
+    <footer>Standalone guide included with the NanoClaw youth-group-safety template. No information is sent by this page.</footer>
+  </main>
+</body>
+</html>
