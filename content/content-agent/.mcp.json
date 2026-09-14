@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "apify": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server@0.11.6"],
+      "env": { "APIFY_TOKEN": "onecli-managed" }
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server@3.2.1"],
+      "env": { "EXA_API_KEY": "onecli-managed" }
+    },
+    "gmail": {
+      "command": "npx",
+      "args": ["-y", "@gongrzhe/server-gmail-autoauth-mcp@1.1.11"],
+      "env": { "GMAIL_CREDENTIALS": "onecli-managed" }
+    }
+  }
+}
