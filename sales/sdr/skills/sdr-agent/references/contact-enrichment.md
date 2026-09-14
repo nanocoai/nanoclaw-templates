@@ -8,9 +8,9 @@ research.
 
 ## Steps
 
-1. **Find the contacts in HubSpot**: `hubspot_search_contacts` by company or
-   domain. Tier them: Primary (exact ICP title match), Secondary (adjacent
-   titles). Limit to 3 per company for first-touch.
+1. **Find the contacts in HubSpot**: `hubspot-search-objects` (objectType
+   `contacts`) by company or domain. Tier them: Primary (exact ICP title match),
+   Secondary (adjacent titles). Limit to 3 per company for first-touch.
 
 2. **Research each Primary contact with Exa**: role, recent posts or news, and
    anything that sharpens personalization. Facts only, each with a source; never
@@ -20,7 +20,8 @@ research.
    - Contact exists → add the research as a note (do not overwrite the owner or
      any human-entered field).
    - Contact is genuinely new and the user supplied their details →
-     `hubspot_create_contact`, then attach the research note.
+     `hubspot-batch-create-objects` (objectType `contacts`), then attach the
+     research note.
 
 4. **Log provenance**: HubSpot note, e.g. "Researched via Exa [date]. Source: <link>".
 
