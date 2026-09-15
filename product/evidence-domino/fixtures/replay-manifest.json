@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "mode": "controlled_replay",
+  "logicalSourceId": "evidence-domino-supplier",
+  "fixtureCommit": "257a4f6bf0edae53390d3831d581af74fa517eef",
+  "versions": [
+    {
+      "name": "v1",
+      "marker": "Fixture version: v1",
+      "url": "https://raw.githubusercontent.com/Arag0n1421/nanoclaw-templates/257a4f6bf0edae53390d3831d581af74fa517eef/product/evidence-domino/fixtures/supplier-v1.md"
+    },
+    {
+      "name": "v2",
+      "marker": "Fixture version: v2",
+      "url": "https://raw.githubusercontent.com/Arag0n1421/nanoclaw-templates/257a4f6bf0edae53390d3831d581af74fa517eef/product/evidence-domino/fixtures/supplier-v2.md"
+    }
+  ]
+}
