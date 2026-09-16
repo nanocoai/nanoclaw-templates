@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "tavily": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./tools/tavily-mcp.mjs"
+      ]
+    },
+    "osm": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./tools/osm-mcp.mjs"
+      ]
+    }
+  }
+}

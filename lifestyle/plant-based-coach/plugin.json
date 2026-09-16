@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "plant-based-coach",
+  "version": "0.1.0",
+  "description": "Your go-plant-based bestie: learns what you like, suggests three dishes at a time, finds the recipe and the shop nearby, checks in on the day you said you'd cook, and celebrates the plants. No calories, no restriction.",
+  "author": { "name": "Eva Spexard", "url": "https://github.com/intentionaleva" },
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Paula" }
+  }
+}
