@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "trade-front-desk",
+  "version": "2.0.0",
+  "description": "Text-and-call front desk for a small trade business on a Dial phone line.",
+  "license": "MIT",
+  "homepage": "https://legacyforgeai.com",
+  "author": {
+    "name": "LegacyForge AI",
+    "url": "https://legacyforgeai.com"
+  },
+  "keywords": ["front-desk", "dial", "sms", "voice", "trades", "intake", "bilingual"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Trade Front Desk"
+    }
+  }
+}
