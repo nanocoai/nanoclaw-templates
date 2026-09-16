@@ -1,0 +1,7 @@
+Synthetic customer return summary
+
+Order: BK-7714
+Amount charged: USD 799.00
+Return reference: RET-4408
+Customer says the parcel was delivered to the merchant on 2026-09-01.
+Requested outcome: refund the charged amount.

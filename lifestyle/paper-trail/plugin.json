@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "paper-trail",
+  "version": "1.0.0",
+  "description": "Turns scattered receipts, screenshots, messages, and documents into a validated evidence packet with cited facts, conflicts, missing proof, and a review-ready draft.",
+  "license": "MIT",
+  "author": {
+    "name": "Harsh Kumar",
+    "email": "Harshkumar62367@gmail.com",
+    "url": "https://github.com/Harshkumar62367"
+  },
+  "keywords": [
+    "evidence",
+    "claims",
+    "refunds",
+    "warranty",
+    "disputes",
+    "timeline",
+    "documents"
+  ],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Paper Trail"
+    }
+  }
+}
