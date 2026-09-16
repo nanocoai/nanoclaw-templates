@@ -23,6 +23,12 @@
         "name": "family-assistant",
         "version": "1.0.0",
         "description": "Household assistant agent: morning briefs, meal planning and grocery lists, week-ahead logistics, school tracking, price watch, and bookings"
+      },
+      {
+        "ref": "lifestyle/nutrition-claim-check",
+        "name": "nutrition-claim-check",
+        "version": "0.1.0",
+        "description": "No-BS nutrition fact checker: send a claim you saw, get a sourced verdict with an evidence grade, receipt cards, and study-page screenshots with the key sentence highlighted."
       }
     ],
     "media": [

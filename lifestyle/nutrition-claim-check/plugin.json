@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nutrition-claim-check",
+  "version": "0.1.0",
+  "description": "No-BS nutrition fact checker: send a claim you saw, get a sourced verdict with an evidence grade, receipt cards, and study-page screenshots with the key sentence highlighted.",
+  "author": { "name": "Eva Spexard", "url": "https://github.com/intentionaleva" },
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Nina" }
+  }
+}
