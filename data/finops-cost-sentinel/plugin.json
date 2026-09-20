@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "finops-cost-sentinel",
+  "version": "1.0.0",
+  "description": "Watches your AWS bill for anomalies, tag gaps, and rightsizing waste - researches unfamiliar charges and calls you for genuine P1s.",
+  "homepage": "https://github.com/adamorad/finops-cost-sentinel",
+  "repository": "https://github.com/adamorad/finops-cost-sentinel",
+  "license": "MIT",
+  "author": {
+    "name": "Adam Morad",
+    "email": "adammor17@gmail.com",
+    "url": "https://github.com/adamorad"
+  },
+  "keywords": ["finops", "aws", "cost", "cloud-spend", "tavily", "dial"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Cost Sentinel"
+    }
+  }
+}
