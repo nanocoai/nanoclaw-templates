@@ -15,6 +15,12 @@
         "name": "code-architect",
         "version": "1.0.0",
         "description": "Architecture planning and review through a small expert panel guided by problem-matched books, plus a standing Tech lead with verified current web research."
+      },
+      {
+        "ref": "engineering/maintainer",
+        "name": "maintainer",
+        "version": "1.0.0",
+        "description": "Triages incoming GitHub issues end to end: classifies, checks for duplicates, drafts a reply, and publishes only after you approve."
       }
     ],
     "lifestyle": [
