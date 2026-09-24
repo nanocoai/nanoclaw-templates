@@ -10,9 +10,9 @@ outreach.
    deeper Exa research.
 
 2. **Exa research sequence**:
-   - `exa_search`: "[company name] funding OR hiring OR product launch" (last 90 days)
-   - `exa_search`: "[company name] tech stack OR integrations"
-   - `exa_get_contents`: pull the top 2 results for detail
+   - `web_search_exa`: "[company name] funding OR hiring OR product launch category:news" (last 90 days)
+   - `web_search_exa`: "[company name] tech stack OR integrations"
+   - `web_fetch_exa`: pull the top 2 results for detail
 
 3. **Signal scoring**: rate the prospect High / Medium / Low based on:
    - Recent funding (High)
