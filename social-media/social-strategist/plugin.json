@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "social-strategist",
+  "author": { "name": "Amit Yanay", "url": "https://github.com/CrAzyScreamx" },
+  "version": "1.0.0",
+  "description": "Social strategist agent: reads your posts and metrics from Buffer for engagement analysis and topic scoring, a daily new-post check, post ideas, platform-ready scripts, repurposing, and a weekly content plan"
+}
