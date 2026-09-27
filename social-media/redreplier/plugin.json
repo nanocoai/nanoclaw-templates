@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "redreplier",
+  "version": "1.0.0",
+  "description": "Community lead agent: watches Reddit, Hacker News, X, Bluesky and Facebook for buying conversations about your product through RedReplier, triages the AI-scored mentions, and drafts replies you post yourself",
+  "author": {
+    "name": "RedReplier",
+    "url": "https://redreplier.com"
+  },
+  "homepage": "https://redreplier.com",
+  "keywords": ["social-media", "social-listening", "reddit", "leads", "community"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Lead Scout"
+    }
+  }
+}

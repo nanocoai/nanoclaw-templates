@@ -48,6 +48,14 @@
         "version": "1.0.0",
         "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
       }
+    ],
+    "social-media": [
+      {
+        "ref": "social-media/redreplier",
+        "name": "redreplier",
+        "version": "1.0.0",
+        "description": "Community lead agent: watches Reddit, Hacker News, X, Bluesky and Facebook for buying conversations about your product through RedReplier, triages the AI-scored mentions, and drafts replies you post yourself"
+      }
     ]
   }
 }
