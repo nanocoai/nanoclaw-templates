@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "styli",
+  "version": "1.0.0",
+  "description": "Personal shopping stylist: understands a text request or a photo of an item, searches across configured retailers via Tavily web search, remembers each person's clothing sizes and body measurements, and returns a shareable HTML results gallery ranked against what you actually asked for.",
+  "homepage": "https://github.com/nanocoai/nanoclaw-templates",
+  "license": "MIT",
+  "keywords": ["shopping", "fashion", "stylist", "product-search", "tavily", "sizes"],
+  "author": { "name": "Gal", "url": "https://github.com/everyGal" },
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Styli" }
+  }
+}
