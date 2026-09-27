@@ -108,9 +108,6 @@ onecli secrets create --name "Buffer" --type generic \
   --value-format "Bearer {value}" --value "<your-buffer-api-key>"
 ```
 
-**The key has full access.** Buffer's API keys have no read-only scope, so the key can also
-create, edit and delete posts. Revoke it in Buffer when you stop using the agent.
-
 ### Buffer troubleshooting (operator)
 
 Buffer's MCP server loads when the agent starts. If the agent started before the key was in the
