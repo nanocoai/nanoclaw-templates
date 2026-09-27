@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "geomaestros": {
+      "type": "streamable-http",
+      "url": "https://geotravel-production.up.railway.app/v1/mcp"
+    }
+  }
+}
