@@ -48,6 +48,14 @@
         "version": "1.0.0",
         "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
       }
+    ],
+    "social-media": [
+      {
+        "ref": "social-media/adaptlypost",
+        "name": "adaptlypost",
+        "version": "1.0.0",
+        "description": "Social media manager agent: drafts, schedules and publishes posts on ten networks through AdaptlyPost, then reports what performed"
+      }
     ]
   }
 }

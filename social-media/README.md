@@ -2,5 +2,6 @@
 
 Templates for social media: drafting posts, scheduling, monitoring mentions, and community replies.
 
-No templates yet. Add one at `social-media/<template>/` and read
-[CONTRIBUTING.md](../CONTRIBUTING.md) first.
+- [AdaptlyPost](adaptlypost/): draft, schedule and publish approved posts on ten networks through your own AdaptlyPost account, then report what performed.
+
+To contribute another template, read [CONTRIBUTING.md](../CONTRIBUTING.md).

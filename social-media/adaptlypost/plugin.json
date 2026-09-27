@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "adaptlypost",
+  "version": "1.0.0",
+  "description": "Social media manager agent: drafts, schedules and publishes posts on ten networks through AdaptlyPost, then reports what performed",
+  "author": {
+    "name": "AdaptlyPost",
+    "url": "https://adaptlypost.com"
+  },
+  "homepage": "https://adaptlypost.com",
+  "keywords": ["social-media", "scheduling", "publishing", "analytics"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Social Media Manager"
+    }
+  }
+}
