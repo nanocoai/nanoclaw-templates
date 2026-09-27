@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "flowsery",
+  "version": "1.0.0",
+  "description": "Web analytics agent on Flowsery: traffic, sources, conversions and revenue questions, plus the bugs and broken flows AI found in session recordings, with a weekly site health report",
+  "author": {
+    "name": "Flowsery",
+    "url": "https://flowsery.com"
+  },
+  "homepage": "https://flowsery.com",
+  "keywords": ["analytics", "web-analytics", "session-replay", "conversion", "revenue"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Site Analyst"
+    }
+  }
+}
