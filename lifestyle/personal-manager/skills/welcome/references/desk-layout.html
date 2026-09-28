@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="{{lang}}" dir="{{dir}}">
+<!--
+  How to fill this layout (the desk rule itself is in the blueprint):
+  - Every {{...}} is a placeholder; every block marked "repeat" is copied once per area, in the order the owner settled them.
+  - {{desk-title}} is the whole title, formed the way the owner's language forms it: "Noa's Desk" in English, "השולחן של נועה" in Hebrew. Never bolt an English possessive onto a name.
+  - {{initials}} is one or two letters from what the owner is called, in their script; the mark is drawn by the page, no image is loaded.
+  - {{date}} is the day the page is generated, read from the clock.
+  - lang and dir follow the owner's language (dir="rtl" for Hebrew or Arabic).
+  - Every visible word is in the owner's language: translate the headings as you fill; keep the structure, the classes and the ids exactly as they are.
+  - {{area-id}} is a short ASCII slug, the same in the three places it appears for an area; {{Area}} is the label in the owner's language.
+  - The tabs work with no script: each tab is a label for a hidden radio, and only the checked one's section shows. The profile is checked by default. Keep it that way.
+  - Colors: set the tokens in :root from a color the owner named or from the mild default, keeping --accent and --ink dark enough to read on --card. The font stack stays: the page loads nothing from outside.
+  - Where a placeholder sits bare inside a card, write your own <p> or <ul>; where it sits inside a <p>, write text only.
+  - Card text is written for the page: sentences, short lists, numbers with their dates; no paths, no filenames.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{desk-title}}</title>
+<style>
+  :root {
+    --paper: #F4F5F6;      /* page background */
+    --card: #FFFFFF;       /* card background */
+    --ink: #16262E;        /* text */
+    --muted: #55666F;      /* secondary text */
+    --line: #DDE3E6;       /* borders */
+    --accent: #0C5C57;     /* one accent: the active tab, the mark */
+    --font: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.55; }
+  body > input { position: absolute; opacity: 0; pointer-events: none; }
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 18px 24px; display: flex; align-items: center; gap: 16px; }
+  .mark { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: var(--card); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; letter-spacing: 0.02em; }
+  header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+  header .sub { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  nav#tabs { display: flex; gap: 4px; overflow-x: auto; padding: 10px 24px 0; background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; }
+  nav#tabs label { display: inline-block; padding: 10px 14px; font-size: 14px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; cursor: pointer; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 20px 72px; }
+  section.tab { display: none; }
+  #tab-profile:checked ~ main #profile { display: block; }
+  #tab-profile:checked ~ nav label[for="tab-profile"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+  /* repeat: one pair of rules per area */
+  #tab-{{area-id}}:checked ~ main #{{area-id}} { display: block; }
+  #tab-{{area-id}}:checked ~ nav label[for="tab-{{area-id}}"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+  .cards { display: grid; gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+  .card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .card p { margin: 0 0 10px; max-width: 70ch; }
+  .card p:last-child, .card ul:last-child, .card dl:last-child { margin-bottom: 0; }
+  .card ul { margin: 0 0 10px; padding-inline-start: 20px; }
+  .card li { margin-bottom: 6px; }
+  .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 15px; margin: 0; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; }
+  @media (max-width: 600px) { .kv { grid-template-columns: 1fr; } header, nav#tabs { padding-inline: 16px; } }
+</style>
+</head>
+<body>
+<input type="radio" name="tab" id="tab-profile" checked>
+<!-- repeat: one radio per area, all before the header -->
+<input type="radio" name="tab" id="tab-{{area-id}}">
+
+<header>
+  <div class="mark">{{initials}}</div>
+  <div>
+    <h1>{{desk-title}}</h1>
+    <p class="sub">{{date}}</p>
+  </div>
+</header>
+
+<nav id="tabs">
+  <label for="tab-profile">Profile</label>
+  <!-- repeat: one label per area -->
+  <label for="tab-{{area-id}}">{{Area}}</label>
+</nav>
+
+<main>
+  <section class="tab" id="profile">
+    <div class="cards">
+      <div class="card">
+        <h3>Who</h3>
+        <p>{{who the owner is and what their life is made of, in a few sentences}}</p>
+      </div>
+      <div class="card">
+        <h3>Where things stand</h3>
+        <p>{{the state today across the areas, in a few sentences, the numbers that matter in them}}</p>
+      </div>
+      <div class="card">
+        <h3>People</h3>
+        <ul>
+          <!-- repeat: one line per person in profile/people/, the ones who matter most first -->
+          <li><strong>{{name}}</strong> · {{what they do with the owner, in one line}}</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Your rules</h3>
+        <ul>
+          <!-- repeat: one line per rule the owner gave, in their words; never the persona's own floor; omit the card when they gave none -->
+          <li>{{rule}}</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Connections</h3>
+        <dl class="kv">
+          <!-- repeat: one pair per connected app; when nothing is connected, one pair: what is connected / nothing, by their choice -->
+          <dt>{{app}}</dt><dd>{{connected, and what is read from it and how far back; or not connected}}</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- repeat: one section per area -->
+  <section class="tab" id="{{area-id}}">
+    <div class="cards">
+      <div class="card">
+        <h3>The picture</h3>
+        {{the picture written for the page: a few sentences or a short list, every number with its date and where it was read in words; at most one phone screen}}
+      </div>
+      <div class="card">
+        <h3>What I keep here</h3>
+        <p>{{what this area collects, in one line, with its count: twelve recurring payments, four appointments, three trips}}</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
