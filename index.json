@@ -48,6 +48,14 @@
         "version": "1.0.0",
         "description": "Outbound SDR agent: prospecting, enrichment, sequencing, and CRM hygiene on HubSpot and Exa"
       }
+    ],
+    "social-media": [
+      {
+        "ref": "social-media/social-strategist",
+        "name": "social-strategist",
+        "version": "1.0.0",
+        "description": "Social strategist agent: reads your posts and metrics from Buffer for engagement analysis and topic scoring, a daily new-post check, post ideas, platform-ready scripts, repurposing, and a weekly content plan"
+      }
     ]
   }
 }
