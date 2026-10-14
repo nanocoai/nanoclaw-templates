@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "source-backed-decision-team",
+  "version": "1.0.0",
+  "description": "Turns a current product decision into a concise, source-backed brief with a recommendation, tradeoffs, uncertainty, and next action.",
+  "author": {
+    "name": "Jason Straber",
+    "email": "soloist_reboots.3d@icloud.com",
+    "url": "https://github.com/j-straber"
+  },
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Source-Backed Decision Team"
+    }
+  }
+}
