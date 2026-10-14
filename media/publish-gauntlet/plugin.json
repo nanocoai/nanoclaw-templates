@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "publish-gauntlet",
+  "version": "1.0.0",
+  "description": "Review desk that runs a draft through four fixed lenses and returns ranked findings plus a fact-preserving cleaned draft.",
+  "license": "MIT",
+  "homepage": "https://legacyforgeai.com",
+  "author": {
+    "name": "LegacyForge AI",
+    "url": "https://legacyforgeai.com"
+  },
+  "keywords": ["review", "copy", "editing", "ai-tells", "register", "gauntlet"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "Publish Gauntlet"
+    }
+  }
+}
