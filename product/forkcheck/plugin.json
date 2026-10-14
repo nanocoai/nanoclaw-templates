@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "forkcheck",
+  "version": "1.0.0",
+  "author": {
+    "name": "chivest"
+  },
+  "description": "Evidence-resolution agent that designs decisive tests and keeps volatile verdicts alive",
+  "keywords": ["evidence", "verification", "disagreement", "living-verdicts"],
+  "extensions": {
+    "ai.nanoco.nanoclaw": {
+      "agentName": "ForkCheck"
+    }
+  }
+}
