@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tutor",
+  "author": { "url": "https://github.com/luzybry94" },
+  "version": "1.0.0",
+  "description": "Learning partner for adults: teaches any subject from current sources (Tavily), keeps a linked map of what you know and where the gaps are, and picks up every session where you left off",
+  "extensions": {
+    "ai.nanoco.nanoclaw": { "agentName": "Tutor" }
+  }
+}
