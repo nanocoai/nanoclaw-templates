@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "checkin-dial": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./scripts/checkin-call.mjs"],
+      "env": {
+        "DIAL_API_KEY": "placeholder",
+        "DIAL_FROM_NUMBER": "placeholder"
+      }
+    }
+  }
+}
