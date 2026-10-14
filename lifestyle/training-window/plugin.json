@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "training-window",
+  "author": { "url": "https://github.com/NoahSA11" },
+  "version": "1.0.0",
+  "description": "Finds the best hour(s) today or tomorrow to train outside by scoring heat, humidity, UV, and air quality hour-by-hour — no API keys required"
+}
