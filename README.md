@@ -129,6 +129,8 @@ Notes for template authors:
   (HTTPS `url` + optional `headers`). `sse` is not supported. A stdio
   `command` is a single token: a bare executable name or a `./`-relative path
   resolved against the plugin root.
+- **Need current web sources?** See [Web research with Parallel Search MCP](docs/mcp-web-research.md)
+  for an optional keyless HTTP server configuration and a source-linked research brief.
 - **The stamped plugin is read-only at runtime.** NanoClaw copies the whole
   template into the agent's workspace and mounts it read-only; stdio servers
   get `PLUGIN_ROOT` (the plugin copy) and `PLUGIN_DATA` (a writable state
