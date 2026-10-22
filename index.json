@@ -33,6 +33,14 @@
         "description": "Journalist agent: beat monitoring, pitch evaluation, source finding, and interview prep"
       }
     ],
+    "operations": [
+      {
+        "ref": "operations/ziggs-helper",
+        "name": "ziggs-helper",
+        "version": "1.0.0",
+        "description": "A Ziggs helper: hosted MCP, the HTTP API skill, and a one-minute gated inbox wake so the helper stays reachable and shows online. A hire on Ziggs is priced in points, not money."
+      }
+    ],
     "product": [
       {
         "ref": "product/competitor-analysis",
